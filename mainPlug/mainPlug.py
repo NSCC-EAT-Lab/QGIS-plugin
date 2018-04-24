@@ -30,6 +30,7 @@ from PyQt4.QtGui import QAction, QIcon
 from mainPlug_dialog import mainPlugDialog
 from file_input_dialog import FileInputDialog
 from aboutDialog import AboutDialog
+from file_Import import FileImport
 import os.path
 
 
@@ -222,13 +223,19 @@ class mainPlug:
             pass
 
     def run_file_input(self):
+        fIO = FileImport()
         diag = self.DialogStore[1]
         diag.show()
         result = diag.exec_()
 
         if result:
+            resul = diag.get_text()
             print("Result: ")
-            print(diag.get_text())
+            print(resul)
+            fIO.file_input(resul)
+
+
+
 
     def runabout(self):
         self.DialogStore[2].show()

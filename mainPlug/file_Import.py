@@ -1,13 +1,33 @@
 import sys
 
+from PyQt4.QtCore import QFileInfo
+from qgis.core import QgsRasterLayer
 
 class FileImport:
 
     def __init__(self):
-        pass
+        self.filePath = ''
+        self.fileInfo = None
+        self.baseName = None
+        self.rLayer = None
 
     def file_input(self, path):
-        pass
+        """
+        Set the path and Setup the File to be used later
+        :param path: Path to the file you wish to use
+        :return: None
+        """
+        self.filePath = path
+        self.fileInfo = QFileInfo(self.filePath)
+        self.baseName = self.fileInfo.baseName()
+        self.check_file_type()
+
 
     def check_file_type(self):
-        pass
+        """
+        Validate the File type as a Valid Raster layer
+        :return: None
+        """
+        self.rLayer = QgsRasterLayer(self.filePath, self.baseName)
+        if not self.rLayer.isValid():
+            print("Layer Failed to load")
