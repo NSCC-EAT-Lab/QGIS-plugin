@@ -20,12 +20,14 @@
  *                                                                         *
  ***************************************************************************/
 """
-from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication
+from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, pyqtSignal
 from PyQt4.QtGui import QAction, QIcon
 # Initialize Qt resources from file resources.py
-import resources
+# import resources
 # Import the code for the dialog
 from mainPlug_dialog import mainPlugDialog
+from file_input_dialog import FileInputDialog
+from aboutDialog import AboutDialog
 import os.path
 
 
@@ -58,13 +60,13 @@ class mainPlug:
             if qVersion() > '4.3.3':
                 QCoreApplication.installTranslator(self.translator)
 
-
         # Declare instance attributes
         self.actions = []
         self.menu = self.tr(u'&DeadBeef')
         # TODO: We are going to let the user set this up in a future iteration
         self.toolbar = self.iface.addToolBar(u'mainPlug')
         self.toolbar.setObjectName(u'mainPlug')
+        self.DialogStore = [None]*15
 
     # noinspection PyMethodMayBeStatic
     def tr(self, message):
@@ -83,17 +85,27 @@ class mainPlug:
 
 
     def add_action(
-        self,
-        icon_path,
-        text,
-        callback,
-        enabled_flag=True,
-        add_to_menu=True,
-        add_to_toolbar=True,
-        status_tip=None,
-        whats_this=None,
-        parent=None):
+            self,
+            icon_path,
+            text,
+            callback,
+            store_val,
+            enabled_flag=True,
+            add_to_menu=True,
+            add_to_toolbar=True,
+            status_tip=None,
+            whats_this=None,
+            parent=None,
+            dialog=mainPlugDialog()):
+
         """Add a toolbar icon to the toolbar.
+
+        :param store_val: This value is the position to store the Dialog within the dialog list, Note that this position
+        can and will interfere with standard operation if it is stored in an incorrect position at this time
+        :type store_val: int
+
+        :param dialog: The dialog you wish to Display to users
+        :type dialog: function
 
         :param icon_path: Path to the icon for this action. Can be a resource
             path (e.g. ':/plugins/foo/bar.png') or a normal file system path.
@@ -133,7 +145,7 @@ class mainPlug:
         """
 
         # Create the dialog (after translation) and keep reference
-        self.dlg = mainPlugDialog()
+        self.DialogStore[store_val] = dialog
 
         icon = QIcon(icon_path)
         action = QAction(icon, text, parent)
@@ -164,10 +176,25 @@ class mainPlug:
         icon_path = ':/plugins/mainPlug/icon.png'
         self.add_action(
             icon_path,
+            store_val=0,
             text=self.tr(u'PlotData'),
             callback=self.run,
             parent=self.iface.mainWindow())
 
+        self.add_action(
+            icon_path,
+            store_val=1,
+            text=self.tr(u'File_Import_Test'),
+            callback=self.run_file_input,
+            dialog=FileInputDialog()
+        )
+        self.add_action(
+            icon_path,
+            store_val=14,
+            text=self.tr(u'About'),
+            callback=self.runabout,
+            dialog=AboutDialog()
+        )
 
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI."""
@@ -179,15 +206,27 @@ class mainPlug:
         # remove the toolbar
         del self.toolbar
 
-
     def run(self):
         """Run method that performs all the real work"""
         # show the dialog
-        self.dlg.show()
+        self.DialogStore[0].show()
         # Run the dialog event loop
-        result = self.dlg.exec_()
+        result = self.DialogStore[0].exec_()
         # See if OK was pressed
+
         if result:
             # Do something useful here - delete the line containing pass and
             # substitute with your code.
             pass
+
+    def run_file_input(self):
+        self.DialogStore[1].show()
+        result = self.DialogStore[1].exec_()
+
+        if result:
+
+            # TODO: Handle Success on File Input
+            pass
+
+    def runabout(self):
+        self.DialogStore[14].show()
