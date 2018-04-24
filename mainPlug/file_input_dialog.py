@@ -42,9 +42,15 @@ class FileInputDialog(QtGui.QDialog, FORM_CLASS):
         # #widgets-and-dialogs-with-auto-connect
         self.setupUi(self)
         self.FileSelector.clicked.connect(self.selectFile)
-
-
+        self.buttonBox.clicked.connect(self.ret_path)
+        self.text = ''
 
 
     def selectFile(self):
         self.FilePath.setText(QtGui.QFileDialog.getOpenFileName())
+
+    def ret_path(self):
+        self.text = self.FilePath.text()
+
+    def get_text(self):
+        return self.text

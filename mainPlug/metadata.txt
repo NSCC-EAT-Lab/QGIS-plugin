@@ -8,7 +8,7 @@
 
 [general]
 name=DeadBeef
-qgisMinimumVersion=2.0
+qgisMinimumVersion=2.18
 description=To allow Calculations to be done on raster layers
 version=0.1
 author=EAT Labs

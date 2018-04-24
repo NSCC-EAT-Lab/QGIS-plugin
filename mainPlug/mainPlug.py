@@ -22,6 +22,8 @@
 """
 from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, pyqtSignal
 from PyQt4.QtGui import QAction, QIcon
+#from PyQt4.QtWidgets import QAction
+
 # Initialize Qt resources from file resources.py
 # import resources
 # Import the code for the dialog
@@ -190,7 +192,7 @@ class mainPlug:
         )
         self.add_action(
             icon_path,
-            store_val=14,
+            store_val=2,
             text=self.tr(u'About'),
             callback=self.runabout,
             dialog=AboutDialog()
@@ -220,13 +222,13 @@ class mainPlug:
             pass
 
     def run_file_input(self):
-        self.DialogStore[1].show()
-        result = self.DialogStore[1].exec_()
+        diag = self.DialogStore[1]
+        diag.show()
+        result = diag.exec_()
 
         if result:
-
-            # TODO: Handle Success on File Input
-            pass
+            print("Result: ")
+            print(diag.get_text())
 
     def runabout(self):
-        self.DialogStore[14].show()
+        self.DialogStore[2].show()
