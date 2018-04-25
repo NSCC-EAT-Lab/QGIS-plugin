@@ -234,6 +234,10 @@ class mainPlug:
             pass
 
     def run_file_input(self):
+        """
+        Run file input
+        :return:
+        """
         fIO = FileImport()
         diag = self.DialogStore[1]
         diag.show()
@@ -257,6 +261,10 @@ class mainPlug:
                     a.return_dataset(i, -j)
 
     def run_calc_ndvi(self):
+        """
+        Run the NDVI Calculation and return it
+        :return:
+        """
         fIO = FileImport()
         fIO2 = FileImport()
         diag = self.DialogStore[3]

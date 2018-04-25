@@ -19,7 +19,13 @@ class RasterManip:
 
     def return_dataset(self, X, Y):
         """
-            Calculate the Specified Pixels NDVI Value
+        Return back the Results of a XY Cordnate pair
+        :param X: X Co-ordnate
+        :param Y: Y Co-Ordnate
+        :return: The Tuple containing the values from the raster
+        """
+        """
+            
             TODO: Change this later to a more extendable format
         """
 
@@ -34,9 +40,15 @@ class RasterManip:
         return ident.results()
 
 
-    # TODO: Figure out why this crashing the plugin
 
     def do_ndvi_calc(self, DataSet, DataSet2=None):
+        """
+        TODO: MAKE THIS CAPABLE OF TAKING TWO DATASETS AND SPITTING BACK OUT A NORMALIZED DATASET
+        To per pixel Calculations to measure NDVI of 1 multiband image or two Singlebandgrey images
+        :param DataSet: Mandatory, Single or multiband image
+        :param DataSet2: Optional, Singleband Image
+        :return: Resulting Calculated NDVI normalized dataset
+        """
         resul = []
 
         if DataSet2 is None:

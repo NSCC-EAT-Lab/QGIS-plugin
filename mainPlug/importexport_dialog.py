@@ -49,17 +49,34 @@ class ImportExportDialog(QtGui.QDialog, FORM_CLASS):
 
 
     def selectFile(self):
+        """
+        Open a file select dialog and set the path box to contain the file path
+        :return:
+        """
         self.FilePath.setText(QtGui.QFileDialog.getOpenFileName())
 
     def selectFile2(self):
+        """
+        Open the Second file, same as the selectFile
+        :return:
+        """
         # TODO: Compress this into one function
         self.FilePath2.setText(QtGui.QFileDialog.getOpenFileName())
 
     def ret_path(self):
         self.text = self.FilePath.text()
+        self.text2 = self.FilePath2.text()
 
     def get_text(self):
+        """
+        Get text from textbox 1
+        :return: Text - Str
+        """
         return self.text
 
     def get_text2(self):
+        """
+        Get Text From textbox 2
+        :return: Text2 - str
+        """
         return self.text2
