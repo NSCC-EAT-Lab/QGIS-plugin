@@ -31,6 +31,10 @@ from mainPlug_dialog import mainPlugDialog
 from file_input_dialog import FileInputDialog
 from aboutDialog import AboutDialog
 from file_Import import FileImport
+from rasterManip import RasterManip
+from importexport_dialog import ImportExportDialog
+
+from qgis.core import QgsPoint, QgsRaster
 import os.path
 
 
@@ -198,6 +202,13 @@ class mainPlug:
             callback=self.runabout,
             dialog=AboutDialog()
         )
+        self.add_action(
+            icon_path,
+            store_val=3,
+            text=self.tr(u'Calculate NDVI'),
+            callback=self.run_calc_ndvi,
+            dialog=ImportExportDialog()
+        )
 
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI."""
@@ -234,6 +245,53 @@ class mainPlug:
             print(resul)
             fIO.file_input(resul)
             self.iface.addRasterLayer(fIO.filePath, fIO.baseName)
+
+            print(fIO.rLayer.renderer().type())
+            rLayerX = fIO.rLayer.width()
+            rLayerY = fIO.rLayer.height()
+            a = RasterManip(fIO.rLayer, self.iface)
+            for i in range(rLayerX):
+                for j in range(rLayerY):
+                    print i
+                    print j
+                    a.return_dataset(i, -j)
+
+    def run_calc_ndvi(self):
+        fIO = FileImport()
+        fIO2 = FileImport()
+        diag = self.DialogStore[3]
+        diag.show()
+        result = diag.exec_()
+
+        DataSet = []
+        DataSet2 = []
+        if result:
+            resul = diag.get_text()
+            resul2 = diag.get_text2()
+
+            print("Result: ")
+            print(resul)
+            fIO.file_input(resul)
+            self.iface.addRasterLayer(fIO.filePath, fIO.baseName)
+            print(fIO.rLayer.renderer().type())
+            rLayerX = fIO.rLayer.width()
+            rLayerY = fIO.rLayer.height()
+            a = RasterManip(fIO.rLayer, self.iface)
+            for i in range(rLayerX):
+                for j in range(rLayerY):
+                    print i
+                    print -j
+                    b = a.return_dataset(i, -j)
+                    print b
+                    DataSet.append(b)
+
+            c = ''
+            for i in DataSet:
+                c = c + " " + str(i.get(1))
+                print c
+
+
+
 
     def runabout(self):
         self.DialogStore[2].show()

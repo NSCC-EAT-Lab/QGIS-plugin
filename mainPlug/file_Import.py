@@ -1,5 +1,5 @@
 from PyQt4.QtCore import QFileInfo
-from qgis.core import QgsRasterLayer
+from qgis.core import QgsRasterLayer, QgsMessageLog
 
 
 class FileImport:
@@ -31,6 +31,7 @@ class FileImport:
         if not self.rLayer.isValid():
             print("Layer Failed to load")
             self.rLayer = None
+            QgsMessageLog.logMessage("Check File Type Error: Layer Invalid", level=QgsMessageLog.CRITICAL)
             raise IOError
 
     def get_rLayer(self):
