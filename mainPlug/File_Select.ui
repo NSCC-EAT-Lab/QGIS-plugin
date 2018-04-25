@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>File Select</string>
   </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>Really_Crappy_about_Scaled Down.png</normaloff>Really_Crappy_about_Scaled Down.png</iconset>
+  </property>
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>

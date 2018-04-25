@@ -1,7 +1,6 @@
-import sys
-
 from PyQt4.QtCore import QFileInfo
 from qgis.core import QgsRasterLayer
+
 
 class FileImport:
 
@@ -31,3 +30,8 @@ class FileImport:
         self.rLayer = QgsRasterLayer(self.filePath, self.baseName)
         if not self.rLayer.isValid():
             print("Layer Failed to load")
+            self.rLayer = None
+            raise IOError
+
+    def get_rLayer(self):
+        return self.rLayer

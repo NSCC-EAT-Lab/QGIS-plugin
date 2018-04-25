@@ -168,7 +168,6 @@ class mainPlug:
             self.iface.addPluginToMenu(
                 self.menu,
                 action)
-
         self.actions.append(action)
 
         return action
@@ -176,7 +175,8 @@ class mainPlug:
     def initGui(self):
         """Create the menu entries and toolbar icons inside the QGIS GUI."""
 
-        icon_path = ':/plugins/mainPlug/icon.png'
+        icon_path = ':/plugins/mainPlug\icon.png'
+        about_path = ':/plugins/mainPlug\\about.png'
         self.add_action(
             icon_path,
             store_val=0,
@@ -192,7 +192,7 @@ class mainPlug:
             dialog=FileInputDialog()
         )
         self.add_action(
-            icon_path,
+            about_path,
             store_val=2,
             text=self.tr(u'About'),
             callback=self.runabout,
@@ -233,9 +233,7 @@ class mainPlug:
             print("Result: ")
             print(resul)
             fIO.file_input(resul)
-
-
-
+            self.iface.addRasterLayer(fIO.filePath, fIO.baseName)
 
     def runabout(self):
         self.DialogStore[2].show()
