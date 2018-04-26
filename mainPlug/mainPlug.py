@@ -291,6 +291,7 @@ class mainPlug:
 
             if resul2 != '':
                 fIO2.file_input(resul2)
+                self.iface.addRasterLayer(fIO2.filePath, fIO2.baseName)
 
                 q = ThreadDataInterp(iface=self.iface, rLayer=fIO.rLayer)
                 x = ThreadDataInterp(iface=self.iface, rLayer=fIO2.rLayer)
