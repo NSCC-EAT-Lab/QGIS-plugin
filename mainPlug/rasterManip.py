@@ -53,8 +53,20 @@ class RasterManip:
         if DataSet2 is None:
             for i in DataSet:
                 if i is not None:
-                    a = (i.get(4) - i.get(1)) / (i.get(4) + i.get(1))
+                    a = (i.get(3) - i.get(1)) / (i.get(3) + i.get(1))
                     resul.append(a)
                 else:
                     resul.append(-9999)
             return resul
+        else:
+            for i in DataSet:
+                if i is not None:
+                    a = (DataSet[i].get(1) - DataSet2[i].get(1)) / (DataSet[i].get(1) + DataSet2[i].get(1))
+                    print a
+                    resul.append(a)
+                else:
+                    resul.append(-9999)
+            print resul
+            return resul
+
+

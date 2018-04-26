@@ -278,8 +278,7 @@ class mainPlug:
         DataSet = []
         DataSet2 = []
 
-        threadTest = True
-
+        a = RasterManip(iface=self.iface)
         if result:
             resul = diag.get_text()
             resul2 = diag.get_text2()
@@ -287,47 +286,18 @@ class mainPlug:
             fIO.file_input(resul)
             self.iface.addRasterLayer(fIO.filePath, fIO.baseName)
             if resul2 != '':
-                fIO2.file_input(resul2)
-                self.iface.addRasterLayer(fIO2.filePath, fIO.baseName)
+                q = ThreadDataInterp(iface=self.iface, rLayer=fIO.rLayer)
+                x = ThreadDataInterp(iface=self.iface, rLayer=fIO2.rLayer)
 
-                if threadTest is False:
-                    rLayerX = fIO.rLayer.width()
-                    rLayerY = fIO.rLayer.height()
+                aRet = q.ProcessrLayer()
+                bRet = x.ProcessrLayer()
 
-                    a = RasterManip(iface=self.iface)
+                a.do_ndvi_calc(DataSet=aRet, DataSet2=bRet)
 
-                    for i in range(rLayerY):
-                        for j in range(rLayerX):
-
-                            p = a.return_dataset(i, -j, rLayer=fIO.rLayer)
-                            g = a.return_dataset(i, -j, rLayer=fIO2.rLayer)
-                            print p
-                            print g
-                            print i
-                            print j
-                            DataSet.append(p)
-                            DataSet2.append(g)
-                else:
-                    a = ThreadDataInterp(iface=self.iface, rLayer=fIO.rLayer)
-                    b = ThreadDataInterp(iface=self.iface, rLayer=fIO2.rLayer)
-                    a.ProcessrLayer()
-                    b.ProcessrLayer()
             else:
-                if threadTest is False:
-                    rLayerX = fIO.rLayer.width()
-                    rLayerY = fIO.rLayer.height()
-                    a = RasterManip(iface=self.iface)
-
-                    for i in range(rLayerX):
-                        for j in range(rLayerY):
-                            print i
-                            print j
-                            p = a.return_dataset(i, -j, rLayer=fIO.rLayer)
-                            print p
-                            DataSet.append(p)
-                else:
-                    a = ThreadDataInterp(iface=self.iface, rLayer=fIO.rLayer)
-                    print(a.ProcessrLayer())
+                q = ThreadDataInterp(iface=self.iface, rLayer=fIO.rLayer)
+                rec = q.ProcessrLayer()
+                print a.do_ndvi_calc(DataSet=rec)
 
             c = ''
             for i in DataSet:

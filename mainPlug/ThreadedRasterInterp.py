@@ -41,5 +41,5 @@ class ThreadDataInterp:
         for idx, val in enumerate(self.FinishOrder):
             print idx, val
             for i in self.DataStore[idx]:
-                self.FinishedDataset.append(i.get(1))
+                self.FinishedDataset.append(i)
         return self.FinishedDataset
