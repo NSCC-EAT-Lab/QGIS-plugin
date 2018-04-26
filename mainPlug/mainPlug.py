@@ -35,6 +35,8 @@ from rasterManip import RasterManip
 from importexport_dialog import ImportExportDialog
 from ThreadedRasterInterp import ThreadDataInterp
 
+from file_export import FileExport
+
 from qgis.core import QgsPoint, QgsRaster
 import os.path
 
@@ -270,40 +272,43 @@ class mainPlug:
         fIO = FileImport()
         fIO2 = FileImport()
 
+        fOut = FileExport()
+
         diag = self.DialogStore[3]
         diag.show()
 
         result = diag.exec_()
-
-        DataSet = []
-        DataSet2 = []
 
         a = RasterManip(iface=self.iface)
         if result:
             resul = diag.get_text()
             resul2 = diag.get_text2()
 
+
+            outputSet = None
             fIO.file_input(resul)
             self.iface.addRasterLayer(fIO.filePath, fIO.baseName)
+
             if resul2 != '':
+                fIO2.file_input(resul2)
+
                 q = ThreadDataInterp(iface=self.iface, rLayer=fIO.rLayer)
                 x = ThreadDataInterp(iface=self.iface, rLayer=fIO2.rLayer)
 
                 aRet = q.ProcessrLayer()
                 bRet = x.ProcessrLayer()
 
-                a.do_ndvi_calc(DataSet=aRet, DataSet2=bRet)
+                outputSet = a.do_ndvi_calc(DataSet=aRet, DataSet2=bRet)
 
             else:
                 q = ThreadDataInterp(iface=self.iface, rLayer=fIO.rLayer)
                 rec = q.ProcessrLayer()
-                print a.do_ndvi_calc(DataSet=rec)
-
-            c = ''
-            for i in DataSet:
-                c = c + " " + str(i.get(1))
-                print c
-
+                outputSet = a.do_ndvi_calc(DataSet=rec)
+            print diag.exportText
+            fOut.file_output(path=diag.exportText, x=fIO.rLayer.width(), y=fIO.rLayer.height(), XCorner=0, YCorner=fIO.rLayer.width(), cellsize=1, DataSet=outputSet)
+            print fOut.filePath
+            fOut.filePath = diag.exportText
+            fOut.WriteFile()
 
 
 

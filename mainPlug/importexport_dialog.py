@@ -43,9 +43,11 @@ class ImportExportDialog(QtGui.QDialog, FORM_CLASS):
         self.setupUi(self)
         self.FileSelect.clicked.connect(self.selectFile)
         self.FileSelect_3.clicked.connect(self.selectFile2)
+        self.FileSelect_2.clicked.connect(self.selectExport)
         self.buttonBox.clicked.connect(self.ret_path)
         self.text = ''
         self.text2 = ''
+        self.exportText = ''
 
 
     def selectFile(self):
@@ -63,9 +65,13 @@ class ImportExportDialog(QtGui.QDialog, FORM_CLASS):
         # TODO: Compress this into one function
         self.FilePath_3.setText(QtGui.QFileDialog.getOpenFileName())
 
+    def selectExport(self):
+        self.FilePath_2.setText(QtGui.QFileDialog.getSaveFileName())
+
     def ret_path(self):
         self.text = self.FilePath.text()
         self.text2 = self.FilePath_3.text()
+        self.exportText = self.FilePath_2.text()
 
     def get_text(self):
         """
@@ -80,3 +86,6 @@ class ImportExportDialog(QtGui.QDialog, FORM_CLASS):
         :return: Text2 - str
         """
         return self.text2
+
+    def get_export(self):
+        return self.exportText

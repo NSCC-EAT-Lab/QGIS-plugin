@@ -27,7 +27,7 @@ class FileExport:
         :param NodataValue: Default value if there is no data to fill a box
         :return: None
         """
-        self.filePath = path
+        self.filePath = str(path)
         self.ExportX = x
         self.ExportY = y
         self.XLLCorner = XCorner
@@ -41,13 +41,18 @@ class FileExport:
         Write the ASCII TIFF raster file following documentation from http://resources.esri.com/help/9.3/ArcGISengine/java/Gp_ToolRef/Spatial_Analyst_Tools/esri_ascii_raster_format.htm
         :return:
         """
-        WriteString = "ncols {0}" \
-                      "nrows {1}" \
-                      "xllcorner {2}" \
-                      "yllcorner {3}" \
-                      "cellsize {4}" \
-                      "nodata_value {5}" \
-                      "{6}".format(self.ExportX, self.ExportY, self.XLLCorner, self.YLLCorner, self.cellSize, self.NoDataValue, str(self.DataSet))
+
+        OutData = ''
+
+        for i in self.DataSet:
+            OutData = OutData + str(i) + " "
+        WriteString = "ncols {0}\n" \
+                      "nrows {1}\n" \
+                      "xllcorner {2}\n" \
+                      "yllcorner {3}\n" \
+                      "cellsize {4}\n" \
+                      "nodata_value {5}\n" \
+                      "{6}".format(self.ExportX, self.ExportY, self.XLLCorner, self.YLLCorner, self.cellSize, self.NoDataValue, OutData)
         f = open(self.filePath, 'w')
         f.write(WriteString)
         f.close()
