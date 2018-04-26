@@ -33,6 +33,7 @@ from aboutDialog import AboutDialog
 from file_Import import FileImport
 from rasterManip import RasterManip
 from importexport_dialog import ImportExportDialog
+from ThreadedRasterInterp import ThreadDataInterp
 
 from qgis.core import QgsPoint, QgsRaster
 import os.path
@@ -277,6 +278,8 @@ class mainPlug:
         DataSet = []
         DataSet2 = []
 
+        threadTest = True
+
         if result:
             resul = diag.get_text()
             resul2 = diag.get_text2()
@@ -287,23 +290,28 @@ class mainPlug:
                 fIO2.file_input(resul2)
                 self.iface.addRasterLayer(fIO2.filePath, fIO.baseName)
 
-                rLayerX = fIO.rLayer.width()
-                rLayerY = fIO.rLayer.height()
+                if threadTest is False:
+                    rLayerX = fIO.rLayer.width()
+                    rLayerY = fIO.rLayer.height()
 
-                a = RasterManip(iface=self.iface)
+                    a = RasterManip(iface=self.iface)
 
-                for i in range(rLayerY):
-                    for j in range(rLayerX):
+                    for i in range(rLayerY):
+                        for j in range(rLayerX):
 
-                        p = a.return_dataset(i, -j, rLayer=fIO.rLayer)
-                        g = a.return_dataset(i, -j, rLayer=fIO2.rLayer)
-                        print p
-                        print g
-                        print i
-                        print j
-                        DataSet.append(p)
-                        DataSet2.append(g)
-
+                            p = a.return_dataset(i, -j, rLayer=fIO.rLayer)
+                            g = a.return_dataset(i, -j, rLayer=fIO2.rLayer)
+                            print p
+                            print g
+                            print i
+                            print j
+                            DataSet.append(p)
+                            DataSet2.append(g)
+                else:
+                    a = ThreadDataInterp(iface=self.iface, rLayer=fIO.rLayer)
+                    b = ThreadDataInterp(iface=self.iface, rLayer=fIO2.rLayer)
+                    a.InitThreads()
+                    b.InitThreads()
             else:
                 rLayerX = fIO.rLayer.width()
                 rLayerY = fIO.rLayer.height()
