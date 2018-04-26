@@ -42,7 +42,7 @@ class ImportExportDialog(QtGui.QDialog, FORM_CLASS):
         # #widgets-and-dialogs-with-auto-connect
         self.setupUi(self)
         self.FileSelect.clicked.connect(self.selectFile)
-        self.FileSelect.clicked.connect(self.selectFile2)
+        self.FileSelect_3.clicked.connect(self.selectFile2)
         self.buttonBox.clicked.connect(self.ret_path)
         self.text = ''
         self.text2 = ''
@@ -61,11 +61,11 @@ class ImportExportDialog(QtGui.QDialog, FORM_CLASS):
         :return:
         """
         # TODO: Compress this into one function
-        self.FilePath2.setText(QtGui.QFileDialog.getOpenFileName())
+        self.FilePath_3.setText(QtGui.QFileDialog.getOpenFileName())
 
     def ret_path(self):
         self.text = self.FilePath.text()
-        self.text2 = self.FilePath2.text()
+        self.text2 = self.FilePath_3.text()
 
     def get_text(self):
         """

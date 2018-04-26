@@ -11,13 +11,13 @@ from qgis.core import QgsRasterLayer, QgsPoint, QgsRaster
 
 class RasterManip:
 
-    def __init__(self, rLayer, iface):
+    def __init__(self, iface):
 
-        self.rLayer = rLayer
         self.iface = iface
-        print(rLayer.renderer().type())
 
-    def return_dataset(self, X, Y):
+        # print(rLayer.renderer().type())
+
+    def return_dataset(self, X, Y, rLayer):
         """
         Return back the Results of a XY Cordnate pair
         :param X: X Co-ordnate
@@ -33,8 +33,7 @@ class RasterManip:
         This Outputs all of the Bands
         Using a for loop, we can very easily check each point... though... How will we limit it's size?
         """
-        ident = self.rLayer.dataProvider().identify(QgsPoint(X, Y), QgsRaster.IdentifyFormatValue)
-
+        ident = rLayer.dataProvider().identify(QgsPoint(X, Y), QgsRaster.IdentifyFormatValue)
         if ident.isValid():
             return ident.results()
         return ident.results()
@@ -53,22 +52,9 @@ class RasterManip:
 
         if DataSet2 is None:
             for i in DataSet:
-                a = (i.get(4) - i.get(1)) / (i.get(4) + i.get(1))
-                resul.append(a)
-            return resul
-        else:
-            i = 0
-            j = 0
-            while True:
-                a = DataSet.get(1)
-                b = DataSet2.get(1)
-                c = (a - b) / (a + b)
-                resul.append(c)
-                if i != len(DataSet) & j != len(DataSet2):
-                    i += 1
-                    j += 1
+                if i is not None:
+                    a = (i.get(4) - i.get(1)) / (i.get(4) + i.get(1))
+                    resul.append(a)
                 else:
-                    break
-
+                    resul.append(-9999)
             return resul
-

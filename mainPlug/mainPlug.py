@@ -265,38 +265,62 @@ class mainPlug:
         Run the NDVI Calculation and return it
         :return:
         """
+
         fIO = FileImport()
         fIO2 = FileImport()
+
         diag = self.DialogStore[3]
         diag.show()
+
         result = diag.exec_()
 
         DataSet = []
         DataSet2 = []
+
         if result:
             resul = diag.get_text()
             resul2 = diag.get_text2()
 
-            print("Result: ")
-            print(resul)
             fIO.file_input(resul)
             self.iface.addRasterLayer(fIO.filePath, fIO.baseName)
-            print(fIO.rLayer.renderer().type())
-            rLayerX = fIO.rLayer.width()
-            rLayerY = fIO.rLayer.height()
-            a = RasterManip(fIO.rLayer, self.iface)
-            for i in range(rLayerX):
-                for j in range(rLayerY):
-                    print i
-                    print -j
-                    b = a.return_dataset(i, -j)
-                    print b
-                    DataSet.append(b)
+            if resul2 != '':
+                fIO2.file_input(resul2)
+                self.iface.addRasterLayer(fIO2.filePath, fIO.baseName)
 
+                rLayerX = fIO.rLayer.width()
+                rLayerY = fIO.rLayer.height()
+
+                a = RasterManip(iface=self.iface)
+
+                for i in range(rLayerY):
+                    for j in range(rLayerX):
+
+                        p = a.return_dataset(i, -j, rLayer=fIO.rLayer)
+                        g = a.return_dataset(i, -j, rLayer=fIO2.rLayer)
+                        print p
+                        print g
+                        print i
+                        print j
+                        DataSet.append(p)
+                        DataSet2.append(g)
+
+            else:
+                rLayerX = fIO.rLayer.width()
+                rLayerY = fIO.rLayer.height()
+                a = RasterManip(iface=self.iface)
+
+                for i in range(rLayerX):
+                    for j in range(rLayerY):
+                        print i
+                        print j
+                        p = a.return_dataset(i, -j, rLayer=fIO.rLayer)
+                        print p
+                        DataSet.append(p)
             c = ''
             for i in DataSet:
                 c = c + " " + str(i.get(1))
                 print c
+
 
 
 
