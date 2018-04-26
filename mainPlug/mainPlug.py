@@ -304,9 +304,9 @@ class mainPlug:
                 q = ThreadDataInterp(iface=self.iface, rLayer=fIO.rLayer)
                 rec = q.ProcessrLayer()
                 outputSet = a.do_ndvi_calc(DataSet=rec)
-            print diag.exportText
+            # print diag.exportText
             fOut.file_output(path=diag.exportText, x=fIO.rLayer.width(), y=fIO.rLayer.height(), XCorner=0, YCorner=fIO.rLayer.width(), cellsize=1, DataSet=outputSet)
-            print fOut.filePath
+            # print fOut.filePath
             fOut.filePath = diag.exportText
             fOut.WriteFile()
 

@@ -32,14 +32,12 @@ class ThreadDataInterp:
 
         for i in self.ThreadArray:
             i.join()
-        print self.FinishOrder
-        print self.DataStore
 
         return(self.ConvertToFinish())
 
     def ConvertToFinish(self):
         for idx, val in enumerate(self.FinishOrder):
-            print idx, val
+            # print str(idx), str(val)
             for i in self.DataStore[idx]:
                 self.FinishedDataset.append(i)
         return self.FinishedDataset

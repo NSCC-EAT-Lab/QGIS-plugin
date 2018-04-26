@@ -46,6 +46,7 @@ class FileExport:
 
         for i in self.DataSet:
             OutData = OutData + str(i) + " "
+
         WriteString = "ncols {0}\n" \
                       "nrows {1}\n" \
                       "xllcorner {2}\n" \
