@@ -32,14 +32,9 @@ class ThreadDataInterp:
 
         for i in self.ThreadArray:
             i.join()
+        print self.FinishOrder
+        print self.DataStore
 
-        a = 0
-        while a != v:
-
-            for i in self.ThreadArray:
-                if i.isAlive() is False:
-                    a += 1
-        self.ConvertToFinish()
 
     def ConvertToFinish(self):
         pass

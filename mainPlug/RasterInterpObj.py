@@ -19,7 +19,6 @@ class InterpObj(Thread):
     def run(self):
         for i in range(self.rLayer.width()):
             ret = self.a.return_dataset(i, -self.Yval, rLayer=self.rLayer)
-            print ret
 
             self.internalData.append(ret)
 
