@@ -310,20 +310,25 @@ class mainPlug:
                 else:
                     a = ThreadDataInterp(iface=self.iface, rLayer=fIO.rLayer)
                     b = ThreadDataInterp(iface=self.iface, rLayer=fIO2.rLayer)
-                    a.InitThreads()
-                    b.InitThreads()
+                    a.ProcessrLayer()
+                    b.ProcessrLayer()
             else:
-                rLayerX = fIO.rLayer.width()
-                rLayerY = fIO.rLayer.height()
-                a = RasterManip(iface=self.iface)
+                if threadTest is False:
+                    rLayerX = fIO.rLayer.width()
+                    rLayerY = fIO.rLayer.height()
+                    a = RasterManip(iface=self.iface)
 
-                for i in range(rLayerX):
-                    for j in range(rLayerY):
-                        print i
-                        print j
-                        p = a.return_dataset(i, -j, rLayer=fIO.rLayer)
-                        print p
-                        DataSet.append(p)
+                    for i in range(rLayerX):
+                        for j in range(rLayerY):
+                            print i
+                            print j
+                            p = a.return_dataset(i, -j, rLayer=fIO.rLayer)
+                            print p
+                            DataSet.append(p)
+                else:
+                    a = ThreadDataInterp(iface=self.iface, rLayer=fIO.rLayer)
+                    print(a.ProcessrLayer())
+
             c = ''
             for i in DataSet:
                 c = c + " " + str(i.get(1))

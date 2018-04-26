@@ -20,7 +20,7 @@ class ThreadDataInterp:
         self.rLayerY = rLayer.height()
         self.ThreadArray = []
 
-    def InitThreads(self):
+    def ProcessrLayer(self):
         v = 0
         for i in range(self.rLayerY):
             self.ThreadArray.append(InterpObj(iface=self.iface, rLayer=self.rLayer, DataStore=self.DataStore,
@@ -35,6 +35,11 @@ class ThreadDataInterp:
         print self.FinishOrder
         print self.DataStore
 
+        return(self.ConvertToFinish())
 
     def ConvertToFinish(self):
-        pass
+        for idx, val in enumerate(self.FinishOrder):
+            print idx, val
+            for i in self.DataStore[idx]:
+                self.FinishedDataset.append(i.get(1))
+        return self.FinishedDataset
