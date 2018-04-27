@@ -36,6 +36,7 @@ from importexport_dialog import ImportExportDialog
 from ThreadedRasterInterp import ThreadDataInterp
 
 from file_export import FileExport
+import gc
 
 from qgis.core import QgsPoint, QgsRaster
 import os.path
@@ -265,7 +266,7 @@ class mainPlug:
 
     def run_calc_ndvi(self):
         """
-        Run the NDVI Calculation and return it
+        Handle the NDVI Calc Window Sending the values to where they're needed and Exporting the final result to disk
         :return:
         """
 
@@ -300,6 +301,7 @@ class mainPlug:
                 bRet = x.ProcessrLayer()
 
                 outputSet = a.do_ndvi_calc(DataSet=aRet, DataSet2=bRet)
+                gc.collect()
 
             else:
                 q = ThreadDataInterp(iface=self.iface, rLayer=fIO.rLayer)
@@ -309,6 +311,7 @@ class mainPlug:
             fOut.file_output(path=diag.exportText, x=fIO.rLayer.width(), y=fIO.rLayer.height(), XCorner=0, YCorner=fIO.rLayer.width(), cellsize=1, DataSet=outputSet)
             # print fOut.filePath
             fOut.filePath = diag.exportText
+            gc.collect()
             fOut.WriteFile()
 
 

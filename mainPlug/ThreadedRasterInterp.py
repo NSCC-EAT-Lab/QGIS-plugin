@@ -6,8 +6,8 @@ class ThreadDataInterp:
     def __init__(self, iface, rLayer):
         """
         Process one Raster, returning the Dataset
-        :param iface:
-        :param rLayer:
+        :param iface: QGIS Iface
+        :param rLayer: rLayer object to Process
         """
         self.iface = iface
         self.rLayer = rLayer
@@ -21,6 +21,11 @@ class ThreadDataInterp:
         self.ThreadArray = []
 
     def ProcessrLayer(self):
+        """
+        Setup a thread for each Y Value in rLayer
+        TODO: Test to see if doing a thread per pixel would Speed things up or if Near Approximation would help
+        :return: The final Stitched Dataset of rLayer (After being passed to ConvertToFinish)
+        """
         v = 0
         for i in range(self.rLayerY):
             self.ThreadArray.append(InterpObj(iface=self.iface, rLayer=self.rLayer, DataStore=self.DataStore,
@@ -36,6 +41,10 @@ class ThreadDataInterp:
         return(self.ConvertToFinish())
 
     def ConvertToFinish(self):
+        """
+        Restitch the Jumbled Dataset (Due to Concurrent Returns)
+        :return: The ReStitched DataSet
+        """
         for idx, val in enumerate(self.FinishOrder):
             # print str(idx), str(val)
             for i in self.DataStore[idx]:

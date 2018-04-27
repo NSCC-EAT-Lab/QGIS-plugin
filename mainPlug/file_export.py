@@ -54,7 +54,9 @@ class FileExport:
                       "cellsize {4}\n" \
                       "nodata_value {5}\n" \
                       "{6}".format(self.ExportX, self.ExportY, self.XLLCorner, self.YLLCorner, self.cellSize, self.NoDataValue, OutData)
-        f = open(self.filePath, 'w')
-        f.write(WriteString)
-        f.close()
-
+        if self.filePath != u'':
+            f = open(self.filePath, 'w')
+            f.write(WriteString)
+            f.close()
+        else:
+            pass
