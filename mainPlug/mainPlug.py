@@ -22,7 +22,7 @@
 """
 from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, pyqtSignal
 from PyQt4.QtGui import QAction, QIcon
-#from PyQt4.QtWidgets import QAction
+# from PyQt4.QtWidgets import QAction
 
 # Initialize Qt resources from file resources.py
 # import resources
@@ -77,7 +77,7 @@ class mainPlug:
         # TODO: We are going to let the user set this up in a future iteration
         self.toolbar = self.iface.addToolBar(u'mainPlug')
         self.toolbar.setObjectName(u'mainPlug')
-        self.DialogStore = [None]*15
+        self.DialogStore = [None] * 15
 
     # noinspection PyMethodMayBeStatic
     def tr(self, message):
@@ -93,7 +93,6 @@ class mainPlug:
         """
         # noinspection PyTypeChecker,PyArgumentList,PyCallByClass
         return QCoreApplication.translate('mainPlug', message)
-
 
     def add_action(
             self,
@@ -281,12 +280,11 @@ class mainPlug:
         result = diag.exec_()
 
         a = RasterManip(iface=self.iface)
+        self.outputSet = None
         if result:
             resul = diag.get_text()
             resul2 = diag.get_text2()
 
-
-            outputSet = None
             fIO.file_input(resul)
             self.iface.addRasterLayer(fIO.filePath, fIO.baseName)
 
@@ -297,25 +295,26 @@ class mainPlug:
                 q = ThreadDataInterp(iface=self.iface, rLayer=fIO.rLayer)
                 x = ThreadDataInterp(iface=self.iface, rLayer=fIO2.rLayer)
 
-                aRet = q.ProcessrLayer()
-                bRet = x.ProcessrLayer()
+                q.start()
+                x.start()
 
-                outputSet = a.do_ndvi_calc(DataSet=aRet, DataSet2=bRet)
+                q.join()
+                x.join()
+
+                self.outputSet = a.do_ndvi_calc(DataSet=q.FinishedDataset, DataSet2=x.FinishedDataset)
                 gc.collect()
 
             else:
                 q = ThreadDataInterp(iface=self.iface, rLayer=fIO.rLayer)
                 rec = q.ProcessrLayer()
-                outputSet = a.do_ndvi_calc(DataSet=rec)
+                self.outputSet = a.do_ndvi_calc(DataSet=rec)
             # print diag.exportText
-            fOut.file_output(path=diag.exportText, x=fIO.rLayer.width(), y=fIO.rLayer.height(), XCorner=0, YCorner=fIO.rLayer.width(), cellsize=1, DataSet=outputSet)
+            fOut.file_output(path=diag.exportText, x=fIO.rLayer.width(), y=fIO.rLayer.height(), XCorner=0,
+                             YCorner=fIO.rLayer.width(), cellsize=1, DataSet=self.outputSet)
             # print fOut.filePath
             fOut.filePath = diag.exportText
             gc.collect()
             fOut.WriteFile()
-
-
-
 
     def runabout(self):
         self.DialogStore[2].show()

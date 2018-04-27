@@ -49,7 +49,6 @@ class ImportExportDialog(QtGui.QDialog, FORM_CLASS):
         self.text2 = ''
         self.exportText = ''
 
-
     def selectFile(self):
         """
         Open a file select dialog and set the path box to contain the file path

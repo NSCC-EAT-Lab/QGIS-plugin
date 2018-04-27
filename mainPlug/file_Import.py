@@ -21,7 +21,6 @@ class FileImport:
         self.baseName = self.fileInfo.baseName()
         self.check_file_type()
 
-
     def check_file_type(self):
         """
         Validate the File type as a Valid Raster layer
@@ -35,4 +34,8 @@ class FileImport:
             raise IOError
 
     def get_rLayer(self):
+        """
+        Get the rLayer
+        :return: rLayer Obj
+        """
         return self.rLayer

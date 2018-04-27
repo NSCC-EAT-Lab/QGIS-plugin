@@ -1,7 +1,8 @@
-
 from RasterInterpObj import InterpObj
+from threading import Thread
 
-class ThreadDataInterp:
+
+class ThreadDataInterp(Thread):
 
     def __init__(self, iface, rLayer):
         """
@@ -9,6 +10,8 @@ class ThreadDataInterp:
         :param iface: QGIS Iface
         :param rLayer: rLayer object to Process
         """
+        Thread.__init__(self)
+
         self.iface = iface
         self.rLayer = rLayer
 
@@ -36,9 +39,9 @@ class ThreadDataInterp:
             i.start()
 
         for i in self.ThreadArray:
-            i.join()
+            i.join(10000)
 
-        return(self.ConvertToFinish())
+        return self.ConvertToFinish()
 
     def ConvertToFinish(self):
         """
@@ -50,3 +53,6 @@ class ThreadDataInterp:
             for i in self.DataStore[idx]:
                 self.FinishedDataset.append(i)
         return self.FinishedDataset
+
+    def run(self):
+        return self.ProcessrLayer()

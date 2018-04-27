@@ -2,6 +2,7 @@ import unittest
 from rasterManip import RasterManip
 from file_export import FileExport
 
+
 class TestNVDI(unittest.TestCase):
 
     def setUp(self):
@@ -9,7 +10,6 @@ class TestNVDI(unittest.TestCase):
         self.TestSet2 = [{1: 9}, {1: 10}, {1: 3}]
         self.RastManip = RasterManip(None)
         self.FileExport = FileExport()
-
 
     def tearDown(self):
         pass

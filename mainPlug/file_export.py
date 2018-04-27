@@ -1,7 +1,3 @@
-
-
-
-
 class FileExport:
 
     def __init__(self):
@@ -14,7 +10,7 @@ class FileExport:
         self.NoDataValue = -9999
         self.DataSet = None
 
-    def file_output(self, path, x, y, XCorner, YCorner, cellsize,DataSet, NodataValue=-9999 ):
+    def file_output(self, path, x, y, XCorner, YCorner, cellsize, DataSet, NodataValue=-9999):
         """
         Prep the file Output
         :param path: Path to the Output file
@@ -53,7 +49,8 @@ class FileExport:
                       "yllcorner {3}\n" \
                       "cellsize {4}\n" \
                       "nodata_value {5}\n" \
-                      "{6}".format(self.ExportX, self.ExportY, self.XLLCorner, self.YLLCorner, self.cellSize, self.NoDataValue, OutData)
+                      "{6}".format(self.ExportX, self.ExportY, self.XLLCorner, self.YLLCorner, self.cellSize,
+                                   self.NoDataValue, OutData)
         if self.filePath != u'':
             f = open(self.filePath, 'w')
             f.write(WriteString)
