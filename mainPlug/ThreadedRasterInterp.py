@@ -39,7 +39,7 @@ class ThreadDataInterp(Thread):
             i.start()
 
         for i in self.ThreadArray:
-            i.join(10000)
+            i.join(5)
 
         return self.ConvertToFinish()
 

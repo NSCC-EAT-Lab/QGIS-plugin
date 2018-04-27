@@ -34,8 +34,8 @@ class InterpObj(Thread):
         """
         for i in range(self.rLayer.width()):
             ret = self.a.return_dataset(i, -self.Yval, rLayer=self.rLayer)
-
             self.internalData.append(ret)
 
         self.DataStore.append(self.internalData)
         self.Finishorder.append(self.Yval)
+        return None

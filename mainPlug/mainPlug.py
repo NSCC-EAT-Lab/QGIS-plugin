@@ -298,8 +298,8 @@ class mainPlug:
                 q.start()
                 x.start()
 
-                q.join()
-                x.join()
+                q.join(180) # This is time in Seconds, given a timeout
+                x.join(180)
 
                 self.outputSet = a.do_ndvi_calc(DataSet=q.FinishedDataset, DataSet2=x.FinishedDataset)
                 gc.collect()
