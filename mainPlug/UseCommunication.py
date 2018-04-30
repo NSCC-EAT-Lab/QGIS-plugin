@@ -3,7 +3,7 @@ from qgis.gui import QgsMessageBar
 
 class Communicate():
 
-    def __init__(self, iface):
+    def __init__(self, iface=None):
         self.iface = iface
 
     def log(self, String, level):
@@ -24,6 +24,12 @@ class Communicate():
         QgsMessageLog.logMessage(String, "DeadBeef", level=lvl)
 
     def error(self, String, level, Bold=None, duration=None):
+
+        if self.iface is None:
+            self.log("DEVELOPER ERROR, ATTEMPT TO CALL ERROR WITHOUT IFACE REFERENCE | Handling this error by passing data to log", 2)
+            self.log(String, level)
+            return
+
         if Bold is not None:
             bld = Bold
         else:
