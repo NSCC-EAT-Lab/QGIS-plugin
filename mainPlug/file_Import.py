@@ -16,6 +16,9 @@ class FileImport:
         :param path: Path to the file you wish to use
         :return: None
         """
+        if path == '':
+            QgsMessageLog.logMessage("FILE PATH EMPTY", "DeadBeef", level=QgsMessageLog.CRITICAL)
+            raise IOError
         self.filePath = path
         self.fileInfo = QFileInfo(self.filePath)
         self.baseName = self.fileInfo.baseName()
@@ -30,8 +33,9 @@ class FileImport:
         if not self.rLayer.isValid():
             print("Layer Failed to load")
             self.rLayer = None
-            QgsMessageLog.logMessage("Check File Type Error: Layer Invalid", level=QgsMessageLog.CRITICAL)
+            QgsMessageLog.logMessage("Check File Type Error: Layer Invalid", "DeadBeef", level=QgsMessageLog.CRITICAL)
             raise IOError
+
     def get_rLayer(self):
         """
         Get the rLayer

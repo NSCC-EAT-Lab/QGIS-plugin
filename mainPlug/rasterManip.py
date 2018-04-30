@@ -49,24 +49,24 @@ class RasterManip:
         :return: Resulting Calculated NDVI normalized dataset
         """
         resul = []
-        #Single raster
+        # Single raster
         if DataSet2 is None:
             for i in DataSet:
                 if i is not None:
                     a = (i.get(3) - i.get(1)) / (i.get(3) + i.get(1))
-                    QgsMessageLog.logMessage("SingleRaster Log: " + str(a), "DeadBeef", level=QgsMessageLog.INFO)
+
                     resul.append(a)
                 else:
                     resul.append(-9999)
                 return resul
-        #Multi raster
+        # Multi raster
         else:
-            QgsMessageLog.logMessage("DATASET:" + str(DataSet), "DeadBeef", level=QgsMessageLog.CRITICAL)
+
             for idx, val in enumerate(DataSet):
-                #if val is not None:
+                # if val is not None:
 
                     a = (val.get(1) - DataSet2[idx].get(1)) / (val.get(1) + DataSet2[idx].get(1))
-                    QgsMessageLog.logMessage("MultiRaster Log: " + str(a), "DeadBeef", level=QgsMessageLog.INFO)
+
                     # print a
                     resul.append(a)
                 #else:

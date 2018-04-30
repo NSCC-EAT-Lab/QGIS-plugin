@@ -35,7 +35,7 @@ from rasterManip import RasterManip
 from importexport_dialog import ImportExportDialog
 from ThreadedRasterInterp import ThreadDataInterp
 
-from qgis.core import QgsColorRampShader, QgsRasterShader, QgsRasterShaderFunction, QgsSingleBandPseudoColorRenderer
+from qgis.core import QgsColorRampShader, QgsRasterShader, QgsRasterShaderFunction, QgsSingleBandPseudoColorRenderer, QgsMessageLog
 from file_export import FileExport
 import gc
 
@@ -206,6 +206,7 @@ class mainPlug:
             callback=self.runabout,
             dialog=AboutDialog()
         )
+        QgsMessageLog.logMessage("Add_action: About", "DeadBeef", level=QgsMessageLog.INFO)
         self.add_action(
             icon_path,
             store_val=3,
@@ -213,6 +214,7 @@ class mainPlug:
             callback=self.run_calc_ndvi,
             dialog=ImportExportDialog()
         )
+        QgsMessageLog.logMessage("Add_Action: Calculate NDVI", "DeadBeef", level=QgsMessageLog.INFO)
 
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI."""
@@ -223,6 +225,7 @@ class mainPlug:
             self.iface.removeToolBarIcon(action)
         # remove the toolbar
         del self.toolbar
+        QgsMessageLog.logMessage("Unload Toolbar: Success", "DeadBeef", level=QgsMessageLog.INFO)
 
     def run(self):
         """Run method that performs all the real work"""
@@ -246,12 +249,14 @@ class mainPlug:
         diag = self.DialogStore[1]
         diag.show()
         result = diag.exec_()
+        QgsMessageLog.logMessage("File Input Called", "DeadBeef", level=QgsMessageLog.INFO)
 
         if result:
             resul = diag.get_text()
             print("Result: ")
             print(resul)
             fIO.file_input(resul)
+            QgsMessageLog.logMessage("File Input Result: {0} | {1}".format(fIO.filePath, fIO.baseName), "DeadBeef", level=QgsMessageLog.INFO)
             self.iface.addRasterLayer(fIO.filePath, fIO.baseName)
 
             print(fIO.rLayer.renderer().type())
@@ -291,6 +296,7 @@ class mainPlug:
             # self.iface.addRasterLayer(fIO.filePath, fIO.baseName)
 
             if resul2 != '':
+                QgsMessageLog.logMessage("Input contains 2 Inputs, Doing Raster Calculator", "DeadBeef", level=QgsMessageLog.INFO)
                 fIO2.file_input(resul2)
                 """
                 self.iface.addRasterLayer(fIO2.filePath, fIO2.baseName)
