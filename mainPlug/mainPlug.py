@@ -286,10 +286,11 @@ class mainPlug:
             resul2 = diag.get_text2()
 
             fIO.file_input(resul)
-            self.iface.addRasterLayer(fIO.filePath, fIO.baseName)
+            # self.iface.addRasterLayer(fIO.filePath, fIO.baseName)
 
             if resul2 != '':
-                """fIO2.file_input(resul2)
+                fIO2.file_input(resul2)
+                """
                 self.iface.addRasterLayer(fIO2.filePath, fIO2.baseName)
 
                 q = ThreadDataInterp(iface=self.iface, rLayer=fIO.rLayer)

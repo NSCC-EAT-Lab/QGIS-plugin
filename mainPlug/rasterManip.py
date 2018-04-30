@@ -82,8 +82,8 @@ class RasterManip:
         r1 = QgsRasterCalculatorEntry()
         r2 = QgsRasterCalculatorEntry()
 
-        r1.ref = 'rLayer1@1'
-        r2.ref = 'rLayer2@1'
+        r1.ref = "rLayer@1"
+        r2.ref = "rLayer@2"
 
         r1.raster = rLayer1
         r2.raster = rLayer2
@@ -93,9 +93,9 @@ class RasterManip:
 
         entries = [r1, r2]
 
-        expression = "(\" " + r1.ref + "\"-\"" + r2.ref + "\" )/(\"" +r1.ref + "\"+\"" + r2.ref +"\")"
+        expression = "(\"{0}\"-\"{1}\")/(\"{2}\"+\"{3}\")".format(r1.ref, r2.ref, r1.ref, r2.ref)
 
-        a = QgsRasterCalculator(expression, path, 'Tiff', rLayer1.extent(), rLayer1.width(), rLayer1.height(), entries)
+        a = QgsRasterCalculator(expression, path, 'GTiff', rLayer1.extent(), rLayer1.width(), rLayer1.height(), entries)
 
         a.processCalculation()
         QgsMessageLog.logMessage("MultiRaster Log:" + str(a.Result), "DeadBeef", level=QgsMessageLog.INFO)

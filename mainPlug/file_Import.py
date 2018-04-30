@@ -32,7 +32,6 @@ class FileImport:
             self.rLayer = None
             QgsMessageLog.logMessage("Check File Type Error: Layer Invalid", level=QgsMessageLog.CRITICAL)
             raise IOError
-
     def get_rLayer(self):
         """
         Get the rLayer
