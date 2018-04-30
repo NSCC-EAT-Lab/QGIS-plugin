@@ -7,7 +7,7 @@
 # This file should be included when you package your plugin.# Mandatory items:
 
 [general]
-name=DeadBeef
+name=EggAGGIS
 qgisMinimumVersion=2.18
 description=To allow Calculations to be done on raster layers
 version=0.1
@@ -17,7 +17,7 @@ email=foo@bar.com
 about=Provide a User solution for Overlaying Crop data (REPLACE THIS)
 
 tracker=http://bugs
-repository=http://repo
+repository=https://github.com/poklj/QGIS-plugin
 # End of mandatory metadata
 
 # Recommended items:

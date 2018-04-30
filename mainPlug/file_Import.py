@@ -1,10 +1,13 @@
 from PyQt4.QtCore import QFileInfo
 from qgis.core import QgsRasterLayer, QgsMessageLog
 
+from UseCommunication import Communicate
+
 
 class FileImport:
 
     def __init__(self):
+        self.com = Communicate()
         self.filePath = ''
         self.fileInfo = None
         self.baseName = None
@@ -17,7 +20,7 @@ class FileImport:
         :return: None
         """
         if path == '':
-            QgsMessageLog.logMessage("FILE PATH EMPTY", "DeadBeef", level=QgsMessageLog.CRITICAL)
+            self.com.log("FILE PATH EMPTY",2)
             raise IOError
         self.filePath = path
         self.fileInfo = QFileInfo(self.filePath)
@@ -33,7 +36,7 @@ class FileImport:
         if not self.rLayer.isValid():
             print("Layer Failed to load")
             self.rLayer = None
-            QgsMessageLog.logMessage("Check File Type Error: Layer Invalid", "DeadBeef", level=QgsMessageLog.CRITICAL)
+            self.com.log("Check File Type Error: Layer Invalid", 2)
             raise IOError
 
     def get_rLayer(self):

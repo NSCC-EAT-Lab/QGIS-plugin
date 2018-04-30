@@ -1,6 +1,9 @@
+from UseCommunication import Communicate
+
 class FileExport:
 
     def __init__(self):
+        self.com = Communicate()
         self.filePath = ''
         self.ExportX = 0
         self.ExportY = 0

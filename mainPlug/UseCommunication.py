@@ -21,7 +21,7 @@ class Communicate():
         elif level == 2:
             lvl = QgsMessageLog.CRITICAL
 
-        QgsMessageLog.logMessage(String, "DeadBeef", level=lvl)
+        QgsMessageLog.logMessage(String, "EggAGGIS", level=lvl)
 
     def error(self, String, level, Bold=None, duration=None):
 

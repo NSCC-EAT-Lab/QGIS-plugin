@@ -282,7 +282,7 @@ class mainPlug:
 
         fOut = FileExport()
 
-        fIn = FileImport()
+        fileIn = FileImport()
         diag = self.DialogStore[3]
         diag.show()
 
@@ -291,30 +291,16 @@ class mainPlug:
         a = RasterManip(iface=self.iface)
         self.outputSet = None
         if result:
-            resul = diag.get_text()
-            resul2 = diag.get_text2()
+            result = diag.get_text()
+            result2 = diag.get_text2()
 
-            fIO.file_input(resul)
+            fIO.file_input(result)
             self.com.log("File Input Result {0} | {1}".format(fIO.filePath, fIO.baseName), 0)
             # self.iface.addRasterLayer(fIO.filePath, fIO.baseName)
 
-            if resul2 != '':
+            if result2 != '':
                 self.com.log("Input contains 2 Inputs, Doing Raster Calculator", 0)
-                fIO2.file_input(resul2)
-                """
-                self.iface.addRasterLayer(fIO2.filePath, fIO2.baseName)
-
-                q = ThreadDataInterp(iface=self.iface, rLayer=fIO.rLayer)
-                x = ThreadDataInterp(iface=self.iface, rLayer=fIO2.rLayer)
-
-                q.start()
-                x.start()
-
-                q.join(180) # This is time in Seconds, given a timeout
-                x.join(180)
-
-                self.outputSet = a.do_ndvi_calc(DataSet=q.FinishedDataset, DataSet2=x.FinishedDataset)
-                gc.collect() """
+                fIO2.file_input(result2)
                 a.Processing_ndvi_calc(fIO.rLayer, fIO2.rLayer, diag.exportText)
             else:
                 q = ThreadDataInterp(iface=self.iface, rLayer=fIO.rLayer)
@@ -327,20 +313,20 @@ class mainPlug:
             fOut.filePath = diag.exportText
             gc.collect()
             fOut.WriteFile()"""
-            fIn.file_input(diag.exportText)
-            k = self.iface.addRasterLayer(fIn.filePath, fIO.baseName)
+            fileIn.file_input(diag.exportText)
+            k = self.iface.addRasterLayer(fileIn.filePath, fIO.baseName)
 
             # TODO: Put this in a separate class
             fcn = QgsColorRampShader()
             fcn.setColorRampType(QgsColorRampShader.INTERPOLATED)
-            clist = [QgsColorRampShader.ColorRampItem(-1, QColor(255, 0, 0)),
+            color_list = [QgsColorRampShader.ColorRampItem(-1, QColor(255, 0, 0)),
                      QgsColorRampShader.ColorRampItem(1, QColor(0, 255, 0))]
-            fcn.setColorRampItemList(clist)
+            fcn.setColorRampItemList(color_list)
 
-            Shader = QgsRasterShader()
-            Shader.setRasterShaderFunction(fcn)
+            shader = QgsRasterShader()
+            shader.setRasterShaderFunction(fcn)
 
-            Renderer = QgsSingleBandPseudoColorRenderer(k.dataProvider(), 1, Shader)
+            Renderer = QgsSingleBandPseudoColorRenderer(k.dataProvider(), 1, shader)
             k.setRenderer(Renderer)
 
 
