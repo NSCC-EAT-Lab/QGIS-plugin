@@ -289,7 +289,7 @@ class mainPlug:
             self.iface.addRasterLayer(fIO.filePath, fIO.baseName)
 
             if resul2 != '':
-                fIO2.file_input(resul2)
+                """fIO2.file_input(resul2)
                 self.iface.addRasterLayer(fIO2.filePath, fIO2.baseName)
 
                 q = ThreadDataInterp(iface=self.iface, rLayer=fIO.rLayer)
@@ -302,19 +302,19 @@ class mainPlug:
                 x.join(180)
 
                 self.outputSet = a.do_ndvi_calc(DataSet=q.FinishedDataset, DataSet2=x.FinishedDataset)
-                gc.collect()
-
+                gc.collect() """
+                a.Processing_ndvi_calc(fIO.rLayer, fIO2.rLayer, diag.exportText)
             else:
                 q = ThreadDataInterp(iface=self.iface, rLayer=fIO.rLayer)
                 rec = q.ProcessrLayer()
                 self.outputSet = a.do_ndvi_calc(DataSet=rec)
             # print diag.exportText
-            fOut.file_output(path=diag.exportText, x=fIO.rLayer.width(), y=fIO.rLayer.height(), XCorner=0,
+            """fOut.file_output(path=diag.exportText, x=fIO.rLayer.width(), y=fIO.rLayer.height(), XCorner=0,
                              YCorner=fIO.rLayer.width(), cellsize=1, DataSet=self.outputSet)
             # print fOut.filePath
             fOut.filePath = diag.exportText
             gc.collect()
-            fOut.WriteFile()
+            fOut.WriteFile()"""
 
     def runabout(self):
         self.DialogStore[2].show()

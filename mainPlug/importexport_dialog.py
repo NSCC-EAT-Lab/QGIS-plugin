@@ -33,7 +33,9 @@ FORM_CLASS, _ = uic.loadUiType(os.path.join(
 class ImportExportDialog(QtGui.QDialog, FORM_CLASS):
 
     def __init__(self, parent=None):
+
         """Constructor."""
+        """ TODO: Allow both input fields to allow any of the two image to end up in the correct spot (Likely using regex or something to determine what band the image falls under)"""
         super(ImportExportDialog, self).__init__(parent)
         # Set up the user interface from Designer.
         # After setupUI you can access any designer object by doing

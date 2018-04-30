@@ -1,4 +1,6 @@
 from qgis.core import QgsRasterLayer, QgsPoint, QgsRaster, QgsMessageLog
+from qgis.analysis import QgsRasterCalculator, QgsRasterCalculatorEntry
+
 
 """
     NDVI = (NIR - Red) / (NIR + RED)
@@ -72,3 +74,29 @@ class RasterManip:
             # print resul
             gc.collect()
             return resul
+
+    def Processing_ndvi_calc(self, rLayer1, rLayer2, path):
+
+        path = path
+
+        r1 = QgsRasterCalculatorEntry()
+        r2 = QgsRasterCalculatorEntry()
+
+        r1.ref = 'rLayer1@1'
+        r2.ref = 'rLayer2@1'
+
+        r1.raster = rLayer1
+        r2.raster = rLayer2
+
+        r1.bandNumber = 1
+        r2.bandNumber = 1
+
+        entries = [r1, r2]
+
+        expression = "(\" " + r1.ref + "\"-\"" + r2.ref + "\" )/(\"" +r1.ref + "\"+\"" + r2.ref +"\")"
+
+        a = QgsRasterCalculator(expression, path, 'Tiff', rLayer1.extent(), rLayer1.width(), rLayer1.height(), entries)
+
+        a.processCalculation()
+        QgsMessageLog.logMessage("MultiRaster Log:" + str(a.Result), "DeadBeef", level=QgsMessageLog.INFO)
+
