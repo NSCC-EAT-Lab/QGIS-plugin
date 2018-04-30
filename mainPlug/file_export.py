@@ -34,6 +34,13 @@ class FileExport:
         self.cellSize = cellsize
         self.NoDataValue = NodataValue
         self.DataSet = DataSet
+        self.com.log("FILE OUTPUT PATH SET: {0} | {1} | {2} | {3} | {4} | {5} | {6}".format(self.filePath,
+                                                                                            self.ExportX,
+                                                                                            self.ExportY,
+                                                                                            self.XLLCorner,
+                                                                                            self.YLLCorner,
+                                                                                            self.cellSize,
+                                                                                            self.NoDataValue), 0)
 
     def WriteFile(self):
         """
@@ -57,6 +64,7 @@ class FileExport:
         if self.filePath != u'':
             f = open(self.filePath, 'w')
             f.write(WriteString)
+            self.com.log("File Written", 0)
             f.close()
         else:
             pass
