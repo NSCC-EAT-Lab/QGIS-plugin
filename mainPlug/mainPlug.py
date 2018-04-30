@@ -21,7 +21,7 @@
  ***************************************************************************/
 """
 from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, pyqtSignal
-from PyQt4.QtGui import QAction, QIcon
+from PyQt4.QtGui import QAction, QIcon, QColor
 # from PyQt4.QtWidgets import QAction
 
 # Initialize Qt resources from file resources.py
@@ -35,6 +35,7 @@ from rasterManip import RasterManip
 from importexport_dialog import ImportExportDialog
 from ThreadedRasterInterp import ThreadDataInterp
 
+from qgis.core import QgsColorRampShader, QgsRasterShader, QgsRasterShaderFunction, QgsSingleBandPseudoColorRenderer
 from file_export import FileExport
 import gc
 
@@ -318,7 +319,22 @@ class mainPlug:
             gc.collect()
             fOut.WriteFile()"""
             fIn.file_input(diag.exportText)
-            self.iface.addRasterLayer(fIn.filePath, fIO.baseName)
+            k = self.iface.addRasterLayer(fIn.filePath, fIO.baseName)
+
+            # TODO: Put this in a separate class
+            fcn = QgsColorRampShader()
+            fcn.setColorRampType(QgsColorRampShader.INTERPOLATED)
+            clist = [QgsColorRampShader.ColorRampItem(-1, QColor(255, 0, 0)),
+                     QgsColorRampShader.ColorRampItem(1, QColor(0, 255, 0))]
+            fcn.setColorRampItemList(clist)
+
+            Shader = QgsRasterShader()
+            Shader.setRasterShaderFunction(fcn)
+
+            Renderer = QgsSingleBandPseudoColorRenderer(k.dataProvider(), 1, Shader)
+            k.setRenderer(Renderer)
+
+
 
     def runabout(self):
         self.DialogStore[2].show()
