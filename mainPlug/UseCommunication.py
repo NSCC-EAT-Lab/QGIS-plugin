@@ -24,6 +24,14 @@ class Communicate():
         QgsMessageLog.logMessage(String, "EggAGGIS", level=lvl)
 
     def error(self, String, level, Bold=None, duration=None):
+        """
+        Display an Message Bar on the QGIS Screen
+        :param String: Message you wish to display
+        :param level: Message Importance/Severity (0-2 | 0=Info | 1=Warning | 2=Critical)
+        :param Bold: The Bold text displayed (If none it defaults to the Message Severity)
+        :param duration: How long the Message is displayed to the user
+        :return: None
+        """
 
         if self.iface is None:
             self.log("DEVELOPER ERROR, ATTEMPT TO CALL ERROR WITHOUT IFACE REFERENCE | Handling this error by passing data to log", 2)
@@ -35,7 +43,7 @@ class Communicate():
         else:
             bld = None
 
-        lvl=None
+        lvl = None
         if level == 0:
             lvl = QgsMessageBar.INFO
             if bld is None:
