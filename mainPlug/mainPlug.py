@@ -185,20 +185,20 @@ class mainPlug:
 
         icon_path = ':/plugins/mainPlug\icon.png'
         about_path = ':/plugins/mainPlug\\about.png'
-        self.add_action(
+        """self.add_action(
             icon_path,
             store_val=0,
             text=self.tr(u'PlotData'),
             callback=self.run,
-            parent=self.iface.mainWindow())
+            parent=self.iface.mainWindow())"""
 
-        self.add_action(
+        """self.add_action(
             icon_path,
             store_val=1,
             text=self.tr(u'File_Import_Test'),
             callback=self.run_file_input,
             dialog=FileInputDialog()
-        )
+        )"""
         self.add_action(
             about_path,
             store_val=2,
