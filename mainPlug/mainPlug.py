@@ -274,6 +274,7 @@ class mainPlug:
 
         fOut = FileExport()
 
+        fIn = FileImport()
         diag = self.DialogStore[3]
         diag.show()
 
@@ -316,6 +317,8 @@ class mainPlug:
             fOut.filePath = diag.exportText
             gc.collect()
             fOut.WriteFile()"""
+            fIn.file_input(diag.exportText)
+            self.iface.addRasterLayer(fIn.filePath, fIO.baseName)
 
     def runabout(self):
         self.DialogStore[2].show()
