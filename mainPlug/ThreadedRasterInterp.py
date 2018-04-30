@@ -1,5 +1,6 @@
 from RasterInterpObj import InterpObj
 from threading import Thread
+from UseCommunication import Communicate
 
 
 class ThreadDataInterp(Thread):
@@ -14,7 +15,7 @@ class ThreadDataInterp(Thread):
 
         self.iface = iface
         self.rLayer = rLayer
-
+        self.com = Communicate(self.iface)
         self.FinishedDataset = []
         self.FinishOrder = []
         self.DataStore = []
@@ -29,6 +30,7 @@ class ThreadDataInterp(Thread):
         TODO: Test to see if doing a thread per pixel would Speed things up or if Near Approximation would help
         :return: The final Stitched Dataset of rLayer (After being passed to ConvertToFinish)
         """
+        self.com.log("Producing Threads for Interpretation", 0)
         v = 0
         for i in range(self.rLayerY):
             self.ThreadArray.append(InterpObj(iface=self.iface, rLayer=self.rLayer, DataStore=self.DataStore,
@@ -41,6 +43,7 @@ class ThreadDataInterp(Thread):
         for i in self.ThreadArray:
             i.join(5)
 
+        self.com.log("Threaded Interp Finished", 0)
         return self.ConvertToFinish()
 
     def ConvertToFinish(self):

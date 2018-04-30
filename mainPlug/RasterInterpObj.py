@@ -1,6 +1,6 @@
 from threading import Thread
 from rasterManip import RasterManip
-
+from UseCommunication import Communicate
 
 class InterpObj(Thread):
 
@@ -15,8 +15,10 @@ class InterpObj(Thread):
         :param Yval: The Y row
         """
 
+
         Thread.__init__(self)
         self.iface = iface
+        self.com = Communicate(self.iface)
         self.rLayer = rLayer
         self.DataStore = DataStore
         self.Finishorder = Finishorder
@@ -38,4 +40,5 @@ class InterpObj(Thread):
 
         self.DataStore.append(self.internalData)
         self.Finishorder.append(self.Yval)
+        self.com.log("Interp OBJ completed Successfully", 0)
         return None
