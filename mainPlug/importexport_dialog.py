@@ -67,7 +67,7 @@ class ImportExportDialog(QtGui.QDialog, FORM_CLASS):
         self.FilePath_3.setText(QtGui.QFileDialog.getOpenFileName())
 
     def selectExport(self):
-        self.FilePath_2.setText(QtGui.QFileDialog.getSaveFileName())
+        self.FilePath_2.setText(QtGui.QFileDialog.getSaveFileName(self,"c:\\", "*.tiff"))
 
     def ret_path(self):
         self.text = self.FilePath.text()

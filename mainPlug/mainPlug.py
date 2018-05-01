@@ -27,6 +27,8 @@ from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication
 from PyQt4.QtGui import QAction, QIcon, QColor
 from qgis.core import QgsColorRampShader, QgsRasterShader, QgsSingleBandPseudoColorRenderer
 
+from qgis.core import QgsColorRampShader, QgsRasterShader, QgsSingleBandPseudoColorRenderer, QgsMapLayerRegistry
+from qgis.gui import QgsMapCanvas, QgsMapCanvasLayer
 from ThreadedRasterInterp import ThreadDataInterp
 from UseCommunication import Communicate
 from aboutDialog import AboutDialog
@@ -77,7 +79,6 @@ class mainPlug:
         # Declare instance attributes
         self.actions = []
         self.menu = self.tr(u'&EggAGGIS')
-        # TODO: We are going to let the user set this up in a future iteration
         self.toolbar = self.iface.addToolBar(u'mainPlug')
         self.toolbar.setObjectName(u'mainPlug')
         self.DialogStore = [None] * 15
@@ -328,12 +329,7 @@ class mainPlug:
                 rec = q.ProcessrLayer()
                 self.outputSet = a.do_ndvi_calc(DataSet=rec)
             # print diag.exportText
-            """fOut.file_output(path=diag.exportText, x=fIO.rLayer.width(), y=fIO.rLayer.height(), XCorner=0,
-                             YCorner=fIO.rLayer.width(), cellsize=1, DataSet=self.outputSet)
-            # print fOut.filePath
-            fOut.filePath = diag.exportText
-            gc.collect()
-            fOut.WriteFile()"""
+            
             fileIn.file_input(diag.exportText)
             k = self.iface.addRasterLayer(fileIn.filePath, fIO.baseName)
 
@@ -341,14 +337,15 @@ class mainPlug:
             fcn = QgsColorRampShader()
             fcn.setColorRampType(QgsColorRampShader.INTERPOLATED)
             color_list = [QgsColorRampShader.ColorRampItem(-1, QColor(255, 0, 0)),
-                     QgsColorRampShader.ColorRampItem(1, QColor(0, 255, 0))]
+                          QgsColorRampShader.ColorRampItem(1, QColor(0, 255, 0))]
             fcn.setColorRampItemList(color_list)
 
             shader = QgsRasterShader()
             shader.setRasterShaderFunction(fcn)
 
-            Renderer = QgsSingleBandPseudoColorRenderer(k.dataProvider(), 1, shader)
-            k.setRenderer(Renderer)
+            renderer = QgsSingleBandPseudoColorRenderer(k.dataProvider(), 1, shader)
+            k.setRenderer(renderer)
+
 
     def run_help(self):
         self.DialogStore[4].show()
