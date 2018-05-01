@@ -15,7 +15,7 @@ import os.path
 import re
 
 from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication
-from PyQt4.QtGui import QAction, QIcon, QColor
+from PyQt4.QtGui import QAction, QIcon, QColor, QToolButton
 from qgis.core import QgsColorRampShader, QgsRasterShader, QgsSingleBandPseudoColorRenderer, QgsMapLayerRegistry
 from qgis.gui import QgsMapCanvas, QgsMapCanvasLayer
 from ThreadedRasterInterp import ThreadDataInterp
@@ -213,13 +213,14 @@ class mainPlug:
             callback=self.run_help,
             dialog=HelpDialog()
         )
+
         self.com.log("Add_Action: Calculate NDVI", 0)
 
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI."""
         for action in self.actions:
             self.iface.removePluginMenu(
-                self.tr(u'&DeadBeef'),
+                self.tr(u'&EggAGGIS'),
                 action)
             self.iface.removeToolBarIcon(action)
         # remove the toolbar
