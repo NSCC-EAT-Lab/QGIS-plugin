@@ -297,7 +297,6 @@ class mainPlug:
 
             fIO.file_input(result)
             self.com.log("File Input Result {0} | {1}".format(fIO.filePath, fIO.baseName), 0)
-            # self.iface.addRasterLayer(fIO.filePath, fIO.baseName)
 
             if result2 != '':
                 self.com.log("Input contains 2 Inputs, Doing Raster Calculator", 0)
@@ -318,7 +317,6 @@ class mainPlug:
                 q = ThreadDataInterp(iface=self.iface, rLayer=fIO.rLayer)
                 rec = q.ProcessrLayer()
                 self.outputSet = a.do_ndvi_calc(DataSet=rec)
-            # print diag.exportText
 
             fileIn.file_input(diag.exportText)
             k = self.iface.addRasterLayer(fileIn.filePath, fIO.baseName)

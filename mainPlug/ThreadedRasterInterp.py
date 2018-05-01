@@ -53,7 +53,6 @@ class ThreadDataInterp(Thread):
         :return: The ReStitched DataSet
         """
         for idx, val in enumerate(self.FinishOrder):
-            # print str(idx), str(val)
             for i in self.DataStore[idx]:
                 self.FinishedDataset.append(i)
         return self.FinishedDataset

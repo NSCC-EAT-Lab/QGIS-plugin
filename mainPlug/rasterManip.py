@@ -17,8 +17,6 @@ class RasterManip:
 
         self.iface = iface
 
-        # print(rLayer.renderer().type())
-
     def return_dataset(self, X, Y, rLayer):
         """
         Return back the Results of a XY Cordnate pair
@@ -67,11 +65,8 @@ class RasterManip:
 
                 a = (val.get(1) - DataSet2[idx].get(1)) / (val.get(1) + DataSet2[idx].get(1))
 
-                # print a
                 resul.append(a)
             # else:
-            # resul.append(-9999)
-            # print resul
             gc.collect()
             return resul
 
