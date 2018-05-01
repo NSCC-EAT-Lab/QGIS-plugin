@@ -98,5 +98,4 @@ class RasterManip:
         a = QgsRasterCalculator(expression, path, 'GTiff', rLayer1.extent(), rLayer1.width(), rLayer1.height(), entries)
 
         a.processCalculation()
-        QgsMessageLog.logMessage("MultiRaster Log:" + str(a.Result), "DeadBeef", level=QgsMessageLog.INFO)
 

@@ -36,6 +36,8 @@ from importexport_dialog import ImportExportDialog
 from ThreadedRasterInterp import ThreadDataInterp
 from UseCommunication import Communicate
 
+import re
+
 from qgis.core import QgsColorRampShader, QgsRasterShader, QgsRasterShaderFunction, QgsSingleBandPseudoColorRenderer, QgsMessageLog
 from file_export import FileExport
 import gc
@@ -277,6 +279,9 @@ class mainPlug:
         :return:
         """
 
+        NIRpattern = re.compile(r"NIR", re.IGNORECASE)
+        REDpattern = re.compile(r"RED", re.IGNORECASE)
+
         fIO = FileImport()
         fIO2 = FileImport()
 
@@ -301,7 +306,18 @@ class mainPlug:
             if result2 != '':
                 self.com.log("Input contains 2 Inputs, Doing Raster Calculator", 0)
                 fIO2.file_input(result2)
-                a.Processing_ndvi_calc(fIO.rLayer, fIO2.rLayer, diag.exportText)
+
+                if NIRpattern.search(fIO.baseName) is not None:
+                    if REDpattern.search(fIO2.baseName) is not None:
+                        a.Processing_ndvi_calc(fIO.rLayer, fIO2.rLayer, diag.exportText)
+                elif REDpattern.search(fIO.baseName) is not None:
+                    if NIRpattern.search(fIO2.baseName) is not None:
+                        a.Processing_ndvi_calc(fIO2.rLayer, fIO.rLayer, diag.exportText)
+                else:
+                    self.com.log("Double Pattern set Mismatch", level=0)
+                    self.com.error(Bold="File Name Error:",
+                                   String="Please label the files NIR and RED respectively (See help for Details)",
+                                   level=2)
             else:
                 q = ThreadDataInterp(iface=self.iface, rLayer=fIO.rLayer)
                 rec = q.ProcessrLayer()
