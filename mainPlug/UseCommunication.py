@@ -1,6 +1,7 @@
 from qgis.core import QgsMessageLog
 from qgis.gui import QgsMessageBar
 
+
 class Communicate():
 
     def __init__(self, iface=None):
@@ -34,7 +35,9 @@ class Communicate():
         """
 
         if self.iface is None:
-            self.log("DEVELOPER ERROR, ATTEMPT TO CALL ERROR WITHOUT IFACE REFERENCE | Handling this error by passing data to log", 2)
+            self.log(
+                "DEVELOPER ERROR, ATTEMPT TO CALL ERROR WITHOUT IFACE REFERENCE | Handling this error by passing data to log",
+                2)
             self.log(String, level)
             return
 
