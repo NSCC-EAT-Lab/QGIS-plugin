@@ -20,30 +20,28 @@
  *                                                                         *
  ***************************************************************************/
 """
-from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, pyqtSignal
-from PyQt4.QtGui import QAction, QIcon, QColor
-# from PyQt4.QtWidgets import QAction
+import os.path
+import re
 
+from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication
+from PyQt4.QtGui import QAction, QIcon, QColor
+from qgis.core import QgsColorRampShader, QgsRasterShader, QgsSingleBandPseudoColorRenderer
+
+from ThreadedRasterInterp import ThreadDataInterp
+from UseCommunication import Communicate
+from aboutDialog import AboutDialog
+from file_Import import FileImport
+from file_export import FileExport
+from help_dialog import HelpDialog
+from importexport_dialog import ImportExportDialog
 # Initialize Qt resources from file resources.py
 # import resources
 # Import the code for the dialog
 from mainPlug_dialog import mainPlugDialog
-from file_input_dialog import FileInputDialog
-from aboutDialog import AboutDialog
-from file_Import import FileImport
 from rasterManip import RasterManip
-from importexport_dialog import ImportExportDialog
-from ThreadedRasterInterp import ThreadDataInterp
-from UseCommunication import Communicate
 
-import re
 
-from qgis.core import QgsColorRampShader, QgsRasterShader, QgsRasterShaderFunction, QgsSingleBandPseudoColorRenderer, QgsMessageLog
-from file_export import FileExport
-import gc
-
-from qgis.core import QgsPoint, QgsRaster
-import os.path
+# from PyQt4.QtWidgets import QAction
 
 
 class mainPlug:
@@ -218,6 +216,13 @@ class mainPlug:
             callback=self.run_calc_ndvi,
             dialog=ImportExportDialog()
         )
+        self.add_action(
+            icon_path,
+            store_val=4,
+            text=self.tr(u'Help'),
+            callback=self.run_help,
+            dialog=HelpDialog()
+        )
         self.com.log("Add_Action: Calculate NDVI", 0)
 
     def unload(self):
@@ -345,7 +350,8 @@ class mainPlug:
             Renderer = QgsSingleBandPseudoColorRenderer(k.dataProvider(), 1, shader)
             k.setRenderer(Renderer)
 
-
+    def run_help(self):
+        self.DialogStore[4].show()
 
     def runabout(self):
         self.DialogStore[2].show()
