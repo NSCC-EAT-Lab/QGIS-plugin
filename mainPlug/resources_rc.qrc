@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="/plugins/mainPlug">
+    <file>images/EAT_Logo_Scaled.png</file>
+    <file>icon.png</file>
+  </qresource>
+</RCC>
