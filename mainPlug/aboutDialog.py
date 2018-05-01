@@ -24,9 +24,11 @@
 import os
 
 from PyQt4 import QtGui, uic
+import resources_rc
 
+resources_rc.qInitResources()
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
-    os.path.dirname(__file__), 'About.ui'))
+    os.path.dirname(__file__), 'About.ui'), resource_suffix='')
 
 
 class AboutDialog(QtGui.QDialog, FORM_CLASS):
