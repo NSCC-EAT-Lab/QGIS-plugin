@@ -1,6 +1,5 @@
-from qgis.core import QgsRasterLayer, QgsPoint, QgsRaster, QgsMessageLog
 from qgis.analysis import QgsRasterCalculator, QgsRasterCalculatorEntry
-
+from qgis.core import QgsPoint, QgsRaster
 
 """
     NDVI = (NIR - Red) / (NIR + RED)
@@ -10,6 +9,7 @@ from qgis.analysis import QgsRasterCalculator, QgsRasterCalculatorEntry
     Color Ramp based on the Calculated pixel.
 """
 import gc
+
 
 class RasterManip:
 
@@ -65,12 +65,12 @@ class RasterManip:
             for idx, val in enumerate(DataSet):
                 # if val is not None:
 
-                    a = (val.get(1) - DataSet2[idx].get(1)) / (val.get(1) + DataSet2[idx].get(1))
+                a = (val.get(1) - DataSet2[idx].get(1)) / (val.get(1) + DataSet2[idx].get(1))
 
-                    # print a
-                    resul.append(a)
-                #else:
-                   # resul.append(-9999)
+                # print a
+                resul.append(a)
+            # else:
+            # resul.append(-9999)
             # print resul
             gc.collect()
             return resul
@@ -98,4 +98,3 @@ class RasterManip:
         a = QgsRasterCalculator(expression, path, 'GTiff', rLayer1.extent(), rLayer1.width(), rLayer1.height(), entries)
 
         a.processCalculation()
-

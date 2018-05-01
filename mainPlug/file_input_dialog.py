@@ -16,7 +16,6 @@
 import os
 
 from PyQt4 import QtGui, uic
-from PyQt4.QtCore import QObject, pyqtSignal
 
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.dirname(__file__), 'File_Select.ui'))
@@ -37,7 +36,6 @@ class FileInputDialog(QtGui.QDialog, FORM_CLASS):
         self.buttonBox.clicked.connect(self.ret_path)
         self.text = ''
         self.text2 = ''
-
 
     def selectFile(self):
         self.FilePath.setText(QtGui.QFileDialog.getOpenFileName())

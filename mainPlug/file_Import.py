@@ -1,5 +1,5 @@
 from PyQt4.QtCore import QFileInfo
-from qgis.core import QgsRasterLayer, QgsMessageLog
+from qgis.core import QgsRasterLayer
 
 from UseCommunication import Communicate
 
@@ -20,7 +20,7 @@ class FileImport:
         :return: None
         """
         if path == '':
-            self.com.log("FILE PATH EMPTY",2)
+            self.com.log("FILE PATH EMPTY", 2)
             raise IOError
         self.filePath = path
         self.fileInfo = QFileInfo(self.filePath)

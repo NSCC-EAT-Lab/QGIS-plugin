@@ -15,7 +15,6 @@
 import os
 
 from PyQt4 import QtGui, uic
-from PyQt4.QtCore import QObject, pyqtSignal
 
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.dirname(__file__), 'ImportExport.ui'))
@@ -24,7 +23,6 @@ FORM_CLASS, _ = uic.loadUiType(os.path.join(
 class ImportExportDialog(QtGui.QDialog, FORM_CLASS):
 
     def __init__(self, parent=None):
-
         """Constructor."""
         """ TODO: Allow both input fields to allow any of the two image to end up in the correct spot (Likely using regex or something to determine what band the image falls under)"""
         super(ImportExportDialog, self).__init__(parent)
@@ -58,7 +56,7 @@ class ImportExportDialog(QtGui.QDialog, FORM_CLASS):
         self.FilePath_3.setText(QtGui.QFileDialog.getOpenFileName())
 
     def selectExport(self):
-        self.FilePath_2.setText(QtGui.QFileDialog.getSaveFileName(self,"c:\\", "*.tiff"))
+        self.FilePath_2.setText(QtGui.QFileDialog.getSaveFileName(self, "c:\\", "*.tiff"))
 
     def ret_path(self):
         self.text = self.FilePath.text()

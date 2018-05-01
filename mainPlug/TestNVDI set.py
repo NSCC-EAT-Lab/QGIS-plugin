@@ -1,6 +1,7 @@
 import unittest
-from rasterManip import RasterManip
+
 from file_export import FileExport
+from rasterManip import RasterManip
 
 
 class TestNVDI(unittest.TestCase):

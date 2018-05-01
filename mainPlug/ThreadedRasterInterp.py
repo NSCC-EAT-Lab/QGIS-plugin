@@ -1,5 +1,6 @@
-from RasterInterpObj import InterpObj
 from threading import Thread
+
+from RasterInterpObj import InterpObj
 from UseCommunication import Communicate
 
 

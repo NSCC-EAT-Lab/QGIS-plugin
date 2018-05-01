@@ -1,6 +1,8 @@
 from threading import Thread
-from rasterManip import RasterManip
+
 from UseCommunication import Communicate
+from rasterManip import RasterManip
+
 
 class InterpObj(Thread):
 
@@ -14,7 +16,6 @@ class InterpObj(Thread):
         :param Finishorder: Finish Order Array pointer
         :param Yval: The Y row
         """
-
 
         Thread.__init__(self)
         self.iface = iface

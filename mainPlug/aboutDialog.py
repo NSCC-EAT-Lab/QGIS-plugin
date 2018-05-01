@@ -16,6 +16,7 @@
 import os
 
 from PyQt4 import QtGui, uic
+
 import resources_rc
 
 resources_rc.qInitResources()

@@ -15,9 +15,9 @@ import os.path
 import re
 
 from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication
-from PyQt4.QtGui import QAction, QIcon, QColor, QToolButton
-from qgis.core import QgsColorRampShader, QgsRasterShader, QgsSingleBandPseudoColorRenderer, QgsMapLayerRegistry
-from qgis.gui import QgsMapCanvas, QgsMapCanvasLayer
+from PyQt4.QtGui import QAction, QIcon, QColor
+from qgis.core import QgsColorRampShader, QgsRasterShader, QgsSingleBandPseudoColorRenderer
+
 from ThreadedRasterInterp import ThreadDataInterp
 from UseCommunication import Communicate
 from aboutDialog import AboutDialog
@@ -319,7 +319,7 @@ class mainPlug:
                 rec = q.ProcessrLayer()
                 self.outputSet = a.do_ndvi_calc(DataSet=rec)
             # print diag.exportText
-            
+
             fileIn.file_input(diag.exportText)
             k = self.iface.addRasterLayer(fileIn.filePath, fIO.baseName)
 
@@ -335,7 +335,6 @@ class mainPlug:
 
             renderer = QgsSingleBandPseudoColorRenderer(k.dataProvider(), 1, shader)
             k.setRenderer(renderer)
-
 
     def run_help(self):
         self.DialogStore[4].show()
