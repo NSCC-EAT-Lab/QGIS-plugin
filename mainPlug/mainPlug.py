@@ -294,7 +294,7 @@ class mainPlug:
         if result:
             result = diag.get_text()
             result2 = diag.get_text2()
-
+            result3 = diag.get_
             fIO.file_input(result)
             self.com.log("File Input Result {0} | {1}".format(fIO.filePath, fIO.baseName), 0)
 
@@ -319,20 +319,22 @@ class mainPlug:
                 self.outputSet = a.do_ndvi_calc(DataSet=rec)
 
             fileIn.file_input(diag.exportText)
-            k = self.iface.addRasterLayer(fileIn.filePath, fIO.baseName)
+            self.Color(fileIn)
 
-            # TODO: Put this in a separate class
-            fcn = QgsColorRampShader()
-            fcn.setColorRampType(QgsColorRampShader.INTERPOLATED)
-            color_list = [QgsColorRampShader.ColorRampItem(-1, QColor(255, 0, 0)),
-                          QgsColorRampShader.ColorRampItem(1, QColor(0, 255, 0))]
-            fcn.setColorRampItemList(color_list)
+    def Color(self, file):
 
-            shader = QgsRasterShader()
-            shader.setRasterShaderFunction(fcn)
+        k = self.iface.addRasterLayer(file.filePath, file.baseName)
+        fcn = QgsColorRampShader()
+        fcn.setColorRampType(QgsColorRampShader.INTERPOLATED)
+        color_list = [QgsColorRampShader.ColorRampItem(-1, QColor(255, 0, 0)),
+                      QgsColorRampShader.ColorRampItem(1, QColor(0, 255, 0))]
+        fcn.setColorRampItemList(color_list)
 
-            renderer = QgsSingleBandPseudoColorRenderer(k.dataProvider(), 1, shader)
-            k.setRenderer(renderer)
+        shader = QgsRasterShader()
+        shader.setRasterShaderFunction(fcn)
+
+        renderer = QgsSingleBandPseudoColorRenderer(k.dataProvider(), 1, shader)
+        k.setRenderer(renderer)
 
     def run_help(self):
         self.DialogStore[4].show()
