@@ -35,9 +35,13 @@ class ImportExportDialog(QtGui.QDialog, FORM_CLASS):
         self.FileSelect.clicked.connect(self.selectFile)
         self.FileSelect_3.clicked.connect(self.selectFile2)
         self.FileSelect_2.clicked.connect(self.selectExport)
+        self.FileSelect_4.clicked.connect(self.selectFile3)
         self.buttonBox.clicked.connect(self.ret_path)
+        self.CalcBox.currentIndexChanged.connect(self.handle_Combobox)
         self.text = ''
         self.text2 = ''
+        self.text3 = ''
+        self.calc = ''
         self.exportText = ''
 
     def selectFile(self):
@@ -55,12 +59,17 @@ class ImportExportDialog(QtGui.QDialog, FORM_CLASS):
         # TODO: Compress this into one function
         self.FilePath_3.setText(QtGui.QFileDialog.getOpenFileName())
 
+    def selectFile3(self):
+        self.FilePath_4.setText(QtGui.QFileDialog.getOpenFileName())
+
     def selectExport(self):
         self.FilePath_2.setText(QtGui.QFileDialog.getSaveFileName(self, "c:\\", "*.tiff"))
 
     def ret_path(self):
         self.text = self.FilePath.text()
         self.text2 = self.FilePath_3.text()
+        self.text3 = self.FilePath_4.text()
+        self.calc = self.CalcBox.currentText()
         self.exportText = self.FilePath_2.text()
 
     def get_text(self):
@@ -77,5 +86,33 @@ class ImportExportDialog(QtGui.QDialog, FORM_CLASS):
         """
         return self.text2
 
+    def get_text3(self):
+        return self.text3
+
     def get_export(self):
         return self.exportText
+
+    def get_calc(self):
+        return self.calc
+
+    def handle_Combobox(self):
+        if self.CalcBox.currentText() == "NDVI":
+            self.CalcHelp.setPlainText("NDVI is a calculation using Both the Near IR field and The visible Red Field\n"
+                                       "To do this calculation the program requires either: Two Images, One In the Red Field (With the word \"Red\" in its name)"
+                                       " And the other in the Near IR Field (With the word \"NIR\" In its name)\n"
+                                       "Or One Image with Both NearIR and Red bands")
+            self.FilePath_4.setEnabled(False)
+            self.FileSelect_4.setEnabled(False)
+        elif self.CalcBox.currentText() == "bNDVI":
+            self.CalcHelp.setPlainText("bNDVI is a calculation using Both the Near IR field and The visible Blue Field\n"
+                                       "To do this calculation the program requires either: Two Images, One In the Blue Field (With the word \"Blue\" in its name)"
+                                       " And the other in the Near IR Field (With the word \"NIR\" In its name)\n"
+                                       "Or One Image with Both NearIR and Blue bands")
+            self.FilePath_4.setEnabled(False)
+            self.FileSelect_4.setEnabled(False)
+        elif self.CalcBox.currentText() == "ENDVI":
+            self.CalcHelp.setPlainText("ENDVI (Enhanced NDVI) is a calculation in the Near IR Field, The Visible Green Field and the Visible Blue Field\n"
+                                       "To do this calculation the program requires Either: One image with all Three Bands or \n"
+                                       "Three images, each labeled with their respective bands (NIR, BLUE, GREEN")
+            self.FilePath_4.setEnabled(True)
+            self.FileSelect_4.setEnabled(True)

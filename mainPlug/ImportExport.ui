@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>582</width>
-    <height>315</height>
+    <width>677</width>
+    <height>492</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,8 +16,8 @@
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
-     <x>220</x>
-     <y>260</y>
+     <x>280</x>
+     <y>442</y>
      <width>341</width>
      <height>32</height>
     </rect>
@@ -33,7 +33,7 @@
    <property name="geometry">
     <rect>
      <x>90</x>
-     <y>30</y>
+     <y>170</y>
      <width>181</width>
      <height>16</height>
     </rect>
@@ -46,7 +46,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>42</y>
+     <y>182</y>
      <width>75</width>
      <height>31</height>
     </rect>
@@ -59,7 +59,7 @@
    <property name="geometry">
     <rect>
      <x>90</x>
-     <y>50</y>
+     <y>190</y>
      <width>461</width>
      <height>21</height>
     </rect>
@@ -69,7 +69,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>212</y>
+     <y>392</y>
      <width>75</width>
      <height>31</height>
     </rect>
@@ -82,7 +82,7 @@
    <property name="geometry">
     <rect>
      <x>90</x>
-     <y>220</y>
+     <y>400</y>
      <width>461</width>
      <height>21</height>
     </rect>
@@ -92,7 +92,7 @@
    <property name="geometry">
     <rect>
      <x>90</x>
-     <y>200</y>
+     <y>380</y>
      <width>81</width>
      <height>16</height>
     </rect>
@@ -105,7 +105,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>120</y>
+     <y>260</y>
      <width>75</width>
      <height>31</height>
     </rect>
@@ -118,7 +118,7 @@
    <property name="geometry">
     <rect>
      <x>90</x>
-     <y>128</y>
+     <y>268</y>
      <width>461</width>
      <height>21</height>
     </rect>
@@ -128,13 +128,111 @@
    <property name="geometry">
     <rect>
      <x>90</x>
-     <y>100</y>
+     <y>240</y>
      <width>221</width>
      <height>16</height>
     </rect>
    </property>
    <property name="text">
     <string>File Containing Second Data set (Optional)</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="CalcBox">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>60</y>
+     <width>69</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>NDVI</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>bNDVI</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>ENDVI</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLabel" name="label_4">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>30</y>
+     <width>91</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Calculation Type</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="FilePath_4">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>338</y>
+     <width>461</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_5">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>320</y>
+     <width>241</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>File containing Third Data set (Optional)</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="FileSelect_4">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>330</y>
+     <width>75</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>PushButton</string>
+   </property>
+  </widget>
+  <widget class="QPlainTextEdit" name="CalcHelp">
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>10</y>
+     <width>561</width>
+     <height>151</height>
+    </rect>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+   <property name="plainText">
+    <string>NDVI is a calculation using Both the Near IR field and The visible Red Field
+To do this calculation the program requires either: Two Images, One In the Red Field (With the word &quot;Red&quot; in its name) And the other in the Near IR Field (With the word &quot;NIR&quot; In its name)
+Or One Image with Both NearIR and Red bands</string>
    </property>
   </widget>
  </widget>

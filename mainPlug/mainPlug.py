@@ -16,7 +16,7 @@ import re
 
 from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication
 from PyQt4.QtGui import QAction, QIcon, QColor
-from qgis.core import QgsColorRampShader, QgsRasterShader, QgsSingleBandPseudoColorRenderer
+from qgis.core import QgsColorRampShader, QgsRasterShader, QgsSingleBandPseudoColorRenderer, QgsPoint, QgsRaster
 
 from ThreadedRasterInterp import ThreadDataInterp
 from UseCommunication import Communicate
@@ -25,6 +25,8 @@ from file_Import import FileImport
 from file_export import FileExport
 from help_dialog import HelpDialog
 from importexport_dialog import ImportExportDialog
+
+from copy import deepcopy
 # Initialize Qt resources from file resources.py
 # import resources
 # Import the code for the dialog
@@ -277,16 +279,18 @@ class mainPlug:
 
         NIRpattern = re.compile(r"NIR", re.IGNORECASE)
         REDpattern = re.compile(r"RED", re.IGNORECASE)
-
+        BLUEpattern = re.compile(r"BLUE", re.IGNORECASE)
+        GREENpattern = re.compile(r"GREEN", re.IGNORECASE)
         fIO = FileImport()
         fIO2 = FileImport()
-
+        fIO3 = FileImport()
         fOut = FileExport()
 
         fileIn = FileImport()
         diag = self.DialogStore[3]
         diag.show()
 
+        sort = []
         result = diag.exec_()
 
         a = RasterManip(iface=self.iface)
@@ -294,45 +298,120 @@ class mainPlug:
         if result:
             result = diag.get_text()
             result2 = diag.get_text2()
+            result3 = diag.get_text3()
 
             fIO.file_input(result)
             self.com.log("File Input Result {0} | {1}".format(fIO.filePath, fIO.baseName), 0)
-
             if result2 != '':
-                self.com.log("Input contains 2 Inputs, Doing Raster Calculator", 0)
                 fIO2.file_input(result2)
+                self.com.log("File Input Result {0} | {1}".format(fIO2.filePath, fIO2.baseName), 0)
+                if diag.get_calc() == "ENVDI":
+                    if result3 != '':
+                        fIO3.file_input(result3)
+                        self.com.log("File Input Result {0} | {1}".format(fIO3.filePath, fIO3.baseName), 0)
 
-                if NIRpattern.search(fIO.baseName) is not None:
-                    if REDpattern.search(fIO2.baseName) is not None:
-                        a.Processing_ndvi_calc(fIO.rLayer, fIO2.rLayer, diag.exportText)
-                elif REDpattern.search(fIO.baseName) is not None:
-                    if NIRpattern.search(fIO2.baseName) is not None:
-                        a.Processing_ndvi_calc(fIO2.rLayer, fIO.rLayer, diag.exportText)
+                        sort_old = [fIO, fIO2, fIO3]
+                        for i in sort_old:
+                            if NIRpattern.search(i.baseName) is not None:
+                                sort.append(None)
+                                sort[0] = i
+                            if GREENpattern.search(i.baseName) is not None:
+                                sort.append(None)
+                                sort[1] = i
+                            if BLUEpattern.search(i.baseName) is not None:
+                                sort.append(None)
+                                sort[2] = i
+
+                        if len(sort) != 3:
+                            self.com.error(
+                                String="One of the Files is not labeled correctly, please Fix this and Rerun the program",
+                                level=2)
+                            return 0
+                        else:
+                            a.RasterCalcMulti_NDVI(rLayer1=sort[0].rLayer, rLayer2=sort[1].rLayer,
+                                                   rLayer3=sort[2].rLayer,
+                                                   path=diag.exportText, calctype="ENVDI")
+
                 else:
-                    self.com.log("Double Pattern set Mismatch", level=0)
-                    self.com.error(Bold="File Name Error:",
-                                   String="Please label the files NIR and RED respectively (See help for Details)",
-                                   level=2)
+                    if diag.get_calc() == "NDVI":
+
+                        sort_old = [fIO, fIO2]
+                        for i in sort_old:
+                            if NIRpattern.search(i.baseName) is not None:
+                                sort.append(None)
+                                sort[0] = i
+                            if REDpattern.search(i.baseName) is not None:
+                                sort.append(None)
+                                sort[1] = i
+
+                        if len(sort) != 2:
+                            self.com.error(
+                                String="One of the Files is not labeled correctly, please Fix this and Rerun the program",
+                                level=2)
+                            return 0
+                        else:
+                            a.RasterCalcMulti_NDVI(rLayer1=sort[0].rLayer, rLayer2=sort[1].rLayer, path=diag.exportText,
+                                                   calctype="NDVI")
+
+                    elif diag.get_calc() == "bNDVI":
+                        sort_old = [fIO, fIO2]
+                        for i in sort_old:
+                            if NIRpattern.search(i.baseName) is not None:
+                                sort.append(None)
+                                sort[0] = i
+                            if BLUEpattern.search(i.baseName) is not None:
+                                sort.append(None)
+                                sort[1] = i
+                        if len(sort) != 2:
+                            self.com.error(
+                                String="One of the Files is not labeled correctly, please Fix this and Rerun the program",
+                                level=2)
+                            return 0
+                        else:
+                            a.RasterCalcMulti_NDVI(rLayer1=sort[0].rLayer, rLayer2=sort[1].rLayer, path=diag.exportText,
+                                                   calctype="bNDVI")
             else:
-                q = ThreadDataInterp(iface=self.iface, rLayer=fIO.rLayer)
-                rec = q.ProcessrLayer()
-                self.outputSet = a.do_ndvi_calc(DataSet=rec)
-
+                if diag.get_calc() == "ENDVI":
+                    testTuple = fIO.rLayer.dataProvider().identify(QgsPoint(400, 400), QgsRaster.IdentifyFormatValue)
+                    self.com.log(String=str(testTuple.results()), level=0)
+                    #if testTuple.results().get(3) is not None:
+                    a.RasterCalcMulti_NDVI(calctype="ENDVI", rLayer1=fIO.rLayer, rLayer2=fIO.rLayer,
+                                               rLayer3=fIO.rLayer, r1Band=1, r2Band=2, r3Band=3, path=diag.exportText)
+                    #else:
+                    #    self.com.error("RASTER DOES NOT CONTAIN THE CORRECT BANDS", level=2)
+                elif diag.get_calc() == "bNDVI":
+                    testTuple = fIO.rLayer.dataProvider().identify(QgsPoint(400, 400), QgsRaster.IdentifyFormatValue)
+                    if testTuple.results().get(2) is not None:
+                        a.RasterCalcMulti_NDVI(calctype="bNDVI", rLayer1=fIO.rLayer, rLayer2=fIO.rLayer, r1Band=1,
+                                               r2Band=2, path=diag.exportText)
+                    else:
+                        self.com.error("RASTER DOES NOT CONTAIN THE CORRECT BANDS", level=2)
+                elif diag.get_calc() == "NDVI":
+                    testTuple = fIO.rLayer.dataProvider().identify(QgsPoint(400, 400), QgsRaster.IdentifyFormatValue)
+                    if testTuple.results().get(2) is not None:
+                        a.RasterCalcMulti_NDVI(calctype="NDVI", rLayer1=fIO.rLayer, rLayer2=fIO.rLayer, r1Band=1,
+                                               r2Band=2, path=diag.exportText)
+                    else:
+                        self.com.error("RASTER DOES NOT CONTAIN THE CORRECT BANDS", level=2)
             fileIn.file_input(diag.exportText)
-            k = self.iface.addRasterLayer(fileIn.filePath, fIO.baseName)
+            self.Color(fileIn)
+        else:
+            self.com.error(String="NO RESULT", level=2)
 
-            # TODO: Put this in a separate class
-            fcn = QgsColorRampShader()
-            fcn.setColorRampType(QgsColorRampShader.INTERPOLATED)
-            color_list = [QgsColorRampShader.ColorRampItem(-1, QColor(255, 0, 0)),
-                          QgsColorRampShader.ColorRampItem(1, QColor(0, 255, 0))]
-            fcn.setColorRampItemList(color_list)
+    def Color(self, file):
 
-            shader = QgsRasterShader()
-            shader.setRasterShaderFunction(fcn)
+        k = self.iface.addRasterLayer(file.filePath, file.baseName)
+        fcn = QgsColorRampShader()
+        fcn.setColorRampType(QgsColorRampShader.INTERPOLATED)
+        color_list = [QgsColorRampShader.ColorRampItem(-1, QColor(255, 0, 0)),
+                      QgsColorRampShader.ColorRampItem(1, QColor(0, 255, 0))]
+        fcn.setColorRampItemList(color_list)
 
-            renderer = QgsSingleBandPseudoColorRenderer(k.dataProvider(), 1, shader)
-            k.setRenderer(renderer)
+        shader = QgsRasterShader()
+        shader.setRasterShaderFunction(fcn)
+
+        renderer = QgsSingleBandPseudoColorRenderer(k.dataProvider(), 1, shader)
+        k.setRenderer(renderer)
 
     def run_help(self):
         self.DialogStore[4].show()
