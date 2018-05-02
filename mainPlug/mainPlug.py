@@ -374,10 +374,10 @@ class mainPlug:
                 if diag.get_calc() == "ENDVI":
                     testTuple = fIO.rLayer.dataProvider().identify(QgsPoint(400, 400), QgsRaster.IdentifyFormatValue)
                     self.com.log(String=str(testTuple.results()), level=0)
-                    #if testTuple.results().get(3) is not None:
+                    # if testTuple.results().get(3) is not None:
                     a.RasterCalcMulti_NDVI(calctype="ENDVI", rLayer1=fIO.rLayer, rLayer2=fIO.rLayer,
-                                               rLayer3=fIO.rLayer, r1Band=1, r2Band=2, r3Band=3, path=diag.exportText)
-                    #else:
+                                           rLayer3=fIO.rLayer, r1Band=1, r2Band=2, r3Band=3, path=diag.exportText)
+                    # else:
                     #    self.com.error("RASTER DOES NOT CONTAIN THE CORRECT BANDS", level=2)
                 elif diag.get_calc() == "bNDVI":
                     testTuple = fIO.rLayer.dataProvider().identify(QgsPoint(400, 400), QgsRaster.IdentifyFormatValue)
@@ -398,13 +398,13 @@ class mainPlug:
         else:
             self.com.error(String="NO RESULT", level=2)
 
-    def Color(self, file):
+    def Color(self, file, Min=-1, Max=1):
 
         k = self.iface.addRasterLayer(file.filePath, file.baseName)
         fcn = QgsColorRampShader()
         fcn.setColorRampType(QgsColorRampShader.INTERPOLATED)
-        color_list = [QgsColorRampShader.ColorRampItem(-1, QColor(255, 0, 0)),
-                      QgsColorRampShader.ColorRampItem(1, QColor(0, 255, 0))]
+        color_list = [QgsColorRampShader.ColorRampItem(Min, QColor(255, 0, 0)),
+                      QgsColorRampShader.ColorRampItem(Max, QColor(0, 255, 0))]
         fcn.setColorRampItemList(color_list)
 
         shader = QgsRasterShader()
