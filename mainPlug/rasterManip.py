@@ -96,19 +96,18 @@ class RasterManip:
 
         a.processCalculation()
 
-
-    def RasterCalcMulti_NDVI(self, rLayer1, path, calctype, rLayer2=None, r1Band=None, r2Band=None, rLayer3=None, r3Band=None):
+    def RasterCalcMulti_NDVI(self, rLayer1, path, calctype, rLayer2=None,
+                            r1Band=None, r2Band=None, rLayer3=None, r3Band=None):
         """
         Calculate any type of NDVI like Calculation from various types of Cameras be they: Multi output, NGB, RGB, NR
+        :param r1Band: first Raster Layer Band number
+        :param rLayer3: third rLayer object
+        :param r3Band: third Raster band
         :param rLayer1: first rLayer object
         :param path: path to Output
         :param calctype: Calculation to perform
         :param rLayer2: second rLayer object
-        :param r1Band1: band number
-        :param r1Band2: band number
         :param r2Band: band Number
-        :param band3: band number
-        :param band3rLayer: Which rLayer contains the 3rd band
         :return: None
         """
         """
