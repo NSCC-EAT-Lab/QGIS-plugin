@@ -97,7 +97,7 @@ class RasterManip:
         a.processCalculation()
 
     def RasterCalcMulti_NDVI(self, rLayer1, path, calctype, rLayer2=None,
-                            r1Band=None, r2Band=None, rLayer3=None, r3Band=None):
+                            r1Band=1, r2Band=1, rLayer3=None, r3Band=1):
         """
         Calculate any type of NDVI like Calculation from various types of Cameras be they: Multi output, NGB, RGB, NR
         :param r1Band: first Raster Layer Band number
@@ -138,12 +138,8 @@ class RasterManip:
             r1.bandNumber = 1
         if rLayer2 is not None:
             r2.raster = rLayer2
-            if r2Band is None:
-                r2.bandNumber = 1
         if rLayer3 is not None:
             r3.raster = rLayer3
-            if r3Band is None:
-                r3.bandNumber = 1
 
         entries = []
 

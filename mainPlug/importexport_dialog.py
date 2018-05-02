@@ -41,6 +41,7 @@ class ImportExportDialog(QtGui.QDialog, FORM_CLASS):
         self.text = ''
         self.text2 = ''
         self.text3 = ''
+        self.calc = ''
         self.exportText = ''
 
     def selectFile(self):
@@ -68,6 +69,7 @@ class ImportExportDialog(QtGui.QDialog, FORM_CLASS):
         self.text = self.FilePath.text()
         self.text2 = self.FilePath_3.text()
         self.text3 = self.FilePath_4.text()
+        self.calc = self.CalcBox.currentText()
         self.exportText = self.FilePath_2.text()
 
     def get_text(self):
@@ -83,11 +85,15 @@ class ImportExportDialog(QtGui.QDialog, FORM_CLASS):
         :return: Text2 - str
         """
         return self.text2
+
     def get_text3(self):
         return self.text3
 
     def get_export(self):
         return self.exportText
+
+    def get_calc(self):
+        return self.calc
 
     def handle_Combobox(self):
         if self.CalcBox.currentText() == "NDVI":
