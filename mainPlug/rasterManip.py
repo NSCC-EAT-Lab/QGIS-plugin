@@ -1,12 +1,13 @@
 from qgis.analysis import QgsRasterCalculator, QgsRasterCalculatorEntry
 from qgis.core import QgsPoint, QgsRaster
+from UseCommunication import Communicate
 
 """
     NDVI = (NIR - Red) / (NIR + RED)
-    
-    Per pixel Calculation on two layers
-    
-    Color Ramp based on the Calculated pixel.
+     
+    Per pixel Calculation on two layers 
+     
+    Color Ramp based on the Calculated pixel. 
 """
 import gc
 
@@ -16,6 +17,7 @@ class RasterManip:
     def __init__(self, iface):
 
         self.iface = iface
+        self.com = Communicate(self.iface)
 
     def return_dataset(self, X, Y, rLayer):
         """
@@ -93,3 +95,86 @@ class RasterManip:
         a = QgsRasterCalculator(expression, path, 'GTiff', rLayer1.extent(), rLayer1.width(), rLayer1.height(), entries)
 
         a.processCalculation()
+
+
+    def RasterCalcMulti_NDVI(self, rLayer1, path, calctype, rLayer2=None, r1Band=None, r2Band=None, rLayer3=None, r3Band=None):
+        """
+        Calculate any type of NDVI like Calculation from various types of Cameras be they: Multi output, NGB, RGB, NR
+        :param rLayer1: first rLayer object
+        :param path: path to Output
+        :param calctype: Calculation to perform
+        :param rLayer2: second rLayer object
+        :param r1Band1: band number
+        :param r1Band2: band number
+        :param r2Band: band Number
+        :param band3: band number
+        :param band3rLayer: Which rLayer contains the 3rd band
+        :return: None
+        """
+        """
+        TODO: Add support for Multiple different Raster types, be they Single Raster (Of NGB, RGB or otherwise) or Multiraster
+        
+        https://maxmax.com/ndv_historyi.htm
+        
+        Implement NDVI Red
+        NDVI blue
+         and ENDVI (Enhanced NDVI)
+        """
+        path = path
+        r1 = QgsRasterCalculatorEntry()
+        r2 = QgsRasterCalculatorEntry()
+        r3 = QgsRasterCalculatorEntry()
+
+        # Do variable creation
+        # TODO: Fix this, it's spaghetti AF
+        r1.raster = rLayer1
+        r1.bandNumber = r1Band
+        r2.bandNumber = r2Band
+        r3.bandNumber = r3Band
+        r1.ref = 'Input1@1'
+        r2.ref = 'Input2@1'
+        r3.ref = 'Input3@1'
+
+        if r1Band is None:
+            r1.bandNumber = 1
+        if rLayer2 is not None:
+            r2.raster = rLayer2
+            if r2Band is None:
+                r2.bandNumber = 1
+        if rLayer3 is not None:
+            r3.raster = rLayer3
+            if r3Band is None:
+                r3.bandNumber = 1
+
+        entries = []
+
+        if calctype is None:
+            self.com.error(String="Calctype None", level=2)
+        elif calctype == "NDVI":
+            # This assumes that that rLayer1 is N and rLayer2 is R
+            entries.append(r1)
+            entries.append(r2)
+            expression = "(\"{0}\"-\"{1}\")/(\"{2}\"+\"{3}\")".format(r1.ref, r2.ref, r1.ref, r2.ref)
+            a = QgsRasterCalculator(expression, path, 'GTiff', rLayer1.extent(), rLayer1.width(), rLayer1.height(),
+                                    entries)
+            a.processCalculation()
+        elif calctype == "bNDVI":
+            # This assumes that rLayer1 in N and rLayer2 is B
+            entries.append(r1)
+            entries.append(r2)
+            expression = "(\"{0}\"-\"{1}\")/(\"{2}\"+\"{3}\")".format(r1.ref, r2.ref, r1.ref, r2.ref)
+            a = QgsRasterCalculator(expression, path, 'GTiff', rLayer1.extent(), rLayer1.width(), rLayer1.height(),
+                                    entries)
+            a.processCalculation()
+        elif calctype == "ENDVI":
+            # This assumes that rLayer1 is N, rLayer2 is Green and rLayer3 is Blue
+            entries.append(r1)
+            entries.append(r2)
+            entries.append(r3)
+            expression = "((\"{0}\"+\"{1}\")-(2*\"{2}\"))/((\"{0}\"+\"{1}\")+(2*\"{2}\"))".format(r1.ref, r2.ref, r3.ref
+                                                                                                  )
+            a = QgsRasterCalculator(expression, path, 'GTiff', rLayer1.extent(), rLayer1.width(), rLayer1.height(),
+                                    entries)
+            a.processCalculation()
+        else:
+            self.com.error(Bold="CalcType Error", String="Unrecognized calctype", level=2)
