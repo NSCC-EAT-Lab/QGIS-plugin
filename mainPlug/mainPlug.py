@@ -16,7 +16,7 @@ import re
 
 from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication
 from PyQt4.QtGui import QAction, QIcon, QColor
-from qgis.core import QgsColorRampShader, QgsRasterShader, QgsSingleBandPseudoColorRenderer, QgsPoint, QgsRaster
+from qgis.core import QgsColorRampShader, QgsRasterShader, QgsSingleBandPseudoColorRenderer, QgsPoint, QgsRaster, QgsRasterBandStats
 
 from ThreadedRasterInterp import ThreadDataInterp
 from UseCommunication import Communicate
@@ -25,6 +25,7 @@ from file_Import import FileImport
 from file_export import FileExport
 from help_dialog import HelpDialog
 from importexport_dialog import ImportExportDialog
+from CsvImport_Dialog import CsvInputdialog
 
 from copy import deepcopy
 # Initialize Qt resources from file resources.py
@@ -210,11 +211,19 @@ class mainPlug:
         )
         self.add_action(
             icon_path,
+            store_val=5,
+            text=self.tr(u'Plot Soil data'),
+            callback=self.run_csvInput,
+            dialog=CsvInputdialog()
+        )
+        self.add_action(
+            icon_path,
             store_val=4,
             text=self.tr(u'Help'),
             callback=self.run_help,
             dialog=HelpDialog()
         )
+
 
         self.com.log("Add_Action: Calculate NDVI", 0)
 
@@ -240,6 +249,15 @@ class mainPlug:
         if result:
             # Do something useful here - delete the line containing pass and
             # substitute with your code.
+            pass
+
+    def run_csvInput(self):
+        self.DialogStore[5].show()
+
+        result = self.DialogStore[5].exec_()
+
+        if result:
+
             pass
 
     def run_file_input(self):
@@ -274,6 +292,7 @@ class mainPlug:
     def run_calc_ndvi(self):
         """
         Handle the NDVI Calc Window Sending the values to where they're needed and Exporting the final result to disk
+
         :return:
         """
 
@@ -372,39 +391,41 @@ class mainPlug:
                                                    calctype="bNDVI")
             else:
                 if diag.get_calc() == "ENDVI":
-                    testTuple = fIO.rLayer.dataProvider().identify(QgsPoint(400, 400), QgsRaster.IdentifyFormatValue)
-                    self.com.log(String=str(testTuple.results()), level=0)
-                    #if testTuple.results().get(3) is not None:
-                    a.RasterCalcMulti_NDVI(calctype="ENDVI", rLayer1=fIO.rLayer, rLayer2=fIO.rLayer,
-                                               rLayer3=fIO.rLayer, r1Band=1, r2Band=2, r3Band=3, path=diag.exportText)
-                    #else:
-                    #    self.com.error("RASTER DOES NOT CONTAIN THE CORRECT BANDS", level=2)
+                    try:
+                        a.RasterCalcMulti_NDVI(calctype="ENDVI", rLayer1=fIO.rLayer, rLayer2=fIO.rLayer,
+                                            rLayer3=fIO.rLayer, r1Band=1, r2Band=2, r3Band=3, path=diag.exportText)
+                    except:
+                        self.com.error(
+                            String="An Error Occured upon Execution, Verify that the Input files are correct", level=2)
                 elif diag.get_calc() == "bNDVI":
-                    testTuple = fIO.rLayer.dataProvider().identify(QgsPoint(400, 400), QgsRaster.IdentifyFormatValue)
-                    if testTuple.results().get(2) is not None:
+                    try:
                         a.RasterCalcMulti_NDVI(calctype="bNDVI", rLayer1=fIO.rLayer, rLayer2=fIO.rLayer, r1Band=1,
                                                r2Band=2, path=diag.exportText)
-                    else:
-                        self.com.error("RASTER DOES NOT CONTAIN THE CORRECT BANDS", level=2)
+                    except:
+                        self.com.error(
+                            String="An Error Occured upon Execution, Verify that the Input files are correct", level=2)
                 elif diag.get_calc() == "NDVI":
-                    testTuple = fIO.rLayer.dataProvider().identify(QgsPoint(400, 400), QgsRaster.IdentifyFormatValue)
-                    if testTuple.results().get(2) is not None:
+                    try:
                         a.RasterCalcMulti_NDVI(calctype="NDVI", rLayer1=fIO.rLayer, rLayer2=fIO.rLayer, r1Band=1,
                                                r2Band=2, path=diag.exportText)
-                    else:
-                        self.com.error("RASTER DOES NOT CONTAIN THE CORRECT BANDS", level=2)
+                    except:
+                        self.com.error(
+                            String="An Error Occured upon Execution, Verify that the Input files are correct", level=2)
             fileIn.file_input(diag.exportText)
             self.Color(fileIn)
         else:
             self.com.error(String="NO RESULT", level=2)
 
     def Color(self, file):
-
         k = self.iface.addRasterLayer(file.filePath, file.baseName)
+        stats = k.dataProvider().bandStatistics(1, QgsRasterBandStats.All, k.extent(), 0)
+        Min = stats.minimumValue
+        Max = stats.maximumValue
+        self.com.log("Color func: [Min val: {0} | Max val: {1}".format(str(Min), str(Max)), level=0)
         fcn = QgsColorRampShader()
         fcn.setColorRampType(QgsColorRampShader.INTERPOLATED)
-        color_list = [QgsColorRampShader.ColorRampItem(-1, QColor(255, 0, 0)),
-                      QgsColorRampShader.ColorRampItem(1, QColor(0, 255, 0))]
+        color_list = [QgsColorRampShader.ColorRampItem(Min, QColor(255, 0, 0)),
+                      QgsColorRampShader.ColorRampItem(Max, QColor(0, 255, 0))]
         fcn.setColorRampItemList(color_list)
 
         shader = QgsRasterShader()
