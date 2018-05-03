@@ -252,13 +252,19 @@ class mainPlug:
             pass
 
     def run_csvInput(self):
-        self.DialogStore[5].show()
+        from DataParse import IOParse
+        diag = self.DialogStore[5]
 
-        result = self.DialogStore[5].exec_()
+        diag.show()
+
+        result = diag.exec_()
 
         if result:
+            result = diag.get_text()
 
-            pass
+            a = IOParse(result, self.iface)
+            a.ReadFile()
+
 
     def run_file_input(self):
         """
