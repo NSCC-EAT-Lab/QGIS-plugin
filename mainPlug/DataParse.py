@@ -71,6 +71,28 @@ class IOParse:
         # TODO: Add in smart deliminator and Decimal assignment, NOTE regex might not work due to this being a bit more complex
         fPath = 'file:///%s?crs=%s&delimiter=%s&xField=%s&yField=%s&decimal=%s' % (self.path, 'EPSG:4326', ',',
                                                                                    'Longitude', 'Latitude', '.')
+
+        file = open(self.path, 'r')
+        CommaSep = re.compile("\w*(\,)", re.IGNORECASE)
+        decimal = re.compile("\d(\.)", re.IGNORECASE)
+        issue = 0
+        try:
+            l1 = file.readline()
+            l2 = file.readline()
+            self.com.log(str(l1), level=0)
+            self.com.log(str(l2), level=0)
+            if CommaSep.match(l1) == '' or CommaSep.match(l1) is None:
+                issue = 1
+                raise IOError
+            if decimal.match(l2) == '' or decimal.match(l2) is None:
+                issue = 2
+                raise IOError
+        except IOError:
+            if issue == 1:
+                self.com.error(Bold="DataSampleError:", String="Soil sample data separator is not , (comma)", level=2, duration=6)
+            elif issue == 2:
+                self.com.error(Bold="DataSampleError:", String="Soil sample Data decimal mark is not . (Period)", level=2, duration=6)
+
         for idx, val in enumerate(self.ValueList):
             self.LayerList.append(QgsVectorLayer(fPath, val, "delimitedtext"))
 
@@ -79,6 +101,7 @@ class IOParse:
 
         # Get Layers
         p = QgsMapLayerRegistry.instance().mapLayers()
+
         Long = re.compile("Longitude", re.IGNORECASE)
         Lat = re.compile("Latitude", re.IGNORECASE)
         ID = re.compile("ID", re.IGNORECASE)
@@ -116,6 +139,6 @@ class IOParse:
             fcn.setColor2(QColor(random.randint(0, 100),random.randint(50, 255), random.randint(50, 255), 255))
 
             renderer.setColorRamp(fcn)
-            renderer.setRenderQuality(1) #Max out the quality
+            renderer.setRenderQuality(1) # Max out the quality
 
             val.setRendererV2(renderer)
