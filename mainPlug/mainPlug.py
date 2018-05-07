@@ -299,13 +299,14 @@ class mainPlug:
                     a.return_dataset(i, -j)
 
     def run_calc_ndvi(self):
+
+        #         Warning to any maintainers, This is super spaghetti... I'm sorry, may the lord have mercy on your soul
+        #         If you don't want things to explode, the horses don't go
+        #
+        #         If ye must pass I'll explain the best I can:
+        
         """
         Handle the NDVI Calc Window Sending the values to where they're needed and Exporting the final result to disk
-
-        Warning to any maintainers, This is super spaghetti... I'm sorry, may the lord have mercy on your soul
-        If you don't want things to explode, the horses don't go
-
-        If ye must pass I'll explain the best I can:
 
         This entire bit is to determine the files inputted and their respective bands, be they NIR, RED, BLUE or GREEN
         Using the names of the files, Clever List usage and some Regex, We pass the rLayers (Raster Layer objects) in
