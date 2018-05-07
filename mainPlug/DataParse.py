@@ -27,6 +27,10 @@ class IOParse:
         self.LayerList = []
 
     def ReadFile(self):
+        """
+        Read the CSV, Bringing it in to be worked on. Appending to a Value list for later work
+        :return:
+        """
         reader = csv.reader(self.csvFile)
         self.com.log(str(reader), level=0)
         """
