@@ -16,7 +16,8 @@ import re
 
 from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication
 from PyQt4.QtGui import QAction, QIcon, QColor
-from qgis.core import QgsColorRampShader, QgsRasterShader, QgsSingleBandPseudoColorRenderer, QgsPoint, QgsRaster, QgsRasterBandStats
+from qgis.core import QgsColorRampShader, QgsRasterShader, QgsSingleBandPseudoColorRenderer, QgsPoint, QgsRaster, \
+    QgsRasterBandStats
 
 from ThreadedRasterInterp import ThreadDataInterp
 from UseCommunication import Communicate
@@ -224,7 +225,6 @@ class mainPlug:
             dialog=HelpDialog()
         )
 
-
         self.com.log("Add_Action: Calculate NDVI", 0)
 
     def unload(self):
@@ -264,7 +264,6 @@ class mainPlug:
 
             a = IOParse(result, self.iface)
             a.ReadFile()
-
 
     def run_file_input(self):
         """
@@ -399,7 +398,7 @@ class mainPlug:
                 if diag.get_calc() == "ENDVI":
                     try:
                         a.RasterCalcMulti_NDVI(calctype="ENDVI", rLayer1=fIO.rLayer, rLayer2=fIO.rLayer,
-                                            rLayer3=fIO.rLayer, r1Band=1, r2Band=2, r3Band=3, path=diag.exportText)
+                                               rLayer3=fIO.rLayer, r1Band=1, r2Band=2, r3Band=3, path=diag.exportText)
                     except:
                         self.com.error(
                             String="An Error Occured upon Execution, Verify that the Input files are correct", level=2)

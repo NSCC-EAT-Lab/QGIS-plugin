@@ -49,7 +49,7 @@ class ImportExportDialog(QtGui.QDialog, FORM_CLASS):
         Open a file select dialog and set the path box to contain the file path
         :return:
         """
-        self.FilePath.setText(QtGui.QFileDialog.getOpenFileName())
+        self.FilePath.setText(QtGui.QFileDialog.getOpenFileName(self, "c:\\", "*.tif", "Any File(*.*);;Tiff (*.tif *.tiff);;"))
 
     def selectFile2(self):
         """
@@ -57,10 +57,10 @@ class ImportExportDialog(QtGui.QDialog, FORM_CLASS):
         :return:
         """
         # TODO: Compress this into one function
-        self.FilePath_3.setText(QtGui.QFileDialog.getOpenFileName())
+        self.FilePath_3.setText(QtGui.QFileDialog.getOpenFileName(self, "c:\\", "*.tif", "Any File(*.*);;Tiff (*.tif *.tiff);;"))
 
     def selectFile3(self):
-        self.FilePath_4.setText(QtGui.QFileDialog.getOpenFileName())
+        self.FilePath_4.setText(QtGui.QFileDialog.getOpenFileName(self, "c:\\", "*.tif", "Any File(*.*);;Tiff (*.tif *.tiff);;"))
 
     def selectExport(self):
         self.FilePath_2.setText(QtGui.QFileDialog.getSaveFileName(self, "c:\\", "*.tiff"))
