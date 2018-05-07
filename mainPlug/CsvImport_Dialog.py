@@ -38,10 +38,22 @@ class CsvInputdialog(QtGui.QDialog, FORM_CLASS):
         self.text2 = ''
 
     def selectFile(self):
+        """
+        Open a file select dialog and set the path box to contain the file path
+        :return:
+        """
         self.FilePath.setText(QtGui.QFileDialog.getOpenFileName(self, "c:\\", "*.txt", "Text files (.txt)"))
 
     def ret_path(self):
+        """
+        Update values upon Dialog exit (Through OK)
+        :return:
+        """
         self.text = self.FilePath.text()
 
     def get_text(self):
+        """
+        Get text from textbox 1
+        :return: Text - Str
+        """
         return self.text

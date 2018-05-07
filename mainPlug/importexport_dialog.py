@@ -23,7 +23,10 @@ FORM_CLASS, _ = uic.loadUiType(os.path.join(
 class ImportExportDialog(QtGui.QDialog, FORM_CLASS):
 
     def __init__(self, parent=None):
-        """Constructor."""
+        """
+        Create a dialog for importing and exporting in the specific NDVI case
+        :param parent: The window parent
+        """
         """ TODO: Allow both input fields to allow any of the two image to end up in the correct spot (Likely using regex or something to determine what band the image falls under)"""
         super(ImportExportDialog, self).__init__(parent)
         # Set up the user interface from Designer.
@@ -60,12 +63,24 @@ class ImportExportDialog(QtGui.QDialog, FORM_CLASS):
         self.FilePath_3.setText(QtGui.QFileDialog.getOpenFileName(self, "c:\\", "*.tif", "Any File(*.*);;Tiff (*.tif *.tiff);;"))
 
     def selectFile3(self):
+        """
+        Open Third File, Same as the selectFile
+        :return:
+        """
         self.FilePath_4.setText(QtGui.QFileDialog.getOpenFileName(self, "c:\\", "*.tif", "Any File(*.*);;Tiff (*.tif *.tiff);;"))
 
     def selectExport(self):
+        """
+        File path to export too, Similar to selectFile
+        :return:
+        """
         self.FilePath_2.setText(QtGui.QFileDialog.getSaveFileName(self, "c:\\", "*.tiff"))
 
     def ret_path(self):
+        """
+        Update values upon Dialog exit (Through OK)
+        :return:
+        """
         self.text = self.FilePath.text()
         self.text2 = self.FilePath_3.text()
         self.text3 = self.FilePath_4.text()
@@ -87,15 +102,31 @@ class ImportExportDialog(QtGui.QDialog, FORM_CLASS):
         return self.text2
 
     def get_text3(self):
+        """
+        Return Text from Textbox 3
+        :return:
+        """
         return self.text3
 
     def get_export(self):
+        """
+        Return Text from Export path box
+        :return: ExportText -str
+        """
         return self.exportText
 
     def get_calc(self):
+        """
+        Return the Calc Function being performed
+        :return:
+        """
         return self.calc
 
     def handle_Combobox(self):
+        """
+        Output User assistance text to Calc help corresponding to the calc type
+        :return:
+        """
         if self.CalcBox.currentText() == "NDVI":
             self.CalcHelp.setPlainText("NDVI is a calculation using Both the Near IR field and The visible Red Field\n"
                                        "To do this calculation the program requires either: Two Images, One In the Red Field (With the word \"Red\" in its name)"
