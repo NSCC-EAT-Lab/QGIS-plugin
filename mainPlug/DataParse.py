@@ -1,11 +1,11 @@
-
 import csv
-from UseCommunication import Communicate
-from qgis.core import QgsVectorLayer, QgsMapLayerRegistry, QgsHeatmapRenderer, QgsVectorGradientColorRampV2
-
-from PyQt4.QtGui import QColor
 import random
 import re
+
+from PyQt4.QtGui import QColor
+from qgis.core import QgsVectorLayer, QgsMapLayerRegistry, QgsHeatmapRenderer, QgsVectorGradientColorRampV2
+
+from UseCommunication import Communicate
 
 
 class IOParse:
@@ -51,7 +51,6 @@ class IOParse:
                 else:
                     FinalOutput[idx-1]"""
 
-
         readerVal = []
         for i in reader:
             readerVal.append(i)
@@ -89,9 +88,11 @@ class IOParse:
                 raise IOError
         except IOError:
             if issue == 1:
-                self.com.error(Bold="DataSampleError:", String="Soil sample data separator is not , (comma)", level=2, duration=6)
+                self.com.error(Bold="DataSampleError:", String="Soil sample data separator is not , (comma)", level=2,
+                               duration=6)
             elif issue == 2:
-                self.com.error(Bold="DataSampleError:", String="Soil sample Data decimal mark is not . (Period)", level=2, duration=6)
+                self.com.error(Bold="DataSampleError:", String="Soil sample Data decimal mark is not . (Period)",
+                               level=2, duration=6)
 
         for idx, val in enumerate(self.ValueList):
             self.LayerList.append(QgsVectorLayer(fPath, val, "delimitedtext"))
@@ -127,7 +128,6 @@ class IOParse:
 
         regex = re.compile("\n?(\D*)\d*\n?")
 
-
         for key, val in p.iteritems():
             renderer = QgsHeatmapRenderer()
             a = regex.match(key)
@@ -136,9 +136,9 @@ class IOParse:
 
             renderer.setWeightExpression(a.group(1))
             fcn.setColor1(QColor(255, 255, 255, 0))
-            fcn.setColor2(QColor(random.randint(0, 100),random.randint(50, 255), random.randint(50, 255), 255))
+            fcn.setColor2(QColor(random.randint(0, 100), random.randint(50, 255), random.randint(50, 255), 255))
 
             renderer.setColorRamp(fcn)
-            renderer.setRenderQuality(1) # Max out the quality
+            renderer.setRenderQuality(1)  # Max out the quality
 
             val.setRendererV2(renderer)

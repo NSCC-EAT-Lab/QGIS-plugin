@@ -104,15 +104,17 @@ class ImportExportDialog(QtGui.QDialog, FORM_CLASS):
             self.FilePath_4.setEnabled(False)
             self.FileSelect_4.setEnabled(False)
         elif self.CalcBox.currentText() == "bNDVI":
-            self.CalcHelp.setPlainText("bNDVI is a calculation using Both the Near IR field and The visible Blue Field\n"
-                                       "To do this calculation the program requires either: Two Images, One In the Blue Field (With the word \"Blue\" in its name)"
-                                       " And the other in the Near IR Field (With the word \"NIR\" In its name)\n"
-                                       "Or One Image with Both NearIR and Blue bands")
+            self.CalcHelp.setPlainText(
+                "bNDVI is a calculation using Both the Near IR field and The visible Blue Field\n"
+                "To do this calculation the program requires either: Two Images, One In the Blue Field (With the word \"Blue\" in its name)"
+                " And the other in the Near IR Field (With the word \"NIR\" In its name)\n"
+                "Or One Image with Both NearIR and Blue bands")
             self.FilePath_4.setEnabled(False)
             self.FileSelect_4.setEnabled(False)
         elif self.CalcBox.currentText() == "ENDVI":
-            self.CalcHelp.setPlainText("ENDVI (Enhanced NDVI) is a calculation in the Near IR Field, The Visible Green Field and the Visible Blue Field\n"
-                                       "To do this calculation the program requires Either: One image with all Three Bands or \n"
-                                       "Three images, each labeled with their respective bands (NIR, BLUE, GREEN")
+            self.CalcHelp.setPlainText(
+                "ENDVI (Enhanced NDVI) is a calculation in the Near IR Field, The Visible Green Field and the Visible Blue Field\n"
+                "To do this calculation the program requires Either: One image with all Three Bands or \n"
+                "Three images, each labeled with their respective bands (NIR, BLUE, GREEN")
             self.FilePath_4.setEnabled(True)
             self.FileSelect_4.setEnabled(True)
