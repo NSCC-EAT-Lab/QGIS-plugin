@@ -1,7 +1,7 @@
 
 import csv
 from UseCommunication import Communicate
-from qgis.core import QgsVectorLayer, QgsMapLayerRegistry, QgsHeatmapRenderer, QgsColorRampShader, QgsVectorGradientColorRampV2
+from qgis.core import QgsVectorLayer, QgsMapLayerRegistry, QgsHeatmapRenderer, QgsVectorGradientColorRampV2
 
 from PyQt4.QtGui import QColor
 import random
@@ -63,7 +63,14 @@ class IOParse:
         self.add_layer()
 
     def add_layer(self):
-        fPath = 'file:///%s?crs=%s&delimiter=%s&xField=%s&yField=%s&decimal=%s' % (self.path, 'EPSG:4326', ',', 'Longitude', 'Latitude', '.')
+        """
+        Add the Layers to the screen, This function assigns each layer to the screen and creates a Layer List to later match the layer weight
+
+        :return: None
+        """
+        # TODO: Add in smart deliminator and Decimal assignment, NOTE regex might not work due to this being a bit more complex
+        fPath = 'file:///%s?crs=%s&delimiter=%s&xField=%s&yField=%s&decimal=%s' % (self.path, 'EPSG:4326', ',',
+                                                                                   'Longitude', 'Latitude', '.')
         for idx, val in enumerate(self.ValueList):
             self.LayerList.append(QgsVectorLayer(fPath, val, "delimitedtext"))
 
@@ -86,6 +93,13 @@ class IOParse:
         self.color_layers()
 
     def color_layers(self):
+        """
+        Attempts to assign and color each layer after changing it's renderer to a heatmap renderer
+        NOTE: This uses a Random sequence for color grading
+
+        TODO: Update color grading to generally output more readable colors Possibly make higher values have more radius?
+        :return: None
+        """
         p = QgsMapLayerRegistry.instance().mapLayers()
 
         regex = re.compile("\n?(\D*)\d*\n?")
@@ -105,4 +119,3 @@ class IOParse:
             renderer.setRenderQuality(1) #Max out the quality
 
             val.setRendererV2(renderer)
-
