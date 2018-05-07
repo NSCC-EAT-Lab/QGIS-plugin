@@ -302,9 +302,10 @@ class mainPlug:
 
         #         Warning to any maintainers, This is super spaghetti... I'm sorry, may the lord have mercy on your soul
         #         If you don't want things to explode, the horses don't go
-        #
+        #         This is the best possible solution beyond doing if elif loops which would have been impossible
+        #          to maintain
         #         If ye must pass I'll explain the best I can:
-        
+
         """
         Handle the NDVI Calc Window Sending the values to where they're needed and Exporting the final result to disk
 
@@ -313,7 +314,7 @@ class mainPlug:
         the correct order for the actual NDVI calculation in rasterManip, taking into account the Calculation type that
         the user has given
 
-        This is the best possible solution beyond doing if elif loops which would have been impossible to maintain
+
 
         :return:
         """

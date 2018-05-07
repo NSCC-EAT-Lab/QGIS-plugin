@@ -7,6 +7,9 @@ from UseCommunication import Communicate
 class FileImport:
 
     def __init__(self):
+        """
+        Initialize the File Import Class
+        """
         self.com = Communicate()
         self.filePath = ''
         self.fileInfo = None

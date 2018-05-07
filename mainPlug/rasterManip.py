@@ -15,7 +15,10 @@ import gc
 class RasterManip:
 
     def __init__(self, iface):
-
+        """
+        The work horse of the NDVI calculations, named rasterManip due to it's older functions
+        :param iface: The iface passed in from mainPlug
+        """
         self.iface = iface
         self.com = Communicate(self.iface)
 
@@ -26,15 +29,6 @@ class RasterManip:
         :param Y: Y Co-Ordnate
         :return: The Tuple containing the values from the raster
         """
-        """
-            
-            TODO: Change this later to a more extendable format
-        """
-
-        """ 
-        This Outputs all of the Bands
-        Using a for loop, we can very easily check each point... though... How will we limit it's size?
-        """
         ident = rLayer.dataProvider().identify(QgsPoint(X, Y), QgsRaster.IdentifyFormatValue)
         if ident.isValid():
             return ident.results()
@@ -44,6 +38,8 @@ class RasterManip:
         """
         TODO: MAKE THIS CAPABLE OF TAKING TWO DATASETS AND SPITTING BACK OUT A NORMALIZED DATASET
         To per pixel Calculations to measure NDVI of 1 multiband image or two Single-band-grey images
+
+        DEPRECATED
         :param DataSet: Mandatory, Single or multiband image
         :param DataSet2: Optional, Singleband Image
         :return: Resulting Calculated NDVI normalized dataset
@@ -73,6 +69,13 @@ class RasterManip:
             return resul
 
     def Processing_ndvi_calc(self, rLayer1, rLayer2, path):
+        """
+        Older deprecated NDVI handler, This is simply the template for the monstrosity that the current one has become
+        :param rLayer1: rLayer 1 Object
+        :param rLayer2: rLayer 2 Object
+        :param path: Path to Output too
+        :return: None
+        """
 
         path = path
 
