@@ -214,7 +214,7 @@ class mainPlug:
             icon_path,
             store_val=5,
             text=self.tr(u'Plot Soil data'),
-            callback=self.run_csvInput,
+            callback=self.run_SoilSample,
             dialog=CsvInputdialog()
         )
         self.add_action(
@@ -251,7 +251,11 @@ class mainPlug:
             # substitute with your code.
             pass
 
-    def run_csvInput(self):
+    def run_SoilSample(self):
+        """
+        Run the CSV input dialog for Soil Sample input
+        :return:
+        """
         from DataParse import IOParse
         diag = self.DialogStore[5]
 
@@ -298,6 +302,18 @@ class mainPlug:
         """
         Handle the NDVI Calc Window Sending the values to where they're needed and Exporting the final result to disk
 
+        Warning to any maintainers, This is super spaghetti... I'm sorry, may the lord have mercy on your soul
+        If you don't want things to explode, the horses don't go
+
+        If ye must pass I'll explain the best I can:
+
+        This entire bit is to determine the files inputted and their respective bands, be they NIR, RED, BLUE or GREEN
+        Using the names of the files, Clever List usage and some Regex, We pass the rLayers (Raster Layer objects) in
+        the correct order for the actual NDVI calculation in rasterManip, taking into account the Calculation type that
+        the user has given
+
+        This is the best possible solution beyond doing if elif loops which would have been impossible to maintain
+
         :return:
         """
 
@@ -308,7 +324,6 @@ class mainPlug:
         fIO = FileImport()
         fIO2 = FileImport()
         fIO3 = FileImport()
-        fOut = FileExport()
 
         fileIn = FileImport()
         diag = self.DialogStore[3]
@@ -422,6 +437,11 @@ class mainPlug:
             self.com.error(String="NO RESULT", level=2)
 
     def Color(self, file):
+        """
+        Color the Inbound file (Essentially the File we JUST exported) and display it to screen)
+        :param file: The file that was just exported
+        :return: TO SCREEN Rendered Image
+        """
         k = self.iface.addRasterLayer(file.filePath, file.baseName)
         stats = k.dataProvider().bandStatistics(1, QgsRasterBandStats.All, k.extent(), 0)
         Min = stats.minimumValue
@@ -440,7 +460,15 @@ class mainPlug:
         k.setRenderer(renderer)
 
     def run_help(self):
+        """
+        Display Help Dialog
+        :return:
+        """
         self.DialogStore[4].show()
 
     def runabout(self):
+        """
+        Display the About page
+        :return:
+        """
         self.DialogStore[2].show()
