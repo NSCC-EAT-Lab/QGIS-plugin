@@ -9,6 +9,7 @@ class ThreadDataInterp(Thread):
     def __init__(self, iface, rLayer):
         """
         Process one Raster, returning the Dataset
+        THIS IS DEPRECATED
         :param iface: QGIS Iface
         :param rLayer: rLayer object to Process
         """

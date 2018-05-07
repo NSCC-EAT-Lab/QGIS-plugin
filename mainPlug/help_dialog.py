@@ -23,7 +23,10 @@ FORM_CLASS, _ = uic.loadUiType(os.path.join(
 
 class HelpDialog(QtGui.QDialog, FORM_CLASS):
     def __init__(self, parent=None):
-        """Constructor."""
+        """
+        Setup the Help Dialog
+        :param parent:
+        """
         super(HelpDialog, self).__init__(parent)
         # Set up the user interface from Designer.
         # After setupUI you can access any designer object by doing

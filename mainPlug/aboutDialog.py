@@ -26,7 +26,10 @@ FORM_CLASS, _ = uic.loadUiType(os.path.join(
 
 class AboutDialog(QtGui.QDialog, FORM_CLASS):
     def __init__(self, parent=None):
-        """Constructor."""
+        """
+        Create the About Dialog
+        :param parent:
+        """
         super(AboutDialog, self).__init__(parent)
         # Set up the user interface from Designer.
         # After setupUI you can access any designer object by doing

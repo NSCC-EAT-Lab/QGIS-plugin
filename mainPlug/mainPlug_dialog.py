@@ -22,7 +22,10 @@ FORM_CLASS, _ = uic.loadUiType(os.path.join(
 
 class mainPlugDialog(QtGui.QDialog, FORM_CLASS):
     def __init__(self, parent=None):
-        """Constructor."""
+        """
+        This is an Error Screen, Create the error screen
+        :param parent:
+        """
         super(mainPlugDialog, self).__init__(parent)
         # Set up the user interface from Designer.
         # After setupUI you can access any designer object by doing

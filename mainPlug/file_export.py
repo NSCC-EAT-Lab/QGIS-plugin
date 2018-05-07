@@ -4,6 +4,9 @@ from UseCommunication import Communicate
 class FileExport:
 
     def __init__(self):
+        """
+        Export a file as an ASCII tif
+        """
         self.com = Communicate()
         self.filePath = ''
         self.ExportX = 0
