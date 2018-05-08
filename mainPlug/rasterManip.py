@@ -126,7 +126,7 @@ class RasterManip:
         r1 = QgsRasterCalculatorEntry()
         r2 = QgsRasterCalculatorEntry()
         r3 = QgsRasterCalculatorEntry()
-
+        exporttype = "GTiff"
         # Do variable creation
         # TODO: Fix this, it's spaghetti AF
         r1.raster = rLayer1
@@ -153,7 +153,7 @@ class RasterManip:
             entries.append(r1)
             entries.append(r2)
             expression = "(\"{0}\"-\"{1}\")/(\"{2}\"+\"{3}\")".format(r1.ref, r2.ref, r1.ref, r2.ref)
-            a = QgsRasterCalculator(expression, path, 'GTiff', rLayer1.extent(), rLayer1.width(), rLayer1.height(),
+            a = QgsRasterCalculator(expression, path, exporttype, rLayer1.extent(), rLayer1.width(), rLayer1.height(),
                                     entries)
             a.processCalculation()
         elif calctype == "bNDVI":
@@ -161,7 +161,7 @@ class RasterManip:
             entries.append(r1)
             entries.append(r2)
             expression = "(\"{0}\"-\"{1}\")/(\"{2}\"+\"{3}\")".format(r1.ref, r2.ref, r1.ref, r2.ref)
-            a = QgsRasterCalculator(expression, path, 'GTiff', rLayer1.extent(), rLayer1.width(), rLayer1.height(),
+            a = QgsRasterCalculator(expression, path, exporttype, rLayer1.extent(), rLayer1.width(), rLayer1.height(),
                                     entries)
             a.processCalculation()
         elif calctype == "ENDVI":
@@ -171,7 +171,7 @@ class RasterManip:
             entries.append(r3)
             expression = "((\"{0}\"+\"{1}\")-(2*\"{2}\"))/((\"{0}\"+\"{1}\")+(2*\"{2}\"))".format(r1.ref, r2.ref, r3.ref
                                                                                                   )
-            a = QgsRasterCalculator(expression, path, 'GTiff', rLayer1.extent(), rLayer1.width(), rLayer1.height(),
+            a = QgsRasterCalculator(expression, path, exporttype, rLayer1.extent(), rLayer1.width(), rLayer1.height(),
                                     entries)
             a.processCalculation()
         else:

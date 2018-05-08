@@ -9,7 +9,7 @@ class Communicate():
 
     def log(self, String, level):
         """
-        Log a Message
+        Log an internal message using Qgis's log function
         :param String: Message you wish to log
         :param level: Message Importance (0-2 | 0=Info | 1=Warning | 2=Critical)
         :return: None
@@ -26,7 +26,7 @@ class Communicate():
 
     def error(self, String, level, Bold=None, duration=None):
         """
-        Display an Message Bar on the QGIS Screen
+        Display an Message Bar on the QGIS Screen, Used internally for Ease of logging.
         :param String: Message you wish to display
         :param level: Message Importance/Severity (0-2 | 0=Info | 1=Warning | 2=Critical)
         :param Bold: The Bold text displayed (If none it defaults to the Message Severity)
