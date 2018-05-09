@@ -16,19 +16,15 @@ import re
 
 from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication
 from PyQt4.QtGui import QAction, QIcon, QColor
-from qgis.core import QgsColorRampShader, QgsRasterShader, QgsSingleBandPseudoColorRenderer, QgsPoint, QgsRaster, \
-    QgsRasterBandStats
+from qgis.core import QgsColorRampShader, QgsRasterShader, QgsSingleBandPseudoColorRenderer, QgsRasterBandStats, \
+    QgsRasterFileWriter, QgsRasterPipe
 
-from ThreadedRasterInterp import ThreadDataInterp
+from CsvImport_Dialog import CsvInputdialog
 from UseCommunication import Communicate
 from aboutDialog import AboutDialog
 from file_Import import FileImport
-from file_export import FileExport
 from help_dialog import HelpDialog
 from importexport_dialog import ImportExportDialog
-from CsvImport_Dialog import CsvInputdialog
-
-from copy import deepcopy
 # Initialize Qt resources from file resources.py
 # import resources
 # Import the code for the dialog
@@ -445,6 +441,7 @@ class mainPlug:
         :return: TO SCREEN Rendered Image
         """
         k = self.iface.addRasterLayer(file.filePath, file.baseName)
+        layername = file.baseName
         stats = k.dataProvider().bandStatistics(1, QgsRasterBandStats.All, k.extent(), 0)
         Min = stats.minimumValue
         Max = stats.maximumValue
@@ -460,6 +457,23 @@ class mainPlug:
 
         renderer = QgsSingleBandPseudoColorRenderer(k.dataProvider(), 1, shader)
         k.setRenderer(renderer)
+
+        """
+        Export colored image to file
+        """
+        exportpath = file.filePath + ".colored.tif"
+        file_writer = QgsRasterFileWriter(exportpath)
+        pipe = QgsRasterPipe()
+        provide = k.dataProvider()
+
+        # Pipe Setter
+        if not pipe.set(provide.clone()):
+            self.com.error(Bold="PipeProviderError:", String="Cannot set pipe provider", level=1, duration=3)
+            self.com.log("mainPlug - Color: Pipe provider error on line 473, Continuing...", level=1)
+
+        self.com.log(str(pipe.renderer()), level=0)
+        pipe.set(renderer.clone())
+        file_writer.writeRaster(pipe, provide.xSize(), provide.ySize(), provide.extent(), provide.crs())
 
     def run_help(self):
         """
