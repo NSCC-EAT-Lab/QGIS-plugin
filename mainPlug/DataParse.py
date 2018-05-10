@@ -92,11 +92,13 @@ class IOParse:
                 raise IOError
         except IOError:
             if issue == 1:
-                self.com.error(Bold="DataSampleError:", String="Soil sample data separator is not , (comma)", level=2,
-                               duration=6)
+                pass
+                # self.com.error(Bold="DataSampleError:", String="Soil sample data separator is not , (comma)", level=2,
+                #                duration=6)
             elif issue == 2:
-                self.com.error(Bold="DataSampleError:", String="Soil sample Data decimal mark is not . (Period)",
-                               level=2, duration=6)
+                pass
+                # self.com.error(Bold="DataSampleError:", String="Soil sample Data decimal mark is not . (Period)",
+                #                level=2, duration=6)
 
         for idx, val in enumerate(self.ValueList):
             self.LayerList.append(QgsVectorLayer(fPath, val, "delimitedtext"))
