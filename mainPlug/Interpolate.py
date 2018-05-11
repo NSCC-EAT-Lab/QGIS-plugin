@@ -1,4 +1,4 @@
-from processing.core.Processing import Processing
+from processing.core.Processing import processing
 from processing.tools import *
 from UseCommunication import Communicate
 from qgis.core import QgsVectorLayer
@@ -8,7 +8,7 @@ from qgis.core import QgsVectorLayer
 
 class interp():
     def __init__(self, pointLayer, iface):
-        Processing.initialize()
+        # processing.initialize()
         self.iface = iface
         self.com = Communicate(self.iface)
         self.pLayer = pointLayer
@@ -39,10 +39,9 @@ class interp():
 
         # params = {"POINTS": iface.activeLayer(), "FIELD": iface.activeLayer().name(), "TQUALITY": 0, "LOG": False, "BLOCK": False,
         #            "DBLOCK": 1, "TARGET_USER_SIZE": 0.000001}
-        try:
-            processing.runalg(alg, params)
-        except:
-            self.com.log(String="Output Failed, Params:" + str(params), level=2)
+
+        processing.runalg(alg, params)
+
 
     def get_PredictionLayer(self):
         return self.PredictionLayer
