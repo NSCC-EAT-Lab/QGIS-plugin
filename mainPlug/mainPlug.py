@@ -494,12 +494,17 @@ class mainPlug:
         result = diag.exec_()
 
         if result:
-            mapLayers = QgsMapLayerRegistry.instance().mapLayers()
+            mapLayers = self.iface.mapCanvas().layers()
             if diag.retProcessallState() != False:
-                for i in mapLayers:
-                    a = interp(iface=self.iface, pointLayer=i)
-                    QgsMapLayerRegistry.instance().addMapLayer(a.VarianceLayer)
-                    QgsMapLayerRegistry.instance().addMapLayer(a.PredictionLayer)
+                for i, x in enumerate(mapLayers):
+                        print i," ",x
+                    # try:
+                        a = interp(iface=self.iface, pointLayer=x)
+                        a.run_Output()
+                        QgsMapLayerRegistry.instance().addMapLayer(a.VarianceLayer)
+                        QgsMapLayerRegistry.instance().addMapLayer(a.PredictionLayer)
+                    # except:
+                    #     self.com.error(String="Run_Krig Failed", level=2)
 
 
 
