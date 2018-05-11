@@ -12,8 +12,8 @@ class interp():
         self.iface = iface
         self.com = Communicate(self.iface)
         self.pLayer = pointLayer
-        self.PredictionLayer = QgsVectorLayer()
-        self.VarianceLayer = QgsVectorLayer()
+        self.PredictionLayer = ""
+        self.VarianceLayer = ""
 
     def run_Output(self):
 
@@ -26,6 +26,8 @@ class interp():
         xmax = ext.xMaximum()
         ymin = ext.yMinimum()
         ymax = ext.yMaximum()
+        self.PredictionLayer = str(self.pLayer.name() + "temp1.sdat")
+        self.VarianceLayer = str(self.pLayer.name() + "temp2.sdat")
 
         coords = "%f,%f,%f,%f" % (xmin, xmax, ymin, ymax)
 
