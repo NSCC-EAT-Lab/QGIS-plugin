@@ -1,86 +1,38 @@
 
 from processing.core.Processing import Processing
 from processing.tools import *
+from UseCommunication import Communicate
 
-from qgis.core import QgsPro
+
+# from qgis.core import QgsPro
 
 class interp():
-    def __init__(self, pointLayer):
+    def __init__(self, pointLayer, iface):
         Processing.initialize()
+        self.iface = iface
+        self.com = Communicate(self.iface)
         self.pLayer = pointLayer
 
 
     def run_Output(self):
+        alg = 'saga:simplekriging'
 
-        """
-        general.runalg('saga:simplekriging', iface.activeLayer(), "Sat_Mg", 1, 1, True,True,1, 1, 1, 1, "variance", 1000000, 1, 1, 10, 1, 0, 100, 1)
+        layer = self.pLayer
+        ext = layer.extent()
 
-        ALGORITHM: Simple kriging
-	POINTS <ParameterVector>
-	FIELD <parameters from POINTS>
-	TQUALITY <ParameterSelection>
-	LOG <ParameterBoolean>
-	BLOCK <ParameterBoolean>
-	DBLOCK <ParameterNumber>
-	VAR_MAXDIST <ParameterNumber>
-	VAR_NCLASSES <ParameterNumber>
-	VAR_NSKIP <ParameterNumber>
-	VAR_MODEL <ParameterString>
-	OUTPUT_EXTENT <ParameterExtent>
-	TARGET_USER_SIZE <ParameterNumber>
-	TARGET_USER_FITS <ParameterSelection>
-	SEARCH_RANGE <ParameterSelection>
-	SEARCH_RADIUS <ParameterNumber>
-	SEARCH_POINTS_ALL <ParameterSelection>
-	SEARCH_POINTS_MIN <ParameterNumber>
-	SEARCH_POINTS_MAX <ParameterNumber>
-	SEARCH_DIRECTION <ParameterSelection>
-	PREDICTION <OutputRaster>
-	VARIANCE <OutputRaster>
+        xmin = ext.xMinimum()
+        xmax = ext.xMaximum()
+        ymin = ext.yMinimum()
+        ymax = ext.yMaximum()
+
+        coords = "%f,%f,%f,%f" % (xmin, xmax, ymin, ymax)
+
+        params = {"POINTS": self.pLayer, "FIELD": self.pLayer.name(), "TQUALITY": 0, "LOG": False,
+                  "BLOCK": False,
+                  "DBLOCK": 1, "VAR_MAXDIST": -1, "VAR_NCLASSES": 100, "VAR_NSKIP": 1, "VAR_MODEL": "a+b*x",
+                  "OUTPUT_EXTENT": coords, "TARGET_USER_SIZE": 0.000001, "TARGET_USER_FITS": 0,
+                  "SEARCH_RANGE": 0, "SEARCH_RADIUS": 1000, "SEARCH_POINTS_ALL": 0, "SEARCH_POINTS_MIN": 4,
+                  "SEARCH_POINTS_MAX": 20, "SEARCH_DIRECTION": 0}
 
 
-TQUALITY(Type of Quality Measure)
-	0 - [0] standard deviation
-	1 - [1] variance
-TARGET_USER_FITS(Fit)
-	0 - [0] nodes
-	1 - [1] cells
-SEARCH_RANGE(Search Range)
-	0 - [0] local
-	1 - [1] global
-SEARCH_POINTS_ALL(Number of Points)
-	0 - [0] maximum number of nearest points
-	1 - [1] all points within search distance
-SEARCH_DIRECTION(Search Direction)
-	0 - [0] all directions
-	1 - [1] quadrants
-        :return:
-        """
-
-        # POINTS < ParameterVector >
-        # FIELD < parameters
-        # from POINTS >
-        # TQUALITY < ParameterSelection >
-        # LOG < ParameterBoolean >
-        # BLOCK < ParameterBoolean >
-        # DBLOCK < ParameterNumber >
-        # VAR_MAXDIST < ParameterNumber >
-        # VAR_NCLASSES < ParameterNumber >
-        # VAR_NSKIP < ParameterNumber >
-        # VAR_MODEL < ParameterString >
-        # OUTPUT_EXTENT < ParameterExtent >
-        # TARGET_USER_SIZE < ParameterNumber >
-        # TARGET_USER_FITS < ParameterSelection >
-        # SEARCH_RANGE < ParameterSelection >
-        # SEARCH_RADIUS < ParameterNumber >
-        # SEARCH_POINTS_ALL < ParameterSelection >
-        # SEARCH_POINTS_MIN < ParameterNumber >
-        # SEARCH_POINTS_MAX < ParameterNumber >
-        # SEARCH_DIRECTION < ParameterSelection >
-        # PREDICTION < OutputRaster >
-        # VARIANCE < OutputRaster >
-
-
-        # TESTING WITHIN THE PYTHON CONSOLE IN QGIS
-        # general.runalg('saga:simplekriging', iface.activeLayer(), iface.activeLayer().name(), 0, False, False, 1, -1, 100, 1, "a + b * x", iface.activeLayer().extent(), 0.000001, 1, 0, 0, 1000, 1, 4, 20, 0, "tmp1.sdat", "tmp2.sdat")
-        general.runalg('saga:simplekriging', self.pLayer, self.pLayer.baseName, 0, False, False, 1, -1, 100, 1, "a + b * x", self.pLayer.extent(), 0.000001, 1, 0, 0, 1000, 1, 4, 20, 0, "tmp1.sdat", "tmp2.sdat")
+        processing.runalg(alg, params)
