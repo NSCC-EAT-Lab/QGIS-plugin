@@ -3,6 +3,8 @@ from processing.tools import *
 from UseCommunication import Communicate
 from qgis.core import QgsVectorLayer
 
+import os
+
 
 # from qgis.core import QgsPro
 
@@ -26,8 +28,11 @@ class interp():
         xmax = ext.xMaximum()
         ymin = ext.yMinimum()
         ymax = ext.yMaximum()
-        self.PredictionLayer = str(self.pLayer.name() + "temp1.sdat")
-        self.VarianceLayer = str(self.pLayer.name() + "temp2.sdat")
+        self.PredictionLayer = str(os.path.normpath(os.path.expanduser('~') + b"/tmp/" + self.pLayer.name() + "temp1.sdat"))
+        self.VarianceLayer = os.path.normpath(os.path.expanduser('~') + "/tmp/" + self.pLayer.name() + "temp2.sdat")
+
+        self.com.log(String="Path of File" + self.PredictionLayer, level=0)
+        self.com.log(String=self.VarianceLayer, level=0)
 
         coords = "%f,%f,%f,%f" % (xmin, xmax, ymin, ymax)
 
@@ -36,8 +41,7 @@ class interp():
                   "DBLOCK": 1, "VAR_MAXDIST": -1, "VAR_NCLASSES": 100, "VAR_NSKIP": 1, "VAR_MODEL": "a+b*x",
                   "OUTPUT_EXTENT": coords, "TARGET_USER_SIZE": 0.000001, "TARGET_USER_FITS": 0,
                   "SEARCH_RANGE": 0, "SEARCH_RADIUS": 1000, "SEARCH_POINTS_ALL": 0, "SEARCH_POINTS_MIN": 4,
-                  "SEARCH_POINTS_MAX": 20, "SEARCH_DIRECTION": 0, "PREDICTION": self.PredictionLayer,
-                  "VARIANCE": self.VarianceLayer}
+                  "SEARCH_POINTS_MAX": 20, "SEARCH_DIRECTION": 0, "PREDICTION": os.path.normpath(self.PredictionLayer), "VARIANCE": os.path.normpath(self.VarianceLayer)}
 
         # params = {"POINTS": iface.activeLayer(), "FIELD": iface.activeLayer().name(), "TQUALITY": 0, "LOG": False, "BLOCK": False,
         #            "DBLOCK": 1, "TARGET_USER_SIZE": 0.000001}

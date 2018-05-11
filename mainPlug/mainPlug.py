@@ -501,8 +501,8 @@ class mainPlug:
                     # try:
                         a = interp(iface=self.iface, pointLayer=x)
                         a.run_Output()
-                        QgsMapLayerRegistry.instance().addMapLayer(a.VarianceLayer)
-                        QgsMapLayerRegistry.instance().addMapLayer(a.PredictionLayer)
+                        # QgsMapLayerRegistry.instance().addMapLayer(a.VarianceLayer)
+                        # QgsMapLayerRegistry.instance().addMapLayer(a.PredictionLayer)
                     # except:
                     #     self.com.error(String="Run_Krig Failed", level=2)
 
