@@ -1,3 +1,8 @@
+"""
+Interpolation Function; Acts as a go between for QGIS's Processing function (SAGA specifically) and the end user,
+ Simplifying the process and removing possible user error
+"""
+
 from processing.core.Processing import processing
 from processing.tools import *
 from UseCommunication import Communicate
@@ -9,7 +14,7 @@ import os
 
 # from qgis.core import QgsPro
 
-class interp():
+class interp:
     def __init__(self, pointLayer, iface):
         # processing.initialize()
         self.iface = iface
@@ -27,6 +32,7 @@ class interp():
 from processing.core.Processing import processing
 from processing.tools import *
 processing.alghelp("saga:simplekriging")  # this should display correct usage
+
         TODO: Make the output actually go to its own folder (Currently stuck with a escaping problem "\\" )
         :return: None
         """

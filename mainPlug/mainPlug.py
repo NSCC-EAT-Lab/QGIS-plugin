@@ -17,7 +17,7 @@ import re
 from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication
 from PyQt4.QtGui import QAction, QIcon, QColor
 from qgis.core import QgsColorRampShader, QgsRasterShader, QgsSingleBandPseudoColorRenderer, QgsRasterBandStats, \
-    QgsRasterFileWriter, QgsRasterPipe, QgsMapLayerRegistry, QgsVectorLayer
+    QgsRasterFileWriter, QgsRasterPipe
 
 from CsvImport_Dialog import CsvInputdialog
 from UseCommunication import Communicate
