@@ -1,2 +1,7 @@
 
 *.pyc
+*.mgrd
+*.sdat
+*.prj
+*.xml
+*.sgrd

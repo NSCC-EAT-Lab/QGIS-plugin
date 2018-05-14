@@ -17,7 +17,7 @@ import re
 from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication
 from PyQt4.QtGui import QAction, QIcon, QColor
 from qgis.core import QgsColorRampShader, QgsRasterShader, QgsSingleBandPseudoColorRenderer, QgsRasterBandStats, \
-    QgsRasterFileWriter, QgsRasterPipe
+    QgsRasterFileWriter, QgsRasterPipe, QgsMapLayerRegistry, QgsVectorLayer
 
 from CsvImport_Dialog import CsvInputdialog
 from UseCommunication import Communicate
@@ -25,6 +25,7 @@ from aboutDialog import AboutDialog
 from file_Import import FileImport
 from help_dialog import HelpDialog
 from importexport_dialog import ImportExportDialog
+from krig_dialog import KrigDialog
 # Initialize Qt resources from file resources.py
 # import resources
 # Import the code for the dialog
@@ -219,6 +220,13 @@ class mainPlug:
             text=self.tr(u'Help'),
             callback=self.run_help,
             dialog=HelpDialog()
+        )
+        self.add_action(
+            icon_path,
+            store_val=6,
+            text=self.tr(u'Krig'),
+            callback=self.run_krig,
+            dialog=KrigDialog()
         )
 
         self.com.log("Add_Action: Calculate NDVI", 0)
@@ -474,6 +482,35 @@ class mainPlug:
         self.com.log(str(pipe.renderer()), level=0)
         pipe.set(renderer.clone())
         file_writer.writeRaster(pipe, provide.xSize(), provide.ySize(), provide.extent(), provide.crs())
+
+
+    def run_krig(self):
+        diag = self.DialogStore[6]
+
+        from Interpolate import interp
+
+        diag.show()
+
+        result = diag.exec_()
+
+        if result:
+            mapLayers = self.iface.mapCanvas().layers()
+            if diag.retProcessallState() != False:
+                for i, x in enumerate(mapLayers):
+                    # try:
+                        a = interp(iface=self.iface, pointLayer=x)
+                        a.run_Output()
+                        # QgsMapLayerRegistry.instance().addMapLayer(a.VarianceLayer)
+                        # QgsMapLayerRegistry.instance().addMapLayer(a.PredictionLayer)
+                    # except:
+                    #     self.com.error(String="Run_Krig Failed", level=2)
+
+
+
+
+
+
+
 
     def run_help(self):
         """
