@@ -1,0 +1,55 @@
+To Connect PyCharm to QGIS correctly create a .cmd file containing the following
+
+@echo off
+SET OSGEO4W_ROOT=C:\Program Files\QGIS <Version>
+call "%OSGEO4W_ROOT%"\bin\o4w_env.bat
+call "%OSGEO4W_ROOT%"\apps\grass\grass-6.4.3\etc\env.bat
+@echo off
+path %PATH%;%OSGEO4W_ROOT%\apps\qgis\bin
+path %PATH%;%OSGEO4W_ROOT%\apps\grass\grass-6.4.3\lib
+
+set PYTHONPATH=%PYTHONPATH%;%OSGEO4W_ROOT%\apps\qgis\python;
+set PYTHONPATH=%PYTHONPATH%;%OSGEO4W_ROOT%\apps\Python36\Lib\site-packages
+set QGIS_PREFIX_PATH=%OSGEO4W_ROOT%\apps\qgis
+
+"<PATH TO IDE>" %*
+
+The Above Script requires Substitutions, Marked by text wrapped in <>:
+	Version = This corresponds to the QGIS version you are developing for (This should keep the PyQT versions in line)
+	PATH TO IDE = This is the Direct path to the Launcher of your Given IDE, Be that PyCharm, PyScripter or Eclipse.
+	
+
+Relevant Text is held at https://docs.qgis.org/2.18/en/docs/pyqgis_developer_cookbook/plugins.html
+
+Plugin Builder was used to Create the Skeleton for Plugin Creation:
+	Documentation on Plugin builders use is held at http://geoapt.net/pluginbuilder/
+	Download for Plugin Builder is held at https://plugins.qgis.org/plugins/pluginbuilder/
+	This is a QGIS 2.xx only Plugin, It will not generate nor Work on QGIS 3.xx
+		(Figure out a Way to port a 2.xx Plugin to 3.xx)
+	
+
+Upon creation there is an Issue within the TestPlugin.py at line 24:
+	> import resources
+Simply comment out this line if QGIS complains on the first test
+
+Within QGIS Go to manage and Install Plugins, Go to settings and Enable View Experimental Plugins, then go to All plugins, Search for both Remote Debug and Plugin Reloader. Install both of these.
+These plugins will assist with Development (Remote Debug Will allow us to Debug the program easily and Plugin reloader will reduce time by eliminating the need to re-open QGIS with each code change.)
+
+To work Easily with the Code, A Directory junction should be created between your working directory and the plugin folder within C:\Program Files\QGIS 2.18\apps\qgis\python\plugins
+	To acomplish this cd into the plugin folder and run the following command with a command prompt elevated to Administrator
+		>mklink /J mainPlug <Path to Plugin folder>
+	Replace <Path to Plugin folder> with the Direct path to the folder. This should create a Junction to the folder, thus allowing you to easily work and reload to check changes.
+
+Within addAction, We need to make it so that the definition contains one extra parameter, known as dialog. This parameter allows us to have multiple different UI's with various functions for each, We also need to default the value To blank UI type (Or we can simply require it, Though it's safer to have it Link to a Blank UI.) !!THIS DOES NOT WORK, Need to figure out a way to Preserve the pointer to the correct dialog, Thought Key pair store might work, But there's extra issues, Like Function pointers and the like that are preventing this.!!!
+
+We must create a Dialog storage list (Pre assigned in memory) and store to that list within the add action, With the callback going to a Predefined section of that list to follow it's execute structure, While this In theory will work Indefinitely, This will very quickly become cumbersome, Hopefully we can find a better solution (The callback does not allow Variables, Likely is a Function pointer argument behind the Scenes)
+
+
+To Create new UI's we must use QT Designer, to Get to this within windows search function Search QT Designer and QGIS should have a Special Designer specifically for it's versions.\
+
+
+TODO:
+Create a TIF input to allow a Raster layer to be generated, Allowing Simple calculations to be performed on said layer.
+This input could be through QGIS itself OR through the Dialog box within the Plugin itself.
+The TIF will have two Extra Color Layers (BANDS), These layers are to be considered data.
+
