@@ -497,7 +497,6 @@ class mainPlug:
             mapLayers = self.iface.mapCanvas().layers()
             if diag.retProcessallState() != False:
                 for i, x in enumerate(mapLayers):
-                        print i," ",x
                     # try:
                         a = interp(iface=self.iface, pointLayer=x)
                         a.run_Output()
