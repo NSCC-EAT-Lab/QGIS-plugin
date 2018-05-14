@@ -67,7 +67,8 @@ class IOParse:
 
     def add_layer(self):
         """
-        Add the Layers to the screen, This function assigns each layer to the screen and creates a Layer List to later match the layer weight
+        Add the Layers to the screen, This function assigns each layer to the screen and creates a Layer List to later
+        match the layer weight
 
         :return: None
         """
