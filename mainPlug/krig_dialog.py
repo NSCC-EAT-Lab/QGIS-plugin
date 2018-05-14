@@ -23,7 +23,7 @@ FORM_CLASS, _ = uic.loadUiType(os.path.join(
 class KrigDialog(QtGui.QDialog, FORM_CLASS):
     def __init__(self, parent=None):
         """
-        This is an Error Screen, Create the error screen
+        Create the Krig Dialog box
         :param parent:
         """
         super(KrigDialog, self).__init__(parent)
@@ -40,4 +40,8 @@ class KrigDialog(QtGui.QDialog, FORM_CLASS):
         self.processall = self.Processall.isChecked()
 
     def retProcessallState(self):
+        """
+        Return if processall is Checked
+        :return: Bool
+        """
         return self.processall

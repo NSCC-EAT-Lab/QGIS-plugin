@@ -485,6 +485,11 @@ class mainPlug:
 
 
     def run_krig(self):
+        """
+        Create and run the Krig Window and spoole off the Kriging process for all Layers
+        TODO: Implement a Per layer toggle vs the current only mass layer
+        :return: None
+        """
         diag = self.DialogStore[6]
 
         from Interpolate import interp

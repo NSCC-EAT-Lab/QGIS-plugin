@@ -28,7 +28,7 @@ from processing.core.Processing import processing
 from processing.tools import *
 processing.alghelp("saga:simplekriging")  # this should display correct usage
         TODO: Make the output actually go to its own folder (Currently stuck with a escaping problem "\\" )
-        :return:
+        :return: None
         """
         alg = 'saga:simplekriging'
 
@@ -63,7 +63,15 @@ processing.alghelp("saga:simplekriging")  # this should display correct usage
 
 
     def get_PredictionLayer(self):
+        """
+        Return the prediction layer path
+        :return: Path - Str
+        """
         return self.PredictionLayer
 
     def get_VarianceLayer(self):
+        """
+        Return the variance layer path (Only works if set internally
+        :return: Path - Str
+        """
         return self.VarianceLayer
