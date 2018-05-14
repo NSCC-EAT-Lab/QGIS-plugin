@@ -40,8 +40,7 @@ processing.alghelp("saga:simplekriging")  # this should display correct usage
         ymin = ext.yMinimum()
         ymax = ext.yMaximum()
 
-        self.PredictionLayer  = os.path.expanduser("~") +"\\"+ self.pLayer.name()
-
+        self.PredictionLayer = os.path.expanduser("~") + "\\" + self.pLayer.name()
 
         self.com.log(String="Path of File" + self.PredictionLayer + "\n", level=0)
 
@@ -52,15 +51,14 @@ processing.alghelp("saga:simplekriging")  # this should display correct usage
                   "DBLOCK": 1, "VAR_MAXDIST": -1, "VAR_NCLASSES": 100, "VAR_NSKIP": 1, "VAR_MODEL": "a+b*x",
                   "OUTPUT_EXTENT": coords, "TARGET_USER_SIZE": 0.000001, "TARGET_USER_FITS": 0,
                   "SEARCH_RANGE": 0, "SEARCH_RADIUS": 1000, "SEARCH_POINTS_ALL": 0, "SEARCH_POINTS_MIN": 4,
-                  "SEARCH_POINTS_MAX": 20, "SEARCH_DIRECTION": 0, "PREDICTION":self.PredictionLayer}
+                  "SEARCH_POINTS_MAX": 20, "SEARCH_DIRECTION": 0, "PREDICTION": self.PredictionLayer}
 
         # params = {"POINTS": iface.activeLayer(), "FIELD": iface.activeLayer().name(), "TQUALITY": 0, "LOG": False, "BLOCK": False,
         #            "DBLOCK": 1, "TARGET_USER_SIZE": 0.000001}
 
         processing.runalg(alg, params)
 
-        self.iface.addRasterLayer(self.PredictionLayer +".tif", self.pLayer.name() +" Prediction")
-
+        self.iface.addRasterLayer(self.PredictionLayer + ".tif", self.pLayer.name() + " Prediction")
 
     def get_PredictionLayer(self):
         """

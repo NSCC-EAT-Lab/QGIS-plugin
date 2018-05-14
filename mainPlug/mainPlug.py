@@ -483,7 +483,6 @@ class mainPlug:
         pipe.set(renderer.clone())
         file_writer.writeRaster(pipe, provide.xSize(), provide.ySize(), provide.extent(), provide.crs())
 
-
     def run_krig(self):
         """
         Create and run the Krig Window and spoole off the Kriging process for all Layers
@@ -503,19 +502,12 @@ class mainPlug:
             if diag.retProcessallState() != False:
                 for i, x in enumerate(mapLayers):
                     # try:
-                        a = interp(iface=self.iface, pointLayer=x)
-                        a.run_Output()
-                        # QgsMapLayerRegistry.instance().addMapLayer(a.VarianceLayer)
-                        # QgsMapLayerRegistry.instance().addMapLayer(a.PredictionLayer)
-                    # except:
-                    #     self.com.error(String="Run_Krig Failed", level=2)
-
-
-
-
-
-
-
+                    a = interp(iface=self.iface, pointLayer=x)
+                    a.run_Output()
+                    # QgsMapLayerRegistry.instance().addMapLayer(a.VarianceLayer)
+                    # QgsMapLayerRegistry.instance().addMapLayer(a.PredictionLayer)
+                # except:
+                #     self.com.error(String="Run_Krig Failed", level=2)
 
     def run_help(self):
         """
