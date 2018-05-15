@@ -333,7 +333,7 @@ class mainPlug:
         REDpattern = re.compile(r"RED", re.IGNORECASE)
         BLUEpattern = re.compile(r"BLUE", re.IGNORECASE)
         GREENpattern = re.compile(r"GREEN", re.IGNORECASE)
-        
+
         fIO = FileImport()
         fIO2 = FileImport()
         fIO3 = FileImport()
@@ -440,9 +440,11 @@ class mainPlug:
                     try:
                         a.RasterCalcMulti_NDVI(calctype="bNDVI", rLayer1=fIO.rLayer, rLayer2=fIO.rLayer, r1Band=1,
                                                r2Band=2, path=diag.exportText)
+
                     except:
                         self.com.error(
                             String="An Error Occured upon Execution, Verify that the Input files are correct", level=2)
+
                 elif diag.get_calc() == "NDVI":
                     try:
                         a.RasterCalcMulti_NDVI(calctype="NDVI", rLayer1=fIO.rLayer, rLayer2=fIO.rLayer, r1Band=1,
@@ -450,6 +452,7 @@ class mainPlug:
                     except:
                         self.com.error(
                             String="An Error Occured upon Execution, Verify that the Input files are correct", level=2)
+
             fileIn.file_input(diag.exportText)
             self.Color(fileIn)
         else:
@@ -468,14 +471,14 @@ class mainPlug:
 
         self.com.log("Color func: [Min val: {0} | Max val: {1}".format(str(Min), str(Max)), level=0)
 
-        fcn = QgsColorRampShader()
-        fcn.setColorRampType(QgsColorRampShader.INTERPOLATED)
+        RampShader = QgsColorRampShader()
+        RampShader.setColorRampType(QgsColorRampShader.INTERPOLATED)
         color_list = [QgsColorRampShader.ColorRampItem(Min, QColor(255, 0, 0)),
                       QgsColorRampShader.ColorRampItem(Max, QColor(0, 255, 0))]
-        fcn.setColorRampItemList(color_list)
+        RampShader.setColorRampItemList(color_list)
 
         shader = QgsRasterShader()
-        shader.setRasterShaderFunction(fcn)
+        shader.setRasterShaderFunction(RampShader)
 
         renderer = QgsSingleBandPseudoColorRenderer(k.dataProvider(), 1, shader)
         k.setRenderer(renderer)
