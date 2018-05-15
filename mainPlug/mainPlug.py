@@ -102,6 +102,7 @@ class mainPlug:
             whats_this=None,
             parent=None,
             dialog=mainPlugDialog()):
+        # type: (object, object, object, object, object, object, object, object, object, object, object) -> object
 
         """Add a toolbar icon to the toolbar.
 
@@ -150,6 +151,8 @@ class mainPlug:
         """
 
         # Create the dialog (after translation) and keep reference
+
+        # noinspection PyTypeChecker
         self.DialogStore[store_val] = dialog
 
         icon = QIcon(icon_path)
@@ -290,10 +293,10 @@ class mainPlug:
         self.com.log("File Input Called", 0)
 
         if result:
-            resul = diag.get_text()
+            diag_result = diag.get_text()
             print("Result: ")
-            print(resul)
-            file_input.file_input(resul)
+            print(diag_result)
+            file_input.file_input(diag_result)
             self.com.log("File Input Result: {0} | {1}".format(file_input.filePath, file_input.baseName), 0)
             self.iface.addRasterLayer(file_input.filePath, file_input.baseName)
 
@@ -307,6 +310,7 @@ class mainPlug:
                     print j
                     raster_manipulator.return_dataset(i, -j)
 
+    # noinspection PyBroadException
     def run_calc_ndvi(self):
 
         #         Warning to any maintainers, This is super spaghetti... I'm sorry, may the lord have mercy on your soul
@@ -441,7 +445,7 @@ class mainPlug:
                                                                 r3Band=3, path=diag.exportText)
                     except:
                         self.com.error(
-                            String="An Error Occured upon Execution, Verify that the Input files are correct", level=2)
+                            String="An Error Occurred upon Execution, Verify that the Input files are correct", level=2)
                 elif diag.get_calc() == "bNDVI":
                     try:
                         raster_manipulator.RasterCalcMulti_NDVI(calctype="bNDVI", rLayer1=file_input_1.rLayer,
@@ -450,7 +454,7 @@ class mainPlug:
 
                     except:
                         self.com.error(
-                            String="An Error Occured upon Execution, Verify that the Input files are correct", level=2)
+                            String="An Error Occurred upon Execution, Verify that the Input files are correct", level=2)
 
                 elif diag.get_calc() == "NDVI":
                     try:
@@ -459,7 +463,7 @@ class mainPlug:
                                                                 r2Band=2, path=diag.exportText)
                     except:
                         self.com.error(
-                            String="An Error Occured upon Execution, Verify that the Input files are correct", level=2)
+                            String="An Error Occurred upon Execution, Verify that the Input files are correct", level=2)
 
             file_in_4.file_input(diag.exportText)
             self.Color(file_in_4)
@@ -523,9 +527,9 @@ class mainPlug:
         result = diag.exec_()
 
         if result:
-            mapLayers = self.iface.mapCanvas().layers()
-            if diag.retProcessallState() != False:
-                for i, x in enumerate(mapLayers):
+            map_layers = self.iface.mapCanvas().layers()
+            if diag.retProcessallState():
+                for i, x in enumerate(map_layers):
                     # try:
                     a = interp(iface=self.iface, pointLayer=x)
                     a.run_Output()

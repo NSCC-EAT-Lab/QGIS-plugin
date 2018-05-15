@@ -20,6 +20,7 @@ class IOParse:
     Implement CSV Data set functions for Opening reading and passing data internally
     */
     """
+
     def __init__(self, path, iface):
         self.iface = iface
         self.path = path
@@ -83,21 +84,21 @@ class IOParse:
         :return: None
         """
         # TODO: Add in smart deliminator and Decimal assignment, NOTE regex might not work due to this being a bit more complex
-        fPath = 'file:///%s?crs=%s&delimiter=%s&xField=%s&yField=%s&decimal=%s' % (self.path, 'EPSG:4326', ',',
-                                                                                   'Longitude', 'Latitude', '.')
+        file_path = 'file:///%s?crs=%s&delimiter=%s&xField=%s&yField=%s&decimal=%s' % (self.path, 'EPSG:4326', ',',
+                                                                                       'Longitude', 'Latitude', '.')
 
-        file = open(self.path, 'r')
-        CommaSep = re.compile("\w*(\,)", re.IGNORECASE)
+        file_input = open(self.path, 'r')
+        comma_separator_pattern = re.compile("\w*(\,)", re.IGNORECASE)
         decimal = re.compile("\d(\.)", re.IGNORECASE)
         issue = 0
 
         try:
-            l1 = file.readline()
-            l2 = file.readline()
+            l1 = file_input.readline()
+            l2 = file_input.readline()
             self.com.log(str(l1), level=0)
             self.com.log(str(l2), level=0)
 
-            if CommaSep.match(l1) == '' or CommaSep.match(l1) is None:
+            if comma_separator_pattern.match(l1) == '' or comma_separator_pattern.match(l1) is None:
                 issue = 1
                 raise IOError
 
@@ -117,7 +118,7 @@ class IOParse:
                 #                level=2, duration=6)
 
         for idx, val in enumerate(self.ValueList):
-            self.LayerList.append(QgsVectorLayer(fPath, val, "delimitedtext"))
+            self.LayerList.append(QgsVectorLayer(file_path, val, "delimitedtext"))
 
         for i in self.LayerList:
             QgsMapLayerRegistry.instance().addMapLayer(i)
