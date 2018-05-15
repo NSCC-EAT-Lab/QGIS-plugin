@@ -132,13 +132,13 @@ class IOParse:
 
         longitude = re.compile("Longitude", re.IGNORECASE)
         latitude = re.compile("Latitude", re.IGNORECASE)
-        id = re.compile("ID", re.IGNORECASE)
+        id_pattern = re.compile("ID", re.IGNORECASE)
 
         for i in self.LayerList:
             self.com.log(str(i), level=0)
 
         for i in p.keys():
-            if longitude.match(i) or latitude.match(i) or id.match(i):
+            if longitude.match(i) or latitude.match(i) or id_pattern.match(i):
                 QgsMapLayerRegistry.instance().removeMapLayer(i)
 
         self.color_layers()
