@@ -69,11 +69,11 @@ class IOParse:
                 else:
                     FinalOutput[idx-1]"""
 
-        readerVal = []
+        reader_value = []
         for i in reader:
-            readerVal.append(i)
-        self.Values = len(readerVal[0]) - 2
-        for idx, val in enumerate(readerVal[0]):
+            reader_value.append(i)
+        self.Values = len(reader_value[0]) - 2
+        for idx, val in enumerate(reader_value[0]):
             if idx != 0 and idx != 1 and val != 'ID' or val != 'id' or val != 'Id' or val != 'iD':
                 self.ValueList.append(str(val))
 
