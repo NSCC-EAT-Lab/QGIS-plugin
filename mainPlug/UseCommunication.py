@@ -51,15 +51,19 @@ class Communicate():
             lvl = QgsMessageBar.INFO
             if bld is None:
                 bld = "INFO"
+
         elif level == 1:
             lvl = QgsMessageBar.WARNING
             if bld is None:
                 bld = "WARNING"
+
         elif level == 2:
             lvl = QgsMessageBar.CRITICAL
             if bld is None:
                 bld = "CRITICAL"
+
         if duration is not None:
             self.iface.messageBar().pushMessage(bld, String, level=lvl, duration=duration)
+
         else:
             self.iface.messageBar().pushMessage(bld, String, level=lvl)

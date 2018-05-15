@@ -199,6 +199,7 @@ class mainPlug:
             callback=self.runabout,
             dialog=AboutDialog()
         )
+
         self.com.log("Add_action: About", 0)
         self.add_action(
             icon_path,
@@ -207,6 +208,8 @@ class mainPlug:
             callback=self.run_calc_ndvi,
             dialog=ImportExportDialog()
         )
+        self.com.log("Add_Action: Calculate NDVI", 0)
+
         self.add_action(
             icon_path,
             store_val=5,
@@ -214,6 +217,7 @@ class mainPlug:
             callback=self.run_SoilSample,
             dialog=CsvInputdialog()
         )
+
         self.add_action(
             icon_path,
             store_val=4,
@@ -221,6 +225,7 @@ class mainPlug:
             callback=self.run_help,
             dialog=HelpDialog()
         )
+
         self.add_action(
             icon_path,
             store_val=6,
@@ -229,7 +234,7 @@ class mainPlug:
             dialog=KrigDialog()
         )
 
-        self.com.log("Add_Action: Calculate NDVI", 0)
+
 
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI."""
@@ -238,6 +243,7 @@ class mainPlug:
                 self.tr(u'&EggAGGIS'),
                 action)
             self.iface.removeToolBarIcon(action)
+
         # remove the toolbar
         del self.toolbar
         self.com.log("Unload Toolbar: Success", 0)
@@ -270,8 +276,8 @@ class mainPlug:
         if result:
             result = diag.get_text()
 
-            a = IOParse(result, self.iface)
-            a.ReadFile()
+            IoParseResult = IOParse(result, self.iface)
+            IoParseResult.ReadFile()
 
     def run_file_input(self):
         """
@@ -327,6 +333,7 @@ class mainPlug:
         REDpattern = re.compile(r"RED", re.IGNORECASE)
         BLUEpattern = re.compile(r"BLUE", re.IGNORECASE)
         GREENpattern = re.compile(r"GREEN", re.IGNORECASE)
+        
         fIO = FileImport()
         fIO2 = FileImport()
         fIO3 = FileImport()
@@ -355,14 +362,17 @@ class mainPlug:
                         fIO3.file_input(result3)
                         self.com.log("File Input Result {0} | {1}".format(fIO3.filePath, fIO3.baseName), 0)
 
+                        # Sort the Rasters based on name into their correct positions
                         sort_old = [fIO, fIO2, fIO3]
                         for i in sort_old:
                             if NIRpattern.search(i.baseName) is not None:
                                 sort.append(None)
                                 sort[0] = i
+
                             if GREENpattern.search(i.baseName) is not None:
                                 sort.append(None)
                                 sort[1] = i
+
                             if BLUEpattern.search(i.baseName) is not None:
                                 sort.append(None)
                                 sort[2] = i
@@ -385,6 +395,7 @@ class mainPlug:
                             if NIRpattern.search(i.baseName) is not None:
                                 sort.append(None)
                                 sort[0] = i
+
                             if REDpattern.search(i.baseName) is not None:
                                 sort.append(None)
                                 sort[1] = i
@@ -404,9 +415,11 @@ class mainPlug:
                             if NIRpattern.search(i.baseName) is not None:
                                 sort.append(None)
                                 sort[0] = i
+
                             if BLUEpattern.search(i.baseName) is not None:
                                 sort.append(None)
                                 sort[1] = i
+
                         if len(sort) != 2:
                             self.com.error(
                                 String="One of the Files is not labeled correctly, please Fix this and Rerun the program",
@@ -449,11 +462,12 @@ class mainPlug:
         :return: TO SCREEN Rendered Image
         """
         k = self.iface.addRasterLayer(file.filePath, file.baseName)
-        layername = file.baseName
         stats = k.dataProvider().bandStatistics(1, QgsRasterBandStats.All, k.extent(), 0)
         Min = stats.minimumValue
         Max = stats.maximumValue
+
         self.com.log("Color func: [Min val: {0} | Max val: {1}".format(str(Min), str(Max)), level=0)
+
         fcn = QgsColorRampShader()
         fcn.setColorRampType(QgsColorRampShader.INTERPOLATED)
         color_list = [QgsColorRampShader.ColorRampItem(Min, QColor(255, 0, 0)),

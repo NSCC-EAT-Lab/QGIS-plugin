@@ -126,21 +126,26 @@ class RasterManip:
         r1 = QgsRasterCalculatorEntry()
         r2 = QgsRasterCalculatorEntry()
         r3 = QgsRasterCalculatorEntry()
+
         exporttype = "GTiff"
+
         # Do variable creation
         # TODO: Fix this, it's spaghetti AF
         r1.raster = rLayer1
         r1.bandNumber = r1Band
         r2.bandNumber = r2Band
         r3.bandNumber = r3Band
+
         r1.ref = 'Input1@1'
         r2.ref = 'Input2@1'
         r3.ref = 'Input3@1'
 
         if r1Band is None:
             r1.bandNumber = 1
+
         if rLayer2 is not None:
             r2.raster = rLayer2
+
         if rLayer3 is not None:
             r3.raster = rLayer3
 
@@ -148,6 +153,7 @@ class RasterManip:
 
         if calctype is None:
             self.com.error(String="Calctype None", level=2)
+
         elif calctype == "NDVI":
             # This assumes that that rLayer1 is N and rLayer2 is R
             entries.append(r1)
@@ -156,6 +162,7 @@ class RasterManip:
             a = QgsRasterCalculator(expression, path, exporttype, rLayer1.extent(), rLayer1.width(), rLayer1.height(),
                                     entries)
             a.processCalculation()
+
         elif calctype == "bNDVI":
             # This assumes that rLayer1 in N and rLayer2 is B
             entries.append(r1)
@@ -164,6 +171,7 @@ class RasterManip:
             a = QgsRasterCalculator(expression, path, exporttype, rLayer1.extent(), rLayer1.width(), rLayer1.height(),
                                     entries)
             a.processCalculation()
+
         elif calctype == "ENDVI":
             # This assumes that rLayer1 is N, rLayer2 is Green and rLayer3 is Blue
             entries.append(r1)
@@ -174,5 +182,6 @@ class RasterManip:
             a = QgsRasterCalculator(expression, path, exporttype, rLayer1.extent(), rLayer1.width(), rLayer1.height(),
                                     entries)
             a.processCalculation()
+
         else:
             self.com.error(Bold="CalcType Error", String="Unrecognized calctype", level=2)

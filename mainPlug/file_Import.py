@@ -25,6 +25,7 @@ class FileImport:
         if path == '':
             self.com.log("FILE PATH EMPTY", 2)
             raise IOError
+
         self.filePath = path
         self.fileInfo = QFileInfo(self.filePath)
         self.baseName = self.fileInfo.baseName()
@@ -36,6 +37,7 @@ class FileImport:
         :return: None
         """
         self.rLayer = QgsRasterLayer(self.filePath, self.baseName)
+
         if not self.rLayer.isValid():
             print("Layer Failed to load")
             self.rLayer = None

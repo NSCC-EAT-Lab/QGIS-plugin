@@ -80,18 +80,23 @@ class IOParse:
         CommaSep = re.compile("\w*(\,)", re.IGNORECASE)
         decimal = re.compile("\d(\.)", re.IGNORECASE)
         issue = 0
+
         try:
             l1 = file.readline()
             l2 = file.readline()
             self.com.log(str(l1), level=0)
             self.com.log(str(l2), level=0)
+
             if CommaSep.match(l1) == '' or CommaSep.match(l1) is None:
                 issue = 1
                 raise IOError
+
             if decimal.match(l2) == '' or decimal.match(l2) is None:
                 issue = 2
                 raise IOError
+
         except IOError:
+            # Fail Silently (Due to some current issues where in the Decimal is not correctly noticed, causing an issue
             if issue == 1:
                 pass
                 # self.com.error(Bold="DataSampleError:", String="Soil sample data separator is not , (comma)", level=2,

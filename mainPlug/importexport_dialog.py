@@ -134,6 +134,7 @@ class ImportExportDialog(QtGui.QDialog, FORM_CLASS):
                                        "Or One Image with Both NearIR and Red bands")
             self.FilePath_4.setEnabled(False)
             self.FileSelect_4.setEnabled(False)
+
         elif self.CalcBox.currentText() == "bNDVI":
             self.CalcHelp.setPlainText(
                 "bNDVI is a calculation using Both the Near IR field and The visible Blue Field\n"
@@ -142,6 +143,7 @@ class ImportExportDialog(QtGui.QDialog, FORM_CLASS):
                 "Or One Image with Both NearIR and Blue bands")
             self.FilePath_4.setEnabled(False)
             self.FileSelect_4.setEnabled(False)
+
         elif self.CalcBox.currentText() == "ENDVI":
             self.CalcHelp.setPlainText(
                 "ENDVI (Enhanced NDVI) is a calculation in the Near IR Field, The Visible Green Field and the Visible Blue Field\n"
