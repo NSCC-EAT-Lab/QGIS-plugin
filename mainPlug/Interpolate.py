@@ -41,16 +41,16 @@ processing.alghelp("saga:simplekriging")  # this should display correct usage
         layer = self.pLayer
         ext = layer.extent()
 
-        xmin = ext.xMinimum()
-        xmax = ext.xMaximum()
-        ymin = ext.yMinimum()
-        ymax = ext.yMaximum()
+        x_min = ext.xMinimum()
+        x_max = ext.xMaximum()
+        y_min = ext.yMinimum()
+        y_max = ext.yMaximum()
 
         self.PredictionLayer = os.path.expanduser("~") + "\\" + self.pLayer.name()
 
         self.com.log(String="Path of File" + self.PredictionLayer + "\n", level=0)
 
-        coords = "%f,%f,%f,%f" % (xmin, xmax, ymin, ymax)
+        coords = "%f,%f,%f,%f" % (x_min, x_max, y_min, y_max)
 
         params = {"POINTS": self.pLayer, "FIELD": self.pLayer.name(), "TQUALITY": 0, "LOG": False,
                   "BLOCK": False,

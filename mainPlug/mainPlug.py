@@ -48,6 +48,7 @@ class mainPlug:
         :type iface: QgisInterface
         """
         # Save reference to the QGIS interface
+        self.output_set = None
         self.iface = iface
         # initialize plugin directory
         self.plugin_dir = os.path.dirname(__file__)
@@ -234,8 +235,6 @@ class mainPlug:
             dialog=KrigDialog()
         )
 
-
-
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI."""
         for action in self.actions:
@@ -276,15 +275,15 @@ class mainPlug:
         if result:
             result = diag.get_text()
 
-            IoParseResult = IOParse(result, self.iface)
-            IoParseResult.ReadFile()
+            io_parse_result = IOParse(result, self.iface)
+            io_parse_result.ReadFile()
 
     def run_file_input(self):
         """
         Run file input
         :return:
         """
-        fIO = FileImport()
+        file_input = FileImport()
         diag = self.DialogStore[1]
         diag.show()
         result = diag.exec_()
@@ -294,19 +293,19 @@ class mainPlug:
             resul = diag.get_text()
             print("Result: ")
             print(resul)
-            fIO.file_input(resul)
-            self.com.log("File Input Result: {0} | {1}".format(fIO.filePath, fIO.baseName), 0)
-            self.iface.addRasterLayer(fIO.filePath, fIO.baseName)
+            file_input.file_input(resul)
+            self.com.log("File Input Result: {0} | {1}".format(file_input.filePath, file_input.baseName), 0)
+            self.iface.addRasterLayer(file_input.filePath, file_input.baseName)
 
-            print(fIO.rLayer.renderer().type())
-            rLayerX = fIO.rLayer.width()
-            rLayerY = fIO.rLayer.height()
-            a = RasterManip(fIO.rLayer, self.iface)
-            for i in range(rLayerX):
-                for j in range(rLayerY):
+            print(file_input.rLayer.renderer().type())
+            r_layer_x = file_input.rLayer.width()
+            r_layer_y = file_input.rLayer.height()
+            raster_manipulator = RasterManip(file_input.rLayer, self.iface)
+            for i in range(r_layer_x):
+                for j in range(r_layer_y):
                     print i
                     print j
-                    a.return_dataset(i, -j)
+                    raster_manipulator.return_dataset(i, -j)
 
     def run_calc_ndvi(self):
 
@@ -329,117 +328,125 @@ class mainPlug:
         :return:
         """
 
-        NIRpattern = re.compile(r"NIR", re.IGNORECASE)
-        REDpattern = re.compile(r"RED", re.IGNORECASE)
-        BLUEpattern = re.compile(r"BLUE", re.IGNORECASE)
-        GREENpattern = re.compile(r"GREEN", re.IGNORECASE)
+        nir_pattern = re.compile(r"NIR", re.IGNORECASE)
+        red_pattern = re.compile(r"RED", re.IGNORECASE)
+        blue_pattern = re.compile(r"BLUE", re.IGNORECASE)
+        green_pattern = re.compile(r"GREEN", re.IGNORECASE)
 
-        fIO = FileImport()
-        fIO2 = FileImport()
-        fIO3 = FileImport()
+        file_input_1 = FileImport()
+        file_input_2 = FileImport()
+        file_input_3 = FileImport()
 
-        fileIn = FileImport()
+        file_in_4 = FileImport()
         diag = self.DialogStore[3]
         diag.show()
 
         sort = []
         result = diag.exec_()
 
-        a = RasterManip(iface=self.iface)
-        self.outputSet = None
+        raster_manipulator = RasterManip(iface=self.iface)
         if result:
             result = diag.get_text()
             result2 = diag.get_text2()
             result3 = diag.get_text3()
 
-            fIO.file_input(result)
-            self.com.log("File Input Result {0} | {1}".format(fIO.filePath, fIO.baseName), 0)
+            file_input_1.file_input(result)
+            self.com.log("File Input Result {0} | {1}".format(file_input_1.filePath, file_input_1.baseName), 0)
             if result2 != '':
-                fIO2.file_input(result2)
-                self.com.log("File Input Result {0} | {1}".format(fIO2.filePath, fIO2.baseName), 0)
+                file_input_2.file_input(result2)
+                self.com.log("File Input Result {0} | {1}".format(file_input_2.filePath, file_input_2.baseName), 0)
                 if diag.get_calc() == "ENVDI":
                     if result3 != '':
-                        fIO3.file_input(result3)
-                        self.com.log("File Input Result {0} | {1}".format(fIO3.filePath, fIO3.baseName), 0)
+                        file_input_3.file_input(result3)
+                        self.com.log("File Input Result {0} | {1}".format(file_input_3.filePath, file_input_3.baseName),
+                                     0)
 
                         # Sort the Rasters based on name into their correct positions
-                        sort_old = [fIO, fIO2, fIO3]
+                        sort_old = [file_input_1, file_input_2, file_input_3]
                         for i in sort_old:
-                            if NIRpattern.search(i.baseName) is not None:
+                            if nir_pattern.search(i.baseName) is not None:
                                 sort.append(None)
                                 sort[0] = i
 
-                            if GREENpattern.search(i.baseName) is not None:
+                            if green_pattern.search(i.baseName) is not None:
                                 sort.append(None)
                                 sort[1] = i
 
-                            if BLUEpattern.search(i.baseName) is not None:
+                            if blue_pattern.search(i.baseName) is not None:
                                 sort.append(None)
                                 sort[2] = i
 
                         if len(sort) != 3:
                             self.com.error(
-                                String="One of the Files is not labeled correctly, please Fix this and Rerun the program",
+                                String="One of the Files is not labeled correctly, "
+                                       "please Fix this and Rerun the program",
                                 level=2)
                             return 0
                         else:
-                            a.RasterCalcMulti_NDVI(rLayer1=sort[0].rLayer, rLayer2=sort[1].rLayer,
-                                                   rLayer3=sort[2].rLayer,
-                                                   path=diag.exportText, calctype="ENVDI")
+                            raster_manipulator.RasterCalcMulti_NDVI(rLayer1=sort[0].rLayer, rLayer2=sort[1].rLayer,
+                                                                    rLayer3=sort[2].rLayer,
+                                                                    path=diag.exportText, calctype="ENVDI")
 
                 else:
                     if diag.get_calc() == "NDVI":
 
-                        sort_old = [fIO, fIO2]
+                        sort_old = [file_input_1, file_input_2]
                         for i in sort_old:
-                            if NIRpattern.search(i.baseName) is not None:
+                            if nir_pattern.search(i.baseName) is not None:
                                 sort.append(None)
                                 sort[0] = i
 
-                            if REDpattern.search(i.baseName) is not None:
+                            if red_pattern.search(i.baseName) is not None:
                                 sort.append(None)
                                 sort[1] = i
 
                         if len(sort) != 2:
                             self.com.error(
-                                String="One of the Files is not labeled correctly, please Fix this and Rerun the program",
+                                String="One of the Files is not labeled correctly,"
+                                       " please Fix this and Rerun the program",
                                 level=2)
                             return 0
                         else:
-                            a.RasterCalcMulti_NDVI(rLayer1=sort[0].rLayer, rLayer2=sort[1].rLayer, path=diag.exportText,
-                                                   calctype="NDVI")
+                            raster_manipulator.RasterCalcMulti_NDVI(rLayer1=sort[0].rLayer, rLayer2=sort[1].rLayer,
+                                                                    path=diag.exportText,
+                                                                    calctype="NDVI")
 
                     elif diag.get_calc() == "bNDVI":
-                        sort_old = [fIO, fIO2]
+                        sort_old = [file_input_1, file_input_2]
                         for i in sort_old:
-                            if NIRpattern.search(i.baseName) is not None:
+                            if nir_pattern.search(i.baseName) is not None:
                                 sort.append(None)
                                 sort[0] = i
 
-                            if BLUEpattern.search(i.baseName) is not None:
+                            if blue_pattern.search(i.baseName) is not None:
                                 sort.append(None)
                                 sort[1] = i
 
                         if len(sort) != 2:
                             self.com.error(
-                                String="One of the Files is not labeled correctly, please Fix this and Rerun the program",
+                                String="One of the Files is not labeled correctly,"
+                                       " please Fix this and Rerun the program",
                                 level=2)
                             return 0
                         else:
-                            a.RasterCalcMulti_NDVI(rLayer1=sort[0].rLayer, rLayer2=sort[1].rLayer, path=diag.exportText,
-                                                   calctype="bNDVI")
+                            raster_manipulator.RasterCalcMulti_NDVI(rLayer1=sort[0].rLayer, rLayer2=sort[1].rLayer,
+                                                                    path=diag.exportText,
+                                                                    calctype="bNDVI")
             else:
                 if diag.get_calc() == "ENDVI":
                     try:
-                        a.RasterCalcMulti_NDVI(calctype="ENDVI", rLayer1=fIO.rLayer, rLayer2=fIO.rLayer,
-                                               rLayer3=fIO.rLayer, r1Band=1, r2Band=2, r3Band=3, path=diag.exportText)
+                        raster_manipulator.RasterCalcMulti_NDVI(calctype="ENDVI", rLayer1=file_input_1.rLayer,
+                                                                rLayer2=file_input_1.rLayer,
+                                                                rLayer3=file_input_1.rLayer, r1Band=1, r2Band=2,
+                                                                r3Band=3, path=diag.exportText)
                     except:
                         self.com.error(
                             String="An Error Occured upon Execution, Verify that the Input files are correct", level=2)
                 elif diag.get_calc() == "bNDVI":
                     try:
-                        a.RasterCalcMulti_NDVI(calctype="bNDVI", rLayer1=fIO.rLayer, rLayer2=fIO.rLayer, r1Band=1,
-                                               r2Band=2, path=diag.exportText)
+                        raster_manipulator.RasterCalcMulti_NDVI(calctype="bNDVI", rLayer1=file_input_1.rLayer,
+                                                                rLayer2=file_input_1.rLayer, r1Band=1,
+                                                                r2Band=2, path=diag.exportText)
 
                     except:
                         self.com.error(
@@ -447,38 +454,39 @@ class mainPlug:
 
                 elif diag.get_calc() == "NDVI":
                     try:
-                        a.RasterCalcMulti_NDVI(calctype="NDVI", rLayer1=fIO.rLayer, rLayer2=fIO.rLayer, r1Band=1,
-                                               r2Band=2, path=diag.exportText)
+                        raster_manipulator.RasterCalcMulti_NDVI(calctype="NDVI", rLayer1=file_input_1.rLayer,
+                                                                rLayer2=file_input_1.rLayer, r1Band=1,
+                                                                r2Band=2, path=diag.exportText)
                     except:
                         self.com.error(
                             String="An Error Occured upon Execution, Verify that the Input files are correct", level=2)
 
-            fileIn.file_input(diag.exportText)
-            self.Color(fileIn)
+            file_in_4.file_input(diag.exportText)
+            self.Color(file_in_4)
         else:
             self.com.error(String="NO RESULT", level=2)
 
-    def Color(self, file):
+    def Color(self, file_in):
         """
         Color the Inbound file (Essentially the File we JUST exported) and display it to screen)
-        :param file: The file that was just exported
+        :param file_in: The file that was just exported
         :return: TO SCREEN Rendered Image
         """
-        k = self.iface.addRasterLayer(file.filePath, file.baseName)
+        k = self.iface.addRasterLayer(file_in.filePath, file_in.baseName)
         stats = k.dataProvider().bandStatistics(1, QgsRasterBandStats.All, k.extent(), 0)
-        Min = stats.minimumValue
-        Max = stats.maximumValue
+        minimum = stats.minimumValue
+        maximum = stats.maximumValue
 
-        self.com.log("Color func: [Min val: {0} | Max val: {1}".format(str(Min), str(Max)), level=0)
+        self.com.log("Color func: [Min val: {0} | Max val: {1}".format(str(minimum), str(maximum)), level=0)
 
-        RampShader = QgsColorRampShader()
-        RampShader.setColorRampType(QgsColorRampShader.INTERPOLATED)
-        color_list = [QgsColorRampShader.ColorRampItem(Min, QColor(255, 0, 0)),
-                      QgsColorRampShader.ColorRampItem(Max, QColor(0, 255, 0))]
-        RampShader.setColorRampItemList(color_list)
+        ramp_shader = QgsColorRampShader()
+        ramp_shader.setColorRampType(QgsColorRampShader.INTERPOLATED)
+        color_list = [QgsColorRampShader.ColorRampItem(minimum, QColor(255, 0, 0)),
+                      QgsColorRampShader.ColorRampItem(maximum, QColor(0, 255, 0))]
+        ramp_shader.setColorRampItemList(color_list)
 
         shader = QgsRasterShader()
-        shader.setRasterShaderFunction(RampShader)
+        shader.setRasterShaderFunction(ramp_shader)
 
         renderer = QgsSingleBandPseudoColorRenderer(k.dataProvider(), 1, shader)
         k.setRenderer(renderer)
@@ -486,8 +494,8 @@ class mainPlug:
         """
         Export colored image to file
         """
-        exportpath = file.filePath + ".colored.tif"
-        file_writer = QgsRasterFileWriter(exportpath)
+        export_path = file_in.filePath + ".colored.tif"
+        file_writer = QgsRasterFileWriter(export_path)
         pipe = QgsRasterPipe()
         provide = k.dataProvider()
 
