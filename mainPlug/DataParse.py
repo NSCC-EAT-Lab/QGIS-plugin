@@ -1,3 +1,9 @@
+"""
+/*
+Implement CSV Data set functions for Opening reading and passing data internally
+*/
+"""
+
 import csv
 import random
 import re
@@ -9,7 +15,11 @@ from UseCommunication import Communicate
 
 
 class IOParse:
-
+    """
+    /*
+    Implement CSV Data set functions for Opening reading and passing data internally
+    */
+    """
     def __init__(self, path, iface):
         self.iface = iface
         self.path = path
@@ -115,15 +125,15 @@ class IOParse:
         # Get Layers
         p = QgsMapLayerRegistry.instance().mapLayers()
 
-        Long = re.compile("Longitude", re.IGNORECASE)
-        Lat = re.compile("Latitude", re.IGNORECASE)
-        ID = re.compile("ID", re.IGNORECASE)
+        longitude = re.compile("Longitude", re.IGNORECASE)
+        latitude = re.compile("Latitude", re.IGNORECASE)
+        id = re.compile("ID", re.IGNORECASE)
 
         for i in self.LayerList:
             self.com.log(str(i), level=0)
 
         for i in p.keys():
-            if Long.match(i) or Lat.match(i) or ID.match(i):
+            if longitude.match(i) or latitude.match(i) or id.match(i):
                 QgsMapLayerRegistry.instance().removeMapLayer(i)
 
         self.color_layers()

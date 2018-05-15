@@ -1,3 +1,6 @@
+"""
+Import Raster images for use Internally
+"""
 from PyQt4.QtCore import QFileInfo
 from qgis.core import QgsRasterLayer
 
