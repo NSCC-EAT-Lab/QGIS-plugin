@@ -6,12 +6,12 @@ This Process takes place within mainPlug
 
 
 self.add_action(
-            icon_path,
-            store_val=3,
-            text=self.tr(u'Calculate NDVI'),
-            callback=self.run_calc_ndvi,
-            dialog=ImportExportDialog()
-        )
+    icon_path,
+    store_val=3,
+    text=self.tr(u'Calculate NDVI'),
+    callback=self.run_calc_ndvi,
+    dialog=ImportExportDialog()
+)
 
 """
 This function does a couple things and requires a couple things,

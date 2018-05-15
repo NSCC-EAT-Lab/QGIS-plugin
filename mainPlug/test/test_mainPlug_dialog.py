@@ -48,8 +48,8 @@ class mainPlugDialogTest(unittest.TestCase):
         result = self.dialog.result()
         self.assertEqual(result, QDialog.Rejected)
 
+
 if __name__ == "__main__":
     suite = unittest.makeSuite(mainPlugDialogTest)
     runner = unittest.TextTestRunner(verbosity=2)
     runner.run(suite)
-

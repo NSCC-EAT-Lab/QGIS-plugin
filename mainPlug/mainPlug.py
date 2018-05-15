@@ -103,7 +103,6 @@ class mainPlug:
             parent=None,
             dialog=mainPlugDialog()):
         # type: (object, object, object, object, object, object, object, object, object, object, object) -> object
-
         """Add a toolbar icon to the toolbar.
 
         :param store_val: This value is the position to store the Dialog within the dialog list, Note that this position
@@ -297,7 +296,8 @@ class mainPlug:
             print("Result: ")
             print(diag_result)
             file_input.file_input(diag_result)
-            self.com.log("File Input Result: {0} | {1}".format(file_input.filePath, file_input.baseName), 0)
+            self.com.log("File Input Result: {0} | {1}".format(
+                file_input.filePath, file_input.baseName), 0)
             self.iface.addRasterLayer(file_input.filePath, file_input.baseName)
 
             print(file_input.rLayer.renderer().type())
@@ -318,7 +318,6 @@ class mainPlug:
         #         This is the best possible solution beyond doing if elif loops which would have been impossible
         #          to maintain
         #         If ye must pass I'll explain the best I can:
-
         """
         Handle the NDVI Calc Window Sending the values to where they're needed and Exporting the final result to disk
 
@@ -355,10 +354,12 @@ class mainPlug:
             result3 = diag.get_text3()
 
             file_input_1.file_input(result)
-            self.com.log("File Input Result {0} | {1}".format(file_input_1.filePath, file_input_1.baseName), 0)
+            self.com.log("File Input Result {0} | {1}".format(
+                file_input_1.filePath, file_input_1.baseName), 0)
             if result2 != '':
                 file_input_2.file_input(result2)
-                self.com.log("File Input Result {0} | {1}".format(file_input_2.filePath, file_input_2.baseName), 0)
+                self.com.log("File Input Result {0} | {1}".format(
+                    file_input_2.filePath, file_input_2.baseName), 0)
                 if diag.get_calc() == "ENVDI":
                     if result3 != '':
                         file_input_3.file_input(result3)
@@ -477,11 +478,13 @@ class mainPlug:
         :return: TO SCREEN Rendered Image
         """
         k = self.iface.addRasterLayer(file_in.filePath, file_in.baseName)
-        stats = k.dataProvider().bandStatistics(1, QgsRasterBandStats.All, k.extent(), 0)
+        stats = k.dataProvider().bandStatistics(
+            1, QgsRasterBandStats.All, k.extent(), 0)
         minimum = stats.minimumValue
         maximum = stats.maximumValue
 
-        self.com.log("Color func: [Min val: {0} | Max val: {1}".format(str(minimum), str(maximum)), level=0)
+        self.com.log("Color func: [Min val: {0} | Max val: {1}".format(
+            str(minimum), str(maximum)), level=0)
 
         ramp_shader = QgsColorRampShader()
         ramp_shader.setColorRampType(QgsColorRampShader.INTERPOLATED)
@@ -492,7 +495,8 @@ class mainPlug:
         shader = QgsRasterShader()
         shader.setRasterShaderFunction(ramp_shader)
 
-        renderer = QgsSingleBandPseudoColorRenderer(k.dataProvider(), 1, shader)
+        renderer = QgsSingleBandPseudoColorRenderer(
+            k.dataProvider(), 1, shader)
         k.setRenderer(renderer)
 
         """
@@ -505,12 +509,15 @@ class mainPlug:
 
         # Pipe Setter
         if not pipe.set(provide.clone()):
-            self.com.error(Bold="PipeProviderError:", String="Cannot set pipe provider", level=1, duration=3)
-            self.com.log("mainPlug - Color: Pipe provider error on line 473, Continuing...", level=1)
+            self.com.error(Bold="PipeProviderError:",
+                           String="Cannot set pipe provider", level=1, duration=3)
+            self.com.log(
+                "mainPlug - Color: Pipe provider error on line 473, Continuing...", level=1)
 
         self.com.log(str(pipe.renderer()), level=0)
         pipe.set(renderer.clone())
-        file_writer.writeRaster(pipe, provide.xSize(), provide.ySize(), provide.extent(), provide.crs())
+        file_writer.writeRaster(pipe, provide.xSize(
+        ), provide.ySize(), provide.extent(), provide.crs())
 
     def run_krig(self):
         """

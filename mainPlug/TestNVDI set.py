@@ -16,7 +16,9 @@ class TestNVDI(unittest.TestCase):
         pass
 
     def testNDVI(self):
-        a = self.RastManip.do_ndvi_calc(DataSet=self.TestSet1, DataSet2=self.TestSet2)
+        a = self.RastManip.do_ndvi_calc(
+            DataSet=self.TestSet1, DataSet2=self.TestSet2)
         print a
-        self.FileExport.file_output("C:\Users\w0414043\Desktop\TestOutputs", 0, 0, 0, 0, 1, a)
+        self.FileExport.file_output(
+            "C:\Users\w0414043\Desktop\TestOutputs", 0, 0, 0, 0, 1, a)
         self.FileExport.WriteFile()

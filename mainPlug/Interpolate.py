@@ -46,9 +46,11 @@ processing.alghelp("saga:simplekriging")  # this should display correct usage
         y_min = ext.yMinimum()
         y_max = ext.yMaximum()
 
-        self.PredictionLayer = os.path.expanduser("~") + "\\" + self.pLayer.name()
+        self.PredictionLayer = os.path.expanduser(
+            "~") + "\\" + self.pLayer.name()
 
-        self.com.log(String="Path of File" + self.PredictionLayer + "\n", level=0)
+        self.com.log(String="Path of File" +
+                     self.PredictionLayer + "\n", level=0)
 
         coords = "%f,%f,%f,%f" % (x_min, x_max, y_min, y_max)
 
@@ -64,7 +66,8 @@ processing.alghelp("saga:simplekriging")  # this should display correct usage
 
         processing.runalg(alg, params)
 
-        self.iface.addRasterLayer(self.PredictionLayer + ".tif", self.pLayer.name() + " Prediction")
+        self.iface.addRasterLayer(
+            self.PredictionLayer + ".tif", self.pLayer.name() + " Prediction")
 
     def get_PredictionLayer(self):
         """

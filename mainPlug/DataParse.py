@@ -28,10 +28,13 @@ class IOParse:
         try:
             self.csvFile = open(path, 'rb')
         except IOError:
-            self.com.error(Bold="IOerror", String="Could not load given File", level=2)
+            self.com.error(
+                Bold="IOerror", String="Could not load given File", level=2)
         except:
-            self.com.error(Bold="Unknown Error", String="An Unknown Error occured (See log for details", level=2)
-            self.com.log("IOPARSE Encountered an Unknown error attempting to initialize self.csvFile", level=2)
+            self.com.error(
+                Bold="Unknown Error", String="An Unknown Error occured (See log for details", level=2)
+            self.com.log(
+                "IOPARSE Encountered an Unknown error attempting to initialize self.csvFile", level=2)
         self.Values = 0
         self.ValueList = []
 
@@ -118,7 +121,8 @@ class IOParse:
                 #                level=2, duration=6)
 
         for idx, val in enumerate(self.ValueList):
-            self.LayerList.append(QgsVectorLayer(file_path, val, "delimitedtext"))
+            self.LayerList.append(QgsVectorLayer(
+                file_path, val, "delimitedtext"))
 
         for i in self.LayerList:
             QgsMapLayerRegistry.instance().addMapLayer(i)
@@ -152,16 +156,19 @@ class IOParse:
         regex = re.compile("\n?(\D*)\d*\n?")
 
         for key, val in p.iteritems():
-            renderer = QgsHeatmapRenderer()
-            a = regex.match(key)
+            try:
+                renderer = QgsHeatmapRenderer()
+                a = regex.match(key)
+                fcn = QgsVectorGradientColorRampV2()
 
-            fcn = QgsVectorGradientColorRampV2()
+                renderer.setWeightExpression(a.group(1))
+                fcn.setColor1(QColor(255, 255, 255, 0))
+                fcn.setColor2(QColor(random.randint(0, 100), random.randint(
+                    50, 255), random.randint(50, 255), 255))
 
-            renderer.setWeightExpression(a.group(1))
-            fcn.setColor1(QColor(255, 255, 255, 0))
-            fcn.setColor2(QColor(random.randint(0, 100), random.randint(50, 255), random.randint(50, 255), 255))
+                renderer.setColorRamp(fcn)
+                renderer.setRenderQuality(1)  # Max out the quality
 
-            renderer.setColorRamp(fcn)
-            renderer.setRenderQuality(1)  # Max out the quality
-
-            val.setRendererV2(renderer)
+                val.setRendererV2(renderer)
+            except AttributeError:
+                continue

@@ -29,7 +29,8 @@ class RasterManip:
         :param Y: Y Co-Ordnate
         :return: The Tuple containing the values from the raster
         """
-        ident = rLayer.dataProvider().identify(QgsPoint(X, Y), QgsRaster.IdentifyFormatValue)
+        ident = rLayer.dataProvider().identify(
+            QgsPoint(X, Y), QgsRaster.IdentifyFormatValue)
         if ident.isValid():
             return ident.results()
         return ident.results()
@@ -61,7 +62,8 @@ class RasterManip:
             for idx, val in enumerate(DataSet):
                 # if val is not None:
 
-                a = (val.get(1) - DataSet2[idx].get(1)) / (val.get(1) + DataSet2[idx].get(1))
+                a = (val.get(1) - DataSet2[idx].get(1)) / \
+                    (val.get(1) + DataSet2[idx].get(1))
 
                 resul.append(a)
             # else:
@@ -93,9 +95,11 @@ class RasterManip:
 
         entries = [r1, r2]
 
-        expression = "(\"{0}\"-\"{1}\")/(\"{2}\"+\"{3}\")".format(r1.ref, r2.ref, r1.ref, r2.ref)
+        expression = "(\"{0}\"-\"{1}\")/(\"{2}\"+\"{3}\")".format(r1.ref,
+                                                                  r2.ref, r1.ref, r2.ref)
 
-        a = QgsRasterCalculator(expression, path, 'GTiff', rLayer1.extent(), rLayer1.width(), rLayer1.height(), entries)
+        a = QgsRasterCalculator(expression, path, 'GTiff', rLayer1.extent(
+        ), rLayer1.width(), rLayer1.height(), entries)
 
         a.processCalculation()
 
@@ -158,7 +162,8 @@ class RasterManip:
             # This assumes that that rLayer1 is N and rLayer2 is R
             entries.append(r1)
             entries.append(r2)
-            expression = "(\"{0}\"-\"{1}\")/(\"{2}\"+\"{3}\")".format(r1.ref, r2.ref, r1.ref, r2.ref)
+            expression = "(\"{0}\"-\"{1}\")/(\"{2}\"+\"{3}\")".format(r1.ref,
+                                                                      r2.ref, r1.ref, r2.ref)
             a = QgsRasterCalculator(expression, path, exporttype, rLayer1.extent(), rLayer1.width(), rLayer1.height(),
                                     entries)
             a.processCalculation()
@@ -167,7 +172,8 @@ class RasterManip:
             # This assumes that rLayer1 in N and rLayer2 is B
             entries.append(r1)
             entries.append(r2)
-            expression = "(\"{0}\"-\"{1}\")/(\"{2}\"+\"{3}\")".format(r1.ref, r2.ref, r1.ref, r2.ref)
+            expression = "(\"{0}\"-\"{1}\")/(\"{2}\"+\"{3}\")".format(r1.ref,
+                                                                      r2.ref, r1.ref, r2.ref)
             a = QgsRasterCalculator(expression, path, exporttype, rLayer1.extent(), rLayer1.width(), rLayer1.height(),
                                     entries)
             a.processCalculation()
@@ -184,4 +190,5 @@ class RasterManip:
             a.processCalculation()
 
         else:
-            self.com.error(Bold="CalcType Error", String="Unrecognized calctype", level=2)
+            self.com.error(Bold="CalcType Error",
+                           String="Unrecognized calctype", level=2)
