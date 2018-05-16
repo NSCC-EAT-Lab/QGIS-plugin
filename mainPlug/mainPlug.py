@@ -344,7 +344,7 @@ class mainPlug:
         diag = self.DialogStore[3]
         diag.show()
 
-        sort = []
+        sort = [None, None, None]
         result = diag.exec_()
 
         raster_manipulator = RasterManip(iface=self.iface)
@@ -360,7 +360,8 @@ class mainPlug:
                 file_input_2.file_input(result2)
                 self.com.log("File Input Result {0} | {1}".format(
                     file_input_2.filePath, file_input_2.baseName), 0)
-                if diag.get_calc() == "ENVDI":
+
+                if diag.get_calc() == "ENVDI" or diag.get_calc() == "EVI":
                     if result3 != '':
                         file_input_3.file_input(result3)
                         self.com.log("File Input Result {0} | {1}".format(file_input_3.filePath, file_input_3.baseName),
@@ -370,16 +371,19 @@ class mainPlug:
                         sort_old = [file_input_1, file_input_2, file_input_3]
                         for i in sort_old:
                             if nir_pattern.search(i.baseName) is not None:
-                                sort.append(None)
+                                self.com.log(str(sort), level=0)
                                 sort[0] = i
+                                self.com.log(str(sort), level=0)
 
                             if green_pattern.search(i.baseName) is not None:
-                                sort.append(None)
+                                self.com.log(str(sort), level=0)
                                 sort[1] = i
+                                self.com.log(str(sort), level=0)
 
                             if blue_pattern.search(i.baseName) is not None:
-                                sort.append(None)
+                                self.com.log(str(sort), level=0)
                                 sort[2] = i
+                                self.com.log(str(sort), level=0)
 
                         if len(sort) != 3:
                             self.com.error(
@@ -387,25 +391,32 @@ class mainPlug:
                                        "please Fix this and Rerun the program",
                                 level=2)
                             return 0
-                        else:
-                            raster_manipulator.RasterCalcMulti_NDVI(rLayer1=sort[0].rLayer, rLayer2=sort[1].rLayer,
-                                                                    rLayer3=sort[2].rLayer,
-                                                                    path=diag.exportText, calctype="ENVDI")
 
+                        else:
+                            if diag.get_calc() == "ENDVI":
+                                raster_manipulator.RasterCalcMulti_NDVI(rLayer1=sort[0].rLayer, rLayer2=sort[1].rLayer,
+                                                                        rLayer3=sort[2].rLayer,
+                                                                        path=diag.exportText, calctype="ENVDI")
+                            elif diag.get_calc() == "EVI":
+                                raster_manipulator.RasterCalcMulti_NDVI(rLayer1=sort[0].rLayer, rLayer2=sort[1].rLayer,
+                                                                        rLayer3=sort[2].rLayer,
+                                                                        path=diag.exportText, calctype="EVI")
                 else:
                     if diag.get_calc() == "NDVI":
 
                         sort_old = [file_input_1, file_input_2]
                         for i in sort_old:
                             if nir_pattern.search(i.baseName) is not None:
-                                sort.append(None)
+                                self.com.log(str(sort), level=0)
                                 sort[0] = i
+                                self.com.log(str(sort), level=0)
 
                             if red_pattern.search(i.baseName) is not None:
-                                sort.append(None)
+                                self.com.log(str(sort), level=0)
                                 sort[1] = i
+                                self.com.log(str(sort), level=0)
 
-                        if len(sort) != 2:
+                        if len(sort) != 3:
                             self.com.error(
                                 String="One of the Files is not labeled correctly,"
                                        " please Fix this and Rerun the program",
@@ -420,14 +431,16 @@ class mainPlug:
                         sort_old = [file_input_1, file_input_2]
                         for i in sort_old:
                             if nir_pattern.search(i.baseName) is not None:
-                                sort.append(None)
+                                self.com.log(str(sort), level=0)
                                 sort[0] = i
+                                self.com.log(str(sort), level=0)
 
                             if blue_pattern.search(i.baseName) is not None:
-                                sort.append(None)
+                                self.com.log(str(sort), level=0)
                                 sort[1] = i
+                                self.com.log(str(sort), level=0)
 
-                        if len(sort) != 2:
+                        if len(sort) != 3:
                             self.com.error(
                                 String="One of the Files is not labeled correctly,"
                                        " please Fix this and Rerun the program",
@@ -437,6 +450,8 @@ class mainPlug:
                             raster_manipulator.RasterCalcMulti_NDVI(rLayer1=sort[0].rLayer, rLayer2=sort[1].rLayer,
                                                                     path=diag.exportText,
                                                                     calctype="bNDVI")
+
+            # THIS IS FAILOVER For Single raster input
             else:
                 if diag.get_calc() == "ENDVI":
                     try:
@@ -462,6 +477,16 @@ class mainPlug:
                         raster_manipulator.RasterCalcMulti_NDVI(calctype="NDVI", rLayer1=file_input_1.rLayer,
                                                                 rLayer2=file_input_1.rLayer, r1Band=1,
                                                                 r2Band=2, path=diag.exportText)
+                    except:
+                        self.com.error(
+                            String="An Error Occurred upon Execution, Verify that the Input files are correct", level=2)
+
+                elif diag.get_calc() == "EVI":
+                    try:
+                        raster_manipulator.RasterCalcMulti_NDVI(calctype="EVI", rLayer1=file_input_1.rLayer,
+                                                                rLayer2=file_input_1.rLayer,
+                                                                rLayer3=file_input_1.rLayer, r1Band=1, r2Band=2,
+                                                                r3Band=3)
                     except:
                         self.com.error(
                             String="An Error Occurred upon Execution, Verify that the Input files are correct", level=2)

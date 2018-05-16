@@ -32,6 +32,7 @@ class FileImport:
         self.filePath = path
         self.fileInfo = QFileInfo(self.filePath)
         self.baseName = self.fileInfo.baseName()
+        # Ensure that this stays in as this is how the Raster is imported.
         self.check_file_type()
 
     def check_file_type(self):

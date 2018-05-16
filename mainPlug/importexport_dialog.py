@@ -155,3 +155,8 @@ class ImportExportDialog(QtGui.QDialog, FORM_CLASS):
                 "Three images, each labeled with their respective bands (NIR, BLUE, GREEN)")
             self.FilePath_4.setEnabled(True)
             self.FileSelect_4.setEnabled(True)
+
+        elif self.CalcBox.currentText() == "EVI":
+            self.CalcHelp.setPlainText("<SAMPLE TEXT - REPLACE ME>")
+            self.FilePath_4.setEnabled(True)
+            self.FileSelect_4.setEnabled(True)
