@@ -127,7 +127,8 @@ class RasterManip:
          and ENDVI (Enhanced NDVI)
         """
         if path == '' or path is None:
-            self.com.log("No Path on NDVI calc function, This will likely cause an error", level=2)
+            self.com.log(
+                "No Path on NDVI calc function, This will likely cause an error", level=2)
 
         path = path
         r1 = QgsRasterCalculatorEntry()

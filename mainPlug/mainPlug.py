@@ -37,7 +37,7 @@ from rasterManip import RasterManip
 
 
 class mainPlug:
-    """QGIS Plugin Implementation."""
+    """QGIS Plugin main body Implementation."""
 
     def __init__(self, iface):
         """Constructor.
