@@ -102,7 +102,8 @@ class mainPlug:
             whats_this=None,
             parent=None,
             dialog=mainPlugDialog()):
-        # type: (object, object, object, object, object, object, object, object, object, object, object) -> object
+        # type: (object, object, object, object, object, object, object,
+        # object, object, object, object) -> object
         """Add a toolbar icon to the toolbar.
 
         :param store_val: This value is the position to store the Dialog within the dialog list, Note that this position
@@ -367,7 +368,8 @@ class mainPlug:
                         self.com.log("File Input Result {0} | {1}".format(file_input_3.filePath, file_input_3.baseName),
                                      0)
 
-                        # Sort the Rasters based on name into their correct positions
+                        # Sort the Rasters based on name into their correct
+                        # positions
                         sort_old = [file_input_1, file_input_2, file_input_3]
                         for i in sort_old:
                             if nir_pattern.search(i.baseName) is not None:
@@ -394,11 +396,11 @@ class mainPlug:
 
                         else:
                             if diag.get_calc() == "ENDVI":
-                                raster_manipulator.RasterCalcMulti_NDVI(rLayer1=sort[0].rLayer, rLayer2=sort[1].rLayer,
+                                raster_manipulator.rastercalcmulti_ndvi(rLayer1=sort[0].rLayer, rLayer2=sort[1].rLayer,
                                                                         rLayer3=sort[2].rLayer,
                                                                         path=diag.exportText, calctype="ENVDI")
                             elif diag.get_calc() == "EVI":
-                                raster_manipulator.RasterCalcMulti_NDVI(rLayer1=sort[0].rLayer, rLayer2=sort[1].rLayer,
+                                raster_manipulator.rastercalcmulti_ndvi(rLayer1=sort[0].rLayer, rLayer2=sort[1].rLayer,
                                                                         rLayer3=sort[2].rLayer,
                                                                         path=diag.exportText, calctype="EVI")
                 else:
@@ -423,7 +425,7 @@ class mainPlug:
                                 level=2)
                             return 0
                         else:
-                            raster_manipulator.RasterCalcMulti_NDVI(rLayer1=sort[0].rLayer, rLayer2=sort[1].rLayer,
+                            raster_manipulator.rastercalcmulti_ndvi(rLayer1=sort[0].rLayer, rLayer2=sort[1].rLayer,
                                                                     path=diag.exportText,
                                                                     calctype="NDVI")
 
@@ -447,7 +449,7 @@ class mainPlug:
                                 level=2)
                             return 0
                         else:
-                            raster_manipulator.RasterCalcMulti_NDVI(rLayer1=sort[0].rLayer, rLayer2=sort[1].rLayer,
+                            raster_manipulator.rastercalcmulti_ndvi(rLayer1=sort[0].rLayer, rLayer2=sort[1].rLayer,
                                                                     path=diag.exportText,
                                                                     calctype="bNDVI")
 
@@ -455,7 +457,7 @@ class mainPlug:
             else:
                 if diag.get_calc() == "ENDVI":
                     try:
-                        raster_manipulator.RasterCalcMulti_NDVI(calctype="ENDVI", rLayer1=file_input_1.rLayer,
+                        raster_manipulator.rastercalcmulti_ndvi(calctype="ENDVI", rLayer1=file_input_1.rLayer,
                                                                 rLayer2=file_input_1.rLayer,
                                                                 rLayer3=file_input_1.rLayer, r1Band=1, r2Band=2,
                                                                 r3Band=3, path=diag.exportText)
@@ -464,7 +466,7 @@ class mainPlug:
                             String="An Error Occurred upon Execution, Verify that the Input files are correct", level=2)
                 elif diag.get_calc() == "bNDVI":
                     try:
-                        raster_manipulator.RasterCalcMulti_NDVI(calctype="bNDVI", rLayer1=file_input_1.rLayer,
+                        raster_manipulator.rastercalcmulti_ndvi(calctype="bNDVI", rLayer1=file_input_1.rLayer,
                                                                 rLayer2=file_input_1.rLayer, r1Band=1,
                                                                 r2Band=2, path=diag.exportText)
 
@@ -474,7 +476,7 @@ class mainPlug:
 
                 elif diag.get_calc() == "NDVI":
                     try:
-                        raster_manipulator.RasterCalcMulti_NDVI(calctype="NDVI", rLayer1=file_input_1.rLayer,
+                        raster_manipulator.rastercalcmulti_ndvi(calctype="NDVI", rLayer1=file_input_1.rLayer,
                                                                 rLayer2=file_input_1.rLayer, r1Band=1,
                                                                 r2Band=2, path=diag.exportText)
                     except:
@@ -483,7 +485,7 @@ class mainPlug:
 
                 elif diag.get_calc() == "EVI":
                     try:
-                        raster_manipulator.RasterCalcMulti_NDVI(calctype="EVI", path=diag.exportText,
+                        raster_manipulator.rastercalcmulti_ndvi(calctype="EVI", path=diag.exportText,
                                                                 rLayer1=file_input_1.rLayer,
                                                                 rLayer2=file_input_1.rLayer,
                                                                 rLayer3=file_input_1.rLayer, r1Band=1, r2Band=2,
@@ -514,12 +516,15 @@ class mainPlug:
 
         ramp_shader = QgsColorRampShader()
         ramp_shader.setColorRampType(QgsColorRampShader.INTERPOLATED)
+
         if calcType is None:
             color_list = [QgsColorRampShader.ColorRampItem(minimum, QColor(255, 0, 0)),
                           QgsColorRampShader.ColorRampItem(maximum, QColor(0, 255, 0))]
+
         elif calcType == "EVI":
             color_list = [QgsColorRampShader.ColorRampItem(-2, QColor(255, 0, 0)),
                           QgsColorRampShader.ColorRampItem(2, QColor(0, 255, 0))]
+
         else:
             color_list = [QgsColorRampShader.ColorRampItem(minimum, QColor(255, 0, 0)),
                           QgsColorRampShader.ColorRampItem(maximum, QColor(0, 255, 0))]
@@ -570,9 +575,10 @@ class mainPlug:
         if result:
             map_layers = self.iface.mapCanvas().layers()
             if diag.retProcessallState():
-                for i, x in enumerate(map_layers):
+                for Index, value in enumerate(
+                        map_layers):  # type: (int, object)
                     # try:
-                    a = interp(iface=self.iface, pointLayer=x)
+                    a = interp(iface=self.iface, pointLayer=value)
                     a.run_Output()
                     # QgsMapLayerRegistry.instance().addMapLayer(a.VarianceLayer)
                     # QgsMapLayerRegistry.instance().addMapLayer(a.PredictionLayer)

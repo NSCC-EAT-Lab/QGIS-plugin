@@ -29,6 +29,8 @@ entries.append(rasterEntry1)
 expression = "(\"{0}\"-\"{1}\")/(\"{2}\"+\"{3}\")".format(rasterEntry1.ref,
                                                           rasterEntry2.ref, rasterEntry1.ref, rasterEntry2.ref)
 
-# This follows the following requirements, the expression, path too, Export type, the extend of the image, the width then height followed by the rastercalc entries
+# This follows the following requirements, the expression, path too,
+# Export type, the extend of the image, the width then height followed by
+# the rastercalc entries
 a = QgsRasterCalculator(expression, path, 'GTiff', raster.extent(
 ), raster.width(), raster.height(), entries)

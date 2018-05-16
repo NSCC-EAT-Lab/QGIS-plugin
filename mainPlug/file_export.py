@@ -17,7 +17,8 @@ class FileExport:
         self.NoDataValue = -9999
         self.DataSet = None
 
-    def file_output(self, path, x, y, XCorner, YCorner, cellsize, DataSet, NodataValue=-9999):
+    def file_output(self, path, x, y, XCorner, YCorner,
+                    cellsize, DataSet, NodataValue=-9999):
         """
         Prep the file Output
         :param path: Path to the Output file

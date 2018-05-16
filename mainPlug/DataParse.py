@@ -49,19 +49,19 @@ class IOParse:
         self.com.log(str(reader), level=0)
         """
         Assume First row is the Values, Each row after that is each data point
-        
+
         Using a Key pair store Within a list
         would look like
-        
+
         [{"lat" : value, "Long" : value ... }, {"lat" : Value, "Long" : value ...},...]
-        
+
         Current input looks like:
         ["lat", "long,....],
         [132, 1322, ...],
         [...],...
         """
         """
-        
+
         for idx, val in enumerate(reader):
             for idxi, vali in enumerate(val):
                 if idx == 0:
@@ -86,7 +86,8 @@ class IOParse:
 
         :return: None
         """
-        # TODO: Add in smart deliminator and Decimal assignment, NOTE regex might not work due to this being a bit more complex
+        # TODO: Add in smart deliminator and Decimal assignment, NOTE regex
+        # might not work due to this being a bit more complex
         file_path = 'file:///%s?crs=%s&delimiter=%s&xField=%s&yField=%s&decimal=%s' % (self.path, 'EPSG:4326', ',',
                                                                                        'Longitude', 'Latitude', '.')
 
@@ -101,7 +102,8 @@ class IOParse:
             self.com.log(str(l1), level=0)
             self.com.log(str(l2), level=0)
 
-            if comma_separator_pattern.match(l1) == '' or comma_separator_pattern.match(l1) is None:
+            if comma_separator_pattern.match(
+                    l1) == '' or comma_separator_pattern.match(l1) is None:
                 issue = 1
                 raise IOError
 
@@ -110,7 +112,8 @@ class IOParse:
                 raise IOError
 
         except IOError:
-            # Fail Silently (Due to some current issues where in the Decimal is not correctly noticed, causing an issue
+            # Fail Silently (Due to some current issues where in the Decimal is
+            # not correctly noticed, causing an issue
             if issue == 1:
                 pass
                 # self.com.error(Bold="DataSampleError:", String="Soil sample data separator is not , (comma)", level=2,

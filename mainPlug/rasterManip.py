@@ -4,10 +4,10 @@ from UseCommunication import Communicate
 
 """
     NDVI = (NIR - Red) / (NIR + RED)
-     
-    Per pixel Calculation on two layers 
-     
-    Color Ramp based on the Calculated pixel. 
+
+    Per pixel Calculation on two layers
+
+    Color Ramp based on the Calculated pixel.
 """
 import gc
 
@@ -22,7 +22,8 @@ class RasterManip:
         self.iface = iface
         self.com = Communicate(self.iface)
 
-    def return_dataset(self, X, Y, rLayer):
+    @staticmethod
+    def return_dataset(X, Y, rLayer):
         """
         Return back the Results of a XY Cordnate pair
         :param X: X Co-ordnate
@@ -35,7 +36,8 @@ class RasterManip:
             return ident.results()
         return ident.results()
 
-    def do_ndvi_calc(self, DataSet, DataSet2=None):
+    @staticmethod
+    def do_ndvi_calc(DataSet, DataSet2=None):
         """
         TODO: MAKE THIS CAPABLE OF TAKING TWO DATASETS AND SPITTING BACK OUT A NORMALIZED DATASET
         To per pixel Calculations to measure NDVI of 1 multiband image or two Single-band-grey images
@@ -70,7 +72,8 @@ class RasterManip:
             gc.collect()
             return resul
 
-    def Processing_ndvi_calc(self, rLayer1, rLayer2, path):
+    @staticmethod
+    def processing_ndvi_calc(rLayer1, rLayer2, path):
         """
         Older deprecated NDVI handler, This is simply the template for the monstrosity that the current one has become
         :param rLayer1: rLayer 1 Object
@@ -103,7 +106,7 @@ class RasterManip:
 
         a.processCalculation()
 
-    def RasterCalcMulti_NDVI(self, rLayer1, path, calctype, rLayer2=None,
+    def rastercalcmulti_ndvi(self, rLayer1, path, calctype, rLayer2=None,
                              r1Band=1, r2Band=1, rLayer3=None, r3Band=1):
         """
         Calculate any type of NDVI like Calculation from various types of Cameras be they: Multi output, NGB, RGB, NR
@@ -119,9 +122,9 @@ class RasterManip:
         """
         """
         TODO: Add support for Multiple different Raster types, be they Single Raster (Of NGB, RGB or otherwise) or Multiraster
-        
+
         https://maxmax.com/ndv_historyi.htm
-        
+
         Implement NDVI Red
         NDVI blue
          and ENDVI (Enhanced NDVI)
@@ -183,7 +186,8 @@ class RasterManip:
             a.processCalculation()
 
         elif calctype == "ENDVI":
-            # This assumes that rLayer1 is N, rLayer2 is Green and rLayer3 is Blue
+            # This assumes that rLayer1 is N, rLayer2 is Green and rLayer3 is
+            # Blue
             entries.append(r1)
             entries.append(r2)
             entries.append(r3)
