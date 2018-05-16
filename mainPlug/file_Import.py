@@ -43,10 +43,8 @@ class FileImport:
         self.rLayer = QgsRasterLayer(self.filePath, self.baseName)
 
         if not self.rLayer.isValid():
-            print("Layer Failed to load")
             self.rLayer = None
             self.com.log("Check File Type Error: Layer Invalid", 2)
-            raise IOError
 
     def get_rLayer(self):
         """
