@@ -483,7 +483,8 @@ class mainPlug:
 
                 elif diag.get_calc() == "EVI":
                     try:
-                        raster_manipulator.RasterCalcMulti_NDVI(calctype="EVI", path=diag.exportText ,rLayer1=file_input_1.rLayer,
+                        raster_manipulator.RasterCalcMulti_NDVI(calctype="EVI", path=diag.exportText,
+                                                                rLayer1=file_input_1.rLayer,
                                                                 rLayer2=file_input_1.rLayer,
                                                                 rLayer3=file_input_1.rLayer, r1Band=1, r2Band=2,
                                                                 r3Band=3)
@@ -492,11 +493,11 @@ class mainPlug:
                             String="An Error Occurred upon Execution, Verify that the Input files are correct", level=2)
 
             file_in_4.file_input(diag.exportText)
-            self.Color(file_in_4)
+            self.Color(file_in_4, calcType=diag.get_calc())
         else:
             self.com.error(String="NO RESULT", level=2)
 
-    def Color(self, file_in):
+    def Color(self, file_in, calcType=None):
         """
         Color the Inbound file (Essentially the File we JUST exported) and display it to screen)
         :param file_in: The file that was just exported
@@ -513,8 +514,16 @@ class mainPlug:
 
         ramp_shader = QgsColorRampShader()
         ramp_shader.setColorRampType(QgsColorRampShader.INTERPOLATED)
-        color_list = [QgsColorRampShader.ColorRampItem(minimum, QColor(255, 0, 0)),
-                      QgsColorRampShader.ColorRampItem(maximum, QColor(0, 255, 0))]
+        if calcType is None:
+            color_list = [QgsColorRampShader.ColorRampItem(minimum, QColor(255, 0, 0)),
+                          QgsColorRampShader.ColorRampItem(maximum, QColor(0, 255, 0))]
+        elif calcType == "EVI":
+            color_list = [QgsColorRampShader.ColorRampItem(-2, QColor(255, 0, 0)),
+                          QgsColorRampShader.ColorRampItem(2, QColor(0, 255, 0))]
+        else:
+            color_list = [QgsColorRampShader.ColorRampItem(minimum, QColor(255, 0, 0)),
+                          QgsColorRampShader.ColorRampItem(maximum, QColor(0, 255, 0))]
+
         ramp_shader.setColorRampItemList(color_list)
 
         shader = QgsRasterShader()

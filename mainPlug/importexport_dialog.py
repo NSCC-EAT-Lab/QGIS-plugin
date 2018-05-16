@@ -157,6 +157,9 @@ class ImportExportDialog(QtGui.QDialog, FORM_CLASS):
             self.FileSelect_4.setEnabled(True)
 
         elif self.CalcBox.currentText() == "EVI":
-            self.CalcHelp.setPlainText("<SAMPLE TEXT - REPLACE ME>")
+            self.CalcHelp.setPlainText(
+                "EVI (Enhanced Vegetation Index) is a calculation in the Near IR Field, The Visible Green Field and the Visible Blue Field\n"
+                "To do this calculation the program requires Either: One image with all Three Bands or \n"
+                "Three images, each labeled with their respective bands (NIR, BLUE, GREEN)")
             self.FilePath_4.setEnabled(True)
             self.FileSelect_4.setEnabled(True)
