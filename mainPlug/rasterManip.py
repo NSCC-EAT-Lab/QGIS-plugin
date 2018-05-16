@@ -193,9 +193,11 @@ class RasterManip:
             entries.append(r1)
             entries.append(r2)
             entries.append(r3)
-            expression = "2.5*(\"{0}\"-\"{1}\")/(\"{0}\"+6*\"{1}\"-7.5*\"{2}\"+1)".format(r1.ref, r2.ref, r3.ref)
+            expression = "2.5*(\"{0}\"-\"{1}\")/(\"{0}\"+6*\"{1}\"-7.5*\"{2}\"+1)".format(
+                r1.ref, r2.ref, r3.ref)
 
-            a = QgsRasterCalculator(expression, path, exporttype, rLayer1.extent(), rLayer1.width(), rLayer1.height(), entries)
+            a = QgsRasterCalculator(expression, path, exporttype, rLayer1.extent(
+            ), rLayer1.width(), rLayer1.height(), entries)
 
             a.processCalculation()
 
