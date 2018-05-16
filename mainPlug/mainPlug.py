@@ -483,7 +483,7 @@ class mainPlug:
 
                 elif diag.get_calc() == "EVI":
                     try:
-                        raster_manipulator.RasterCalcMulti_NDVI(calctype="EVI", rLayer1=file_input_1.rLayer,
+                        raster_manipulator.RasterCalcMulti_NDVI(calctype="EVI", path=diag.exportText ,rLayer1=file_input_1.rLayer,
                                                                 rLayer2=file_input_1.rLayer,
                                                                 rLayer3=file_input_1.rLayer, r1Band=1, r2Band=2,
                                                                 r3Band=3)
