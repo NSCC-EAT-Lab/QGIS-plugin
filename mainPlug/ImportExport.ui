@@ -6,240 +6,237 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>677</width>
-    <height>492</height>
+    <width>631</width>
+    <height>500</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QDialogButtonBox" name="buttonBox">
-   <property name="geometry">
-    <rect>
-     <x>280</x>
-     <y>442</y>
-     <width>341</width>
-     <height>32</height>
-    </rect>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
-   </property>
-   <property name="standardButtons">
-    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>90</x>
-     <y>170</y>
-     <width>181</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>File you wish to do calculations from</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="FileSelect">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>182</y>
-     <width>75</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>PushButton</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="FilePath">
-   <property name="geometry">
-    <rect>
-     <x>90</x>
-     <y>190</y>
-     <width>461</width>
-     <height>21</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="FileSelect_2">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>392</y>
-     <width>75</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>PushButton</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="FilePath_2">
-   <property name="geometry">
-    <rect>
-     <x>90</x>
-     <y>400</y>
-     <width>461</width>
-     <height>21</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_2">
-   <property name="geometry">
-    <rect>
-     <x>90</x>
-     <y>380</y>
-     <width>81</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Path to Export</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="FileSelect_3">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>260</y>
-     <width>75</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>PushButton</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="FilePath_3">
-   <property name="geometry">
-    <rect>
-     <x>90</x>
-     <y>268</y>
-     <width>461</width>
-     <height>21</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_3">
-   <property name="geometry">
-    <rect>
-     <x>90</x>
-     <y>240</y>
-     <width>221</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>File Containing Second Data set (Optional)</string>
-   </property>
-  </widget>
-  <widget class="QComboBox" name="CalcBox">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>60</y>
-     <width>69</width>
-     <height>22</height>
-    </rect>
-   </property>
+  <property name="sizeGripEnabled">
+   <bool>true</bool>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
-    <property name="text">
-     <string>NDVI</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>EVI</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>bNDVI</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>ENDVI</string>
-    </property>
-   </item>
-  </widget>
-  <widget class="QLabel" name="label_4">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>30</y>
-     <width>91</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Calculation Type</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="FilePath_4">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="geometry">
-    <rect>
-     <x>90</x>
-     <y>338</y>
-     <width>461</width>
-     <height>21</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_5">
-   <property name="geometry">
-    <rect>
-     <x>90</x>
-     <y>320</y>
-     <width>241</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>File containing Third Data set (Optional)</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="FileSelect_4">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>330</y>
-     <width>75</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>PushButton</string>
-   </property>
-  </widget>
-  <widget class="QPlainTextEdit" name="CalcHelp">
-   <property name="geometry">
-    <rect>
-     <x>110</x>
-     <y>10</y>
-     <width>561</width>
-     <height>151</height>
-    </rect>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-   <property name="plainText">
-    <string>NDVI is a calculation using Both the Near IR field and The visible Red Field
+    <layout class="QGridLayout" name="gridLayout">
+     <property name="sizeConstraint">
+      <enum>QLayout::SetMinAndMaxSize</enum>
+     </property>
+     <item row="8" column="0">
+      <spacer name="verticalSpacer_5">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="10" column="1" colspan="3">
+      <widget class="QLineEdit" name="FilePath_4">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0" rowspan="2">
+      <widget class="QPushButton" name="FileSelect">
+       <property name="text">
+        <string>PushButton</string>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="1" colspan="3">
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string>File containing Third Data set (Optional)</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="1" colspan="3">
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>File Containing Second Data set (Optional)</string>
+       </property>
+      </widget>
+     </item>
+     <item row="12" column="1" colspan="2">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Path to Export</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="2" rowspan="2" colspan="2">
+      <widget class="QPlainTextEdit" name="CalcHelp">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="plainText">
+        <string>NDVI is a calculation using Both the Near IR field and The visible Red Field
 To do this calculation the program requires either: Two Images, One In the Red Field (With the word &quot;Red&quot; in its name) And the other in the Near IR Field (With the word &quot;NIR&quot; In its name)
 Or One Image with Both NearIR and Red bands</string>
-   </property>
-  </widget>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <spacer name="verticalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="0" column="1">
+      <spacer name="verticalSpacer_3">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="5" column="1" colspan="3">
+      <widget class="QLineEdit" name="FilePath"/>
+     </item>
+     <item row="9" column="0" rowspan="2">
+      <widget class="QPushButton" name="FileSelect_4">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="text">
+        <string>PushButton</string>
+       </property>
+      </widget>
+     </item>
+     <item row="12" column="0" rowspan="2">
+      <widget class="QPushButton" name="FileSelect_2">
+       <property name="text">
+        <string>PushButton</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1" colspan="2">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>File you wish to do calculations from</string>
+       </property>
+      </widget>
+     </item>
+     <item row="13" column="1" colspan="3">
+      <widget class="QLineEdit" name="FilePath_2"/>
+     </item>
+     <item row="14" column="3">
+      <widget class="QDialogButtonBox" name="buttonBox">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="standardButtons">
+        <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="0">
+      <widget class="QPushButton" name="FileSelect_3">
+       <property name="text">
+        <string>PushButton</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="1" colspan="3">
+      <widget class="QLineEdit" name="FilePath_3"/>
+     </item>
+     <item row="2" column="1">
+      <widget class="QComboBox" name="CalcBox">
+       <item>
+        <property name="text">
+         <string>NDVI</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>EVI</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>bNDVI</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>ENDVI</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_4">
+       <property name="text">
+        <string>Calculation Type</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <spacer name="verticalSpacer">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="6" column="0">
+      <spacer name="verticalSpacer_4">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="11" column="0">
+      <spacer name="verticalSpacer_6">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections>

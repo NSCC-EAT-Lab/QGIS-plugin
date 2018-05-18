@@ -102,8 +102,7 @@ class mainPlug:
             whats_this=None,
             parent=None,
             dialog=mainPlugDialog()):
-        # type: (object, object, object, object, object, object, object,
-        # object, object, object, object) -> object
+        # type: (object, object, object, object, object, object, object,object, object, object, object) -> object
         """Add a toolbar icon to the toolbar.
 
         :param store_val: This value is the position to store the Dialog within the dialog list, Note that this position
@@ -239,7 +238,9 @@ class mainPlug:
         )
 
     def unload(self):
-        """Removes the plugin menu item and icon from QGIS GUI."""
+        """
+        Removes the plugin menu item and icon from QGIS GUI.
+        """
         for action in self.actions:
             self.iface.removePluginMenu(
                 self.tr(u'&EggAGGIS'),
@@ -251,7 +252,9 @@ class mainPlug:
         self.com.log("Unload Toolbar: Success", 0)
 
     def run(self):
-        """Run method that performs all the real work"""
+        """
+        Run method that performs all the real work
+        """
         # show the dialog
         self.DialogStore[0].show()
         # Run the dialog event loop
