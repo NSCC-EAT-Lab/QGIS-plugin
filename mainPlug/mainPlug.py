@@ -47,6 +47,7 @@ class mainPlug:
             application at run time.
         :type iface: QgisInterface
         """
+        # type: object
         # Save reference to the QGIS interface
         self.output_set = None
         self.iface = iface
@@ -72,6 +73,8 @@ class mainPlug:
         self.menu = self.tr(u'&EggAGGIS')
         self.toolbar = self.iface.addToolBar(u'mainPlug')
         self.toolbar.setObjectName(u'mainPlug')
+
+        # Do some C like shenanigans
         self.DialogStore = [None] * 15
 
     # noinspection PyMethodMayBeStatic
