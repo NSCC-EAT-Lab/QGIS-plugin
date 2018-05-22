@@ -525,17 +525,20 @@ class mainPlug:
 
         if calcType is None:
             color_list = [QgsColorRampShader.ColorRampItem(minimum, QColor(255, 0, 0)),
-                          QgsColorRampShader.ColorRampItem(0, QColor(255,207,74, 255)),
+                          QgsColorRampShader.ColorRampItem(
+                              0, QColor(255, 207, 74, 255)),
                           QgsColorRampShader.ColorRampItem(maximum, QColor(0, 255, 0))]
 
         elif calcType == "EVI":
             color_list = [QgsColorRampShader.ColorRampItem(-2, QColor(255, 0, 0)),
-                          QgsColorRampShader.ColorRampItem(0, QColor(255,207,74, 255)),
+                          QgsColorRampShader.ColorRampItem(
+                              0, QColor(255, 207, 74, 255)),
                           QgsColorRampShader.ColorRampItem(2, QColor(0, 255, 0))]
 
         else:
             color_list = [QgsColorRampShader.ColorRampItem(minimum, QColor(255, 0, 0)),
-                          QgsColorRampShader.ColorRampItem(0, QColor(255, 207, 74, 255)),
+                          QgsColorRampShader.ColorRampItem(
+                              0, QColor(255, 207, 74, 255)),
                           QgsColorRampShader.ColorRampItem(maximum, QColor(0, 255, 0))]
 
         ramp_shader.setColorRampItemList(color_list)

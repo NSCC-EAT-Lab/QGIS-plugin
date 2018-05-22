@@ -177,7 +177,6 @@ class IOParse:
                 # renderer.setColorRamp(fcn)
                 # renderer.setRenderQuality(1)  # Max out the quality
 
-
                 # for feature in val.getFeature():
                 #     print feature.attribute(a.group(1))
 
@@ -189,13 +188,14 @@ class IOParse:
                     sortedlist.append(unique)
 
                 sortedlist.sort()
-                
+
                 for i in sortedlist:
                     symbol = QgsSymbolV2.defaultSymbol(val.geometryType())
                     category = QgsRendererCategoryV2(i, symbol, str(i))
                     catagories.append(category)
 
-                renderer = QgsCategorizedSymbolRendererV2(a.group(1), catagories)
+                renderer = QgsCategorizedSymbolRendererV2(
+                    a.group(1), catagories)
                 self.com.log(str(renderer.categories()), level=0)
                 renderer.updateColorRamp(fcn)
                 # renderer.updateCategoryValue(a.group(1))
