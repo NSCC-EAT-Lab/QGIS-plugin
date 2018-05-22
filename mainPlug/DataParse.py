@@ -9,7 +9,8 @@ import random
 import re
 
 from PyQt4.QtGui import QColor
-from qgis.core import QgsVectorLayer, QgsMapLayerRegistry, QgsHeatmapRenderer, QgsVectorGradientColorRampV2
+from qgis.core import QgsVectorLayer, QgsMapLayerRegistry, QgsHeatmapRenderer, QgsVectorGradientColorRampV2, \
+    QgsGradientStop, QgsCategorizedSymbolRendererV2, QgsRendererCategoryV2, QgsSymbolV2, QgsSimpleFillSymbolLayerV2
 
 from UseCommunication import Communicate
 
@@ -160,18 +161,46 @@ class IOParse:
 
         for key, val in p.iteritems():
             try:
-                renderer = QgsHeatmapRenderer()
+                catagories = []
                 a = regex.match(key)
                 fcn = QgsVectorGradientColorRampV2()
+                # renderer.setWeightExpression(a.group(1))
+                # fcn.setColor1(QColor(255, 255, 255, 0))
+                # fcn.setColor2(QColor(random.randint(0, 100), random.randint(
+                #     50, 255), random.randint(50, 255), 255))
 
-                renderer.setWeightExpression(a.group(1))
-                fcn.setColor1(QColor(255, 255, 255, 0))
-                fcn.setColor2(QColor(random.randint(0, 100), random.randint(
-                    50, 255), random.randint(50, 255), 255))
+                fcn.setColor1(QColor(255, 0, 0, 255))
+                fcn.setColor2(QColor(0, 255, 0, 255))
+                # self.com.log(str(fcn.stops()), level=0)
+                fcn.setStops([QgsGradientStop(0.5, QColor(255, 207, 74, 255))])
 
-                renderer.setColorRamp(fcn)
-                renderer.setRenderQuality(1)  # Max out the quality
+                # renderer.setColorRamp(fcn)
+                # renderer.setRenderQuality(1)  # Max out the quality
+
+
+                # for feature in val.getFeature():
+                #     print feature.attribute(a.group(1))
+
+                fni = val.fieldNameIndex(a.group(1))
+
+                # This function is accomplishing the Classify Function, due to the lack of API implementation
+                sortedlist = []
+                for unique in val.dataProvider().uniqueValues(fni):
+                    sortedlist.append(unique)
+
+                sortedlist.sort()
+                
+                for i in sortedlist:
+                    symbol = QgsSymbolV2.defaultSymbol(val.geometryType())
+                    category = QgsRendererCategoryV2(i, symbol, str(i))
+                    catagories.append(category)
+
+                renderer = QgsCategorizedSymbolRendererV2(a.group(1), catagories)
+                self.com.log(str(renderer.categories()), level=0)
+                renderer.updateColorRamp(fcn)
+                # renderer.updateCategoryValue(a.group(1))
 
                 val.setRendererV2(renderer)
+
             except AttributeError:
                 continue
