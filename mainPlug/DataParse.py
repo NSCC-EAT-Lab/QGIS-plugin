@@ -204,4 +204,5 @@ class IOParse:
                 val.setRendererV2(renderer)
 
             except AttributeError:
+                # This will allow the Color step to continue if it hits an Object it can't use (Raster layer)
                 continue

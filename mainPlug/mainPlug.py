@@ -105,8 +105,7 @@ class mainPlug:
             whats_this=None,
             parent=None,
             dialog=mainPlugDialog()):
-        # type: (object, object, object, object, object, object, object,object,
-        # object, object, object) -> object
+        # type: (object, object, object, object, object, object, object,object, object, object, object) -> object
         """Add a toolbar icon to the toolbar.
 
         :param store_val: This value is the position to store the Dialog within the dialog list, Note that this position
