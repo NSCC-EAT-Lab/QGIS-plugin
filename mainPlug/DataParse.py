@@ -31,7 +31,7 @@ class IOParse:
         except IOError:
             self.com.error(
                 Bold="IOerror", String="Could not load given File", level=2)
-        except:
+        except BaseException:
             self.com.error(
                 Bold="Unknown Error", String="An Unknown Error occured (See log for details", level=2)
             self.com.log(
@@ -182,7 +182,8 @@ class IOParse:
 
                 fni = val.fieldNameIndex(a.group(1))
 
-                # This function is accomplishing the Classify Function, due to the lack of API implementation
+                # This function is accomplishing the Classify Function, due to
+                # the lack of API implementation
                 sortedlist = []
                 for unique in val.dataProvider().uniqueValues(fni):
                     sortedlist.append(unique)

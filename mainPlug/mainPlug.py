@@ -105,7 +105,8 @@ class mainPlug:
             whats_this=None,
             parent=None,
             dialog=mainPlugDialog()):
-        # type: (object, object, object, object, object, object, object,object, object, object, object) -> object
+        # type: (object, object, object, object, object, object, object,object,
+        # object, object, object) -> object
         """Add a toolbar icon to the toolbar.
 
         :param store_val: This value is the position to store the Dialog within the dialog list, Note that this position
@@ -467,7 +468,7 @@ class mainPlug:
                                                                 rLayer2=file_input_1.rLayer,
                                                                 rLayer3=file_input_1.rLayer, r1Band=1, r2Band=2,
                                                                 r3Band=3, path=diag.exportText)
-                    except:
+                    except BaseException:
                         self.com.error(
                             String="An Error Occurred upon Execution, Verify that the Input files are correct", level=2)
                 elif diag.get_calc() == "bNDVI":
@@ -476,7 +477,7 @@ class mainPlug:
                                                                 rLayer2=file_input_1.rLayer, r1Band=1,
                                                                 r2Band=2, path=diag.exportText)
 
-                    except:
+                    except BaseException:
                         self.com.error(
                             String="An Error Occurred upon Execution, Verify that the Input files are correct", level=2)
 
@@ -485,7 +486,7 @@ class mainPlug:
                         raster_manipulator.rastercalcmulti_ndvi(calctype="NDVI", rLayer1=file_input_1.rLayer,
                                                                 rLayer2=file_input_1.rLayer, r1Band=1,
                                                                 r2Band=2, path=diag.exportText)
-                    except:
+                    except BaseException:
                         self.com.error(
                             String="An Error Occurred upon Execution, Verify that the Input files are correct", level=2)
 
@@ -496,7 +497,7 @@ class mainPlug:
                                                                 rLayer2=file_input_1.rLayer,
                                                                 rLayer3=file_input_1.rLayer, r1Band=1, r2Band=2,
                                                                 r3Band=3)
-                    except:
+                    except BaseException:
                         self.com.error(
                             String="An Error Occurred upon Execution, Verify that the Input files are correct", level=2)
 
