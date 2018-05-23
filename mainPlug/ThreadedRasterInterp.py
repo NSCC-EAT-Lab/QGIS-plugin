@@ -29,7 +29,6 @@ class ThreadDataInterp(Thread):
     def ProcessrLayer(self):
         """
         Setup a thread for each Y Value in rLayer
-        TODO: Test to see if doing a thread per pixel would Speed things up or if Near Approximation would help
         :return: The final Stitched Dataset of rLayer (After being passed to ConvertToFinish)
         """
         self.com.log("Producing Threads for Interpretation", 0)
