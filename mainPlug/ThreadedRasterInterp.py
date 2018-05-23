@@ -30,6 +30,7 @@ class ThreadDataInterp(Thread):
         """
         Setup a thread for each Y Value in rLayer
         :return: The final Stitched Dataset of rLayer (After being passed to ConvertToFinish)
+        :rtype: list
         """
         self.com.log("Producing Threads for Interpretation", 0)
         v = 0
