@@ -10,9 +10,15 @@ class Communicate():
     def log(self, String, level):
         """
         Log an internal message using Qgis's log function
+
         :param String: Message you wish to log
+        :type String: str
+
         :param level: Message Importance (0-2 | 0=Info | 1=Warning | 2=Critical)
+        :type level: int
+
         :return: None
+        :rtype: None
         """
         lvl = None
         if level == 0:
@@ -27,16 +33,27 @@ class Communicate():
     def error(self, String, level, Bold=None, duration=None):
         """
         Display an Message Bar on the QGIS Screen, Used internally for Ease of logging.
+
         :param String: Message you wish to display
+        :type String: str
+
         :param level: Message Importance/Severity (0-2 | 0=Info | 1=Warning | 2=Critical)
+        :type level: int
+
         :param Bold: The Bold text displayed (If none it defaults to the Message Severity)
+        :type Bold: str
+
         :param duration: How long the Message is displayed to the user
+        :type duration: int
+
         :return: None
+        :rtype: None
         """
 
         if self.iface is None:
             self.log(
-                "DEVELOPER ERROR, ATTEMPT TO CALL ERROR WITHOUT IFACE REFERENCE | Handling this error by passing data to log",
+                "DEVELOPER ERROR, ATTEMPT TO CALL ERROR WITHOUT IFACE REFERENCE |"
+                " Handling this error by passing data to log",
                 2)
             self.log(String, level)
             return

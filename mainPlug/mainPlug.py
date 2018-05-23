@@ -335,7 +335,8 @@ class mainPlug:
 
 
 
-        :return:
+        :return: None
+        :rtype: None
         """
 
         nir_pattern = re.compile(r"NIR", re.IGNORECASE)
@@ -508,8 +509,12 @@ class mainPlug:
     def Color(self, file_in, calcType=None):
         """
         Color the Inbound file (Essentially the File we JUST exported) and display it to screen)
+
         :param file_in: The file that was just exported
+        :type file_in: FileImport
+
         :return: TO SCREEN Rendered Image
+        :rtype: None
         """
         k = self.iface.addRasterLayer(file_in.filePath, file_in.baseName)
         stats = k.dataProvider().bandStatistics(

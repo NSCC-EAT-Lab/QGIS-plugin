@@ -5,12 +5,11 @@ Implement CSV Data set functions for Opening reading and passing data internally
 """
 
 import csv
-import random
 import re
 
 from PyQt4.QtGui import QColor
-from qgis.core import QgsVectorLayer, QgsMapLayerRegistry, QgsHeatmapRenderer, QgsVectorGradientColorRampV2, \
-    QgsGradientStop, QgsCategorizedSymbolRendererV2, QgsRendererCategoryV2, QgsSymbolV2, QgsSimpleFillSymbolLayerV2
+from qgis.core import QgsVectorLayer, QgsMapLayerRegistry, QgsVectorGradientColorRampV2, \
+    QgsGradientStop, QgsCategorizedSymbolRendererV2, QgsRendererCategoryV2, QgsSymbolV2
 
 from UseCommunication import Communicate
 
@@ -23,6 +22,15 @@ class IOParse:
     """
 
     def __init__(self, path, iface):
+        """
+        Take in a file to work on, Initialize and work upon
+
+        :param path: Path to file
+        :type path: str
+
+        :param iface: QGIS iface
+        :type iface: iface
+        """
         self.iface = iface
         self.path = path
         self.com = Communicate(self.iface)
@@ -85,10 +93,12 @@ class IOParse:
         Add the Layers to the screen, This function assigns each layer to the screen and creates a Layer List to later
         match the layer weight
 
+        TODO: Add in smart deliminator and Decimal assignment
+
         :return: None
         """
-        # TODO: Add in smart deliminator and Decimal assignment, NOTE regex
-        # might not work due to this being a bit more complex
+
+
         file_path = 'file:///%s?crs=%s&delimiter=%s&xField=%s&yField=%s&decimal=%s' % (self.path, 'EPSG:4326', ',',
                                                                                        'Longitude', 'Latitude', '.')
 
@@ -149,10 +159,8 @@ class IOParse:
 
     def color_layers(self):
         """
-        Attempts to assign and color each layer after changing it's renderer to a heatmap renderer
-        NOTE: This uses a Random sequence for color grading
-
-        TODO: Update color grading to generally output more readable colors Possibly make higher values have more radius?
+        Attempts to assign and color each layer after changing it's renderer to the Categorized Symbol Renderer
+        TODO: Implement a store value to look up default names to get standardized Color Grading, If possible
         :return: None
         """
         p = QgsMapLayerRegistry.instance().mapLayers()

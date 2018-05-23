@@ -3,6 +3,7 @@ Interpolation Function; Acts as a go between for QGIS's Processing function (SAG
  Simplifying the process and removing possible user error
 """
 
+#
 from processing.core.Processing import processing
 from processing.tools import *
 from UseCommunication import Communicate
@@ -16,6 +17,15 @@ import os
 
 class interp:
     def __init__(self, pointLayer, iface):
+        """
+        Setup the Interpolate Function
+
+        :param pointLayer: The Layer to process
+        :type pointLayer: QgsVectorLayer
+
+        :param iface: QGIS iface
+        :type iface: iface
+        """
         # processing.initialize()
         self.iface = iface
         self.com = Communicate(self.iface)
@@ -72,13 +82,15 @@ processing.alghelp("saga:simplekriging")  # this should display correct usage
     def get_PredictionLayer(self):
         """
         Return the prediction layer path
-        :return: Path - Str
+        :return: Path
+        :rtype: str
         """
         return self.PredictionLayer
 
     def get_VarianceLayer(self):
         """
         Return the variance layer path (Only works if set internally
-        :return: Path - Str
+        :return: Path
+        :rtype: str
         """
         return self.VarianceLayer

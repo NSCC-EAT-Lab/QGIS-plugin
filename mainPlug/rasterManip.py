@@ -2,13 +2,6 @@ from qgis.analysis import QgsRasterCalculator, QgsRasterCalculatorEntry
 from qgis.core import QgsPoint, QgsRaster
 from UseCommunication import Communicate
 
-"""
-    NDVI = (NIR - Red) / (NIR + RED)
-
-    Per pixel Calculation on two layers
-
-    Color Ramp based on the Calculated pixel.
-"""
 import gc
 
 
@@ -39,7 +32,6 @@ class RasterManip:
     @staticmethod
     def do_ndvi_calc(DataSet, DataSet2=None):
         """
-        TODO: MAKE THIS CAPABLE OF TAKING TWO DATASETS AND SPITTING BACK OUT A NORMALIZED DATASET
         To per pixel Calculations to measure NDVI of 1 multiband image or two Single-band-grey images
 
         DEPRECATED
@@ -141,7 +133,6 @@ class RasterManip:
         exporttype = "GTiff"
 
         # Do variable creation
-        # TODO: Fix this, it's spaghetti AF
         r1.raster = rLayer1
         r1.bandNumber = r1Band
         r2.bandNumber = r2Band

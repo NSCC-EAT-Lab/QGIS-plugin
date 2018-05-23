@@ -39,9 +39,11 @@ class KrigDialog(QtGui.QDialog, FORM_CLASS):
     def retval(self):
         self.processall = self.Processall.isChecked()
 
+
     def retProcessallState(self):
         """
         Return if processall is Checked
-        :return: Bool
+        :return: processall state
+        :rtype: bool
         """
         return self.processall

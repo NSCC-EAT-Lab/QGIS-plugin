@@ -21,6 +21,7 @@ FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.dirname(__file__), 'CsvImport.ui'))
 
 
+# noinspection PyCallByClass
 class CsvInputdialog(QtGui.QDialog, FORM_CLASS):
 
     def __init__(self, parent=None):

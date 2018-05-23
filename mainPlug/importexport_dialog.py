@@ -20,6 +20,7 @@ FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.dirname(__file__), 'ImportExport.ui'))
 
 
+# noinspection PyCallByClass
 class ImportExportDialog(QtGui.QDialog, FORM_CLASS):
 
     def __init__(self, parent=None):
@@ -60,7 +61,6 @@ class ImportExportDialog(QtGui.QDialog, FORM_CLASS):
         Open the Second file, same as the selectFile
         :return:
         """
-        # TODO: Compress this into one function
         self.FilePath_3.setText(QtGui.QFileDialog.getOpenFileName(
             self, "c:\\", "*.tif", "Any File(*.*);;Tiff (*.tif *.tiff);;"))
 

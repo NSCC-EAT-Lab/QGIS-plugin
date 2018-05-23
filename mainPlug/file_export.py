@@ -22,13 +22,29 @@ class FileExport:
         """
         Prep the file Output
         :param path: Path to the Output file
-        :param x: Lenght of the Image
+        :type path: str
+
+        :param x: Length of the Image
+        :type x: int
+
         :param y: Height of the image
+        :type y: int
+
         :param XCorner: Where X does it start (From the Bottom left corner)
+        :type XCorner: int
+
         :param YCorner: Where does Y Start (From the bottom left corner)
+        :type YCorner: int
+
         :param cellsize: What is the resolution of a single cell
+        :type cellsize: int
+
         :param DataSet: The final compiled Dataset
+        :type DataSet: list
+
         :param NodataValue: Default value if there is no data to fill a box
+        :type NodataValue: int
+
         :return: None
         """
         self.filePath = str(path)
