@@ -8,6 +8,7 @@ import gc
 class RasterManip:
 
     def __init__(self, iface):
+        # type: (object) -> object
         """
         The work horse of the NDVI calculations, named rasterManip due to it's older functions
         :param iface: The iface passed in from mainPlug

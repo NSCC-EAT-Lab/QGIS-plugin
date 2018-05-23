@@ -333,8 +333,6 @@ class mainPlug:
         the correct order for the actual NDVI calculation in rasterManip, taking into account the Calculation type that
         the user has given
 
-
-
         :return: None
         :rtype: None
         """
@@ -460,7 +458,7 @@ class mainPlug:
                                                                     path=diag.exportText,
                                                                     calctype="bNDVI")
 
-            # THIS IS FAILOVER For Single raster input
+            # This is fail-over For Single raster input
             else:
                 if diag.get_calc() == "ENDVI":
                     try:
