@@ -22,8 +22,10 @@ class FileImport:
     def file_input(self, path):
         """
         Set the path and Setup the File to be used later
+
         :param path: Path to the file you wish to use
         :type path: str
+
         :return: None
         """
         if path == '':

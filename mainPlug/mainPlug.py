@@ -594,13 +594,9 @@ class mainPlug:
             if diag.retProcessallState():
                 for Index, value in enumerate(
                         map_layers):  # type: (int, object)
-                    # try:
+
                     a = interp(iface=self.iface, pointLayer=value)
                     a.run_Output()
-                    # QgsMapLayerRegistry.instance().addMapLayer(a.VarianceLayer)
-                    # QgsMapLayerRegistry.instance().addMapLayer(a.PredictionLayer)
-                # except:
-                #     self.com.error(String="Run_Krig Failed", level=2)
 
     def run_help(self):
         """

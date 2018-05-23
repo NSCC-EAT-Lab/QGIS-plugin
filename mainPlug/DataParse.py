@@ -98,7 +98,6 @@ class IOParse:
         :return: None
         """
 
-
         file_path = 'file:///%s?crs=%s&delimiter=%s&xField=%s&yField=%s&decimal=%s' % (self.path, 'EPSG:4326', ',',
                                                                                        'Longitude', 'Latitude', '.')
 
@@ -212,5 +211,6 @@ class IOParse:
                 val.setRendererV2(renderer)
 
             except AttributeError:
-                # This will allow the Color step to continue if it hits an Object it can't use (Raster layer)
+                # This will allow the Color step to continue if it hits an
+                # Object it can't use (Raster layer)
                 continue

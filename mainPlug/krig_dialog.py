@@ -34,10 +34,16 @@ class KrigDialog(QtGui.QDialog, FORM_CLASS):
         # #widgets-and-dialogs-with-auto-connect
         self.setupUi(self)
         self.buttonBox.clicked.connect(self.retval)
-        self.processall = False
+        self.process_all = False
 
     def retval(self):
-        self.processall = self.Processall.isChecked()
+        """
+        Commit changes to internal values from UI.
+
+        This is required to process the OK click
+        :return:
+        """
+        self.process_all = self.Processall.isChecked()
 
     def retProcessallState(self):
         """
@@ -45,4 +51,4 @@ class KrigDialog(QtGui.QDialog, FORM_CLASS):
         :return: processall state
         :rtype: bool
         """
-        return self.processall
+        return self.process_all
